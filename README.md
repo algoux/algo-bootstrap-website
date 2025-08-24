@@ -1,11 +1,13 @@
-# bwcx-vue3-ssr-template
+# AlogBootstrap Homepage
 
-一个基于 bwcx 的全栈 SSR 项目模板（created at 2021）。
+基于 bwcx 框架的 AlgoBootstrap 项目官网
 
 包含技术栈：
 - Vue 3 (Class Component First)
 - TypeScript
 - Vite
+- gsap
+- Three.js
 
 ## 准备
 
