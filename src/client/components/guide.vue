@@ -6,46 +6,64 @@ import { GuideRPO } from '@common/modules/guide/guide.rpo';
 export default class Guide extends Vue {
   @Prop() guideProps!: GuideRPO;
 
+  $refs!: {
+    'split-text-title': HTMLElement;
+    'split-text-desc': HTMLElement;
+    'split-text-link': HTMLElement;
+    'guide-video': HTMLElement;
+    guide: HTMLElement;
+  };
+  
   mounted() {
-    // Do something when the component is mounted
-    const texts = Array.from(document.querySelectorAll('.split-text')) as HTMLElement[];
-    const textObserver = new IntersectionObserver((
-      entries,
-    ) => {
+    const guide = this.$refs.guide;
+    const texts = [
+      this.$refs['split-text-title'],
+      this.$refs['split-text-desc'],
+      this.$refs['split-text-link'],
+      this.$refs['guide-video']
+    ];
+
+    const videoContainer = this.$refs['guide-video'] as HTMLElement;
+    const video = videoContainer?.querySelector('video') as HTMLVideoElement | null;
+
+    const textObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          // Do something when the text is in view
-          (entry.target as HTMLElement).classList.add('text-show');
+          texts.forEach(text => {
+            text.classList.add('text-show');
+          });
+          if (video && video.paused) {
+            video.play();
+          }
         } else {
-          // Do something when the text is out of view
-          (entry.target as HTMLElement).classList.remove('text-show');
+          if (video && !video.paused) {
+            video.pause();
+          }
         }
       });
     }, {
-      threshold: 0.1
+      threshold: 0.5
     });
 
-    texts.forEach(text => {
-      textObserver.observe(text);
-    });
+    textObserver.observe(guide);
   }
 }
 </script>
 
 <template>
-  <div class="guide">
+  <div class="guide" ref="guide">
     <div class="guide-desc">
-      <h1 class="split-text">{{ guideProps.title }}</h1>
-      <p class="split-text">
+      <h1 class="split-text" ref="split-text-title">{{ guideProps.title }}</h1>
+      <p class="split-text" ref="split-text-desc">
         {{ guideProps.description }}
       </p>
-      <a :href="guideProps.guideURL" class="split-text">视频教程 ↗</a>
+      <a :href="guideProps.guideURL" class="split-text" ref="split-text-link">视频教程 ↗</a>
     </div>
-    <div class="guide-display">
+    <div class="guide-display" ref="guide-video">
       <div class="guide-display-mask"></div>
-      <picture class="guide-display-video">
-        <source :src="guideProps.videoURL">
-      </picture>
+      <video class="guide-display-video" autoplay muted loop playsinline>
+        <source src="../assets/video/demo.mov">
+      </video>
     </div>
   </div>
 </template>
@@ -53,16 +71,22 @@ export default class Guide extends Vue {
 <style scoped lang="less">
 .text-show {
   opacity: 1 !important;
-  transform: translateX(0%) !important;
+  transform: translateX(0%) translateY(0%) !important;
 }
 .guide {
-  width: 55%;
-  height: 600px;
+  width: 80vh;  
+  height: 800px;
   display: flex;
+  flex-direction: column;
+  .hide() {
+      opacity: 0;
+      transform: translateX(100px);
+      transition: transform .5s ease, opacity .3s ease;
+    }
 
   &-desc {
-    width: 40%;
-    height: 100%;
+    width: 100%;
+    height: 20%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -71,16 +95,10 @@ export default class Guide extends Vue {
     padding-right: 30px;
     line-height: 1.5;
 
-    .hide() {
-      opacity: 0;
-      transform: translateX(50%);
-      transition: transform .5s ease, opacity .3s ease;
-    }
-
     & h1 {
       font-size: 30px;
       font-weight: 600;
-      color: #c3d0e5;
+      color: var(--font-primary-color);
       margin-bottom: 10px;
       .hide();
     }
@@ -89,13 +107,13 @@ export default class Guide extends Vue {
       font-size: 20px;
       font-weight: 500px;
       text-align: start;
-      color: #9fb1d1;
+      color: var(--font-secondary-color);
       .hide();
       transition-delay: .2s;
     }
 
     & a {
-      font-size: 20px;
+      font-size: 16px;
       font-weight: 500;
       color: #4daafc;
       margin-top: 10px;
@@ -105,20 +123,25 @@ export default class Guide extends Vue {
   }
 
   &-display {
-    width: 700px;
-    height: 100%;
+    width: 100%;
+    height: 80%;
     min-width: 700px;
     border-radius: 20px;
     overflow: hidden;
     background-image: linear-gradient(to right bottom, #00b2b5 0%, #b500b8 100%);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
     position: relative;
-
+    .hide();
+    transform: translateY(20%);
+    transition: transform .5s ease, opacity .5s ease !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     &-video {
-        width: 60%;
-        height: 80%;
+        width: 90%;
+        height: auto;
+        max-height: 90%;
         z-index: 10;
-        background-color: gray;
     }
 
     &-mask {

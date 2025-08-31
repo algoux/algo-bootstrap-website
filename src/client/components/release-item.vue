@@ -18,7 +18,7 @@ export default class ReleaseItem extends Vue {
     switch (this.platform) {
       case 'windows':
         return windows;
-      case 'mac':
+      case 'macOS':
         return macOS;
       case 'linux':
         return linux;
@@ -40,22 +40,57 @@ export default class ReleaseItem extends Vue {
     }
   }
 
-  get otherLinks(): Array<{ name: string; link: string }> {
+  get otherLinks(): Array<{ type: string; items: Array<{ arch: string; name: string; link: string }> }> {
     switch (this.platform) {
       case 'windows':
         return [
-          { name: 'Windows 10', link: 'https://example.com/windows-10' },
-          { name: 'Windows 11', link: 'https://example.com/windows-11' },
+          {
+            type: 'Installer',
+            items: [
+              { arch: 'x64', name: 'Windows 10', link: 'https://example.com/windows-10' },
+              { arch: 'arm64', name: 'Windows 11', link: 'https://example.com/windows-11' },
+            ]
+          },
+          {
+            type: 'Portable',
+            items: [
+              { arch: 'x64', name: 'Windows 10', link: 'https://example.com/windows-10-msi' },
+              { arch: 'arm64', name: 'Windows 11', link: 'https://example.com/windows-11-msi' },
+            ]
+          }
         ];
-      case 'mac':
+      case 'macOS':
         return [
-          { name: 'macOS Monterey', link: 'https://example.com/macos-monterey' },
-          { name: 'macOS Big Sur', link: 'https://example.com/macos-big-sur' },
+          {
+            type: '.dmg',
+            items: [
+              {arch: 'x64', name: 'macOS Big Sur', link: 'https://example.com/macos-big-sur'},
+              {arch: 'arm64', name: 'macOS Monterey', link: 'https://example.com/macos-monterey'}
+            ]
+          }
         ];
       case 'linux':
         return [
-          { name: 'Ubuntu', link: 'https://example.com/ubuntu' },
-          { name: 'Fedora', link: 'https://example.com/fedora' },
+          {
+            type: '.deb',
+            items: [
+              { arch: 'x64', name: 'Ubuntu', link: 'https://example.com/ubuntu' },
+              { arch: 'arm64', name: 'Ubuntu ARM', link: 'https://example.com/ubuntu-arm' }
+            ]
+          },
+          {
+            type: '.rpm',
+            items: [
+              { arch: 'x64', name: 'Fedora', link: 'https://example.com/fedora' },
+              { arch: 'arm64', name: 'Fedora ARM', link: 'https://example.com/fedora-arm' }
+            ]
+          },
+          {
+            type: '.AppImage',
+            items: [
+              { arch: 'x64', name: 'Arch Linux', link: 'https://example.com/arch-linux' }
+            ]
+          }
         ];
       default:
         return [];
@@ -66,7 +101,7 @@ export default class ReleaseItem extends Vue {
     switch (this.platform) {
       case 'windows':
         return `version ${process.env.VITE_VERSION} for .exe`;
-      case 'mac':
+      case 'macOS':
         return `version ${process.env.VITE_VERSION} for .dmg`;
       case 'linux':
         return `version ${process.env.VITE_VERSION} for .AppImage`;
@@ -83,10 +118,19 @@ export default class ReleaseItem extends Vue {
       <img :src="platformImage" alt="" />
     </header>
     <main>
-      <DownloadButton :platform="this.platform" />
+      <DownloadButton :platform="this.platform" :width="'230px'" :height="'50px'" />
     </main>
     <aside>{{ asideDesc }}</aside>
-    <footer></footer>
+    <footer>
+      <ul v-for="value in otherLinks" :key="value.type">
+        <li>
+          <span class="type">{{ value.type }}</span>
+          <span class="info" v-for="item in value.items" :key="item.link">
+            <a :href="item.link" target="_blank">{{ item.arch }}</a>
+          </span>
+        </li>
+      </ul>
+    </footer>
   </div>
 </template>
 
@@ -101,6 +145,10 @@ export default class ReleaseItem extends Vue {
   & header {
     width: 100%;
     height: fit-content;
+
+    & img {
+      width: 100px;
+    }
   }
 
   & main {
@@ -124,7 +172,42 @@ export default class ReleaseItem extends Vue {
   & footer {
     width: 100%;
     height: fit-content;
-    background-color: yellow;
+
+    & ul {
+      width: 100%;
+      display: flex;
+      & li {
+        width: 100%;
+        height: fit-content;
+        list-style: none;
+        color: var(--font-secondary-color);
+        display: flex;
+        margin-top: 5px;
+        & .type {
+          width: 40%;
+          height: fit-content;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-weight: 700;
+          // background-color: red;
+        }
+
+        & .info {
+          display: flex;
+          justify-content: start;
+          color: #000;
+          background-color: #ffffffb0;
+          margin-left: 5px;
+          padding: 1px;
+          & a {
+            color: #000;
+            text-decoration: none;
+            font-weight: 400;
+          }
+        }
+      }
+    }
   }
 }
 </style>

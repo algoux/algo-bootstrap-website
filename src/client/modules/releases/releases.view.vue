@@ -19,8 +19,8 @@ export default class Releases extends Vue {}
     </header>
     <div class="release-container">
       <ReleaseItem :platform="'windows'" />
-      <ReleaseItem :platform="'mac'" />
       <ReleaseItem :platform="'linux'" />
+      <ReleaseItem :platform="'macOS'" />
     </div>
   </div>
 </template>
@@ -32,19 +32,21 @@ export default class Releases extends Vue {}
   background-color: var(--bg-color);
   display: flex;
   flex-direction: column;
-  gap: 20px;
   justify-content: center;
+  gap: 100px;
   align-items: center;
 
   &-header {
     font-size: 50px;
     font-weight: 700;
     color: var(--font-primary-color);
+    // background-color: red;
   }
 
   &-container {
-    width: 50%;
+    width: 40%;
     height: 700px;
+    // background-color: red;
     display: flex;
     justify-content: space-around;
     align-items: center;

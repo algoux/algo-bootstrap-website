@@ -440,7 +440,7 @@ onUnmounted(() => {
 
 <style scoped>
 .beams-container {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   width: 100%;
