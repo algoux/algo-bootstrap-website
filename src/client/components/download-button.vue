@@ -35,10 +35,13 @@ export default class DownloadButton extends Vue {
 
 <style scoped lang="less">
 .btn {
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 10px 15px;
+  @media screen and (min-width: 768px) {
+    padding: 15px 20px;
+  }
+  @media screen and (min-width: 1700px) {
+    padding: 20px 25px;
+  }
   background-color: transparent;
   border: none;
   outline: none;
@@ -53,7 +56,6 @@ export default class DownloadButton extends Vue {
 }
 
 .download {
-  // width: 300px;
   background-color: #fff;
   color: #000;
   cursor: pointer;

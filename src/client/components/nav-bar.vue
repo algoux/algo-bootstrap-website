@@ -80,7 +80,10 @@ export default class NavBar extends Vue {
 <style scoped lang="less">
 .content-header {
       height: 70px;
-      width: 100%;
+      @media screen and (max-width: 768px) {
+        height: 40px;
+      }
+      width: 100vw;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -90,7 +93,7 @@ export default class NavBar extends Vue {
 
 
       &-navbar {
-        width: 80%;
+        width: 80vw;
         height: 100%;
         border-radius: 100px;
         background-color: rgba(255, 255, 255, 0.1);
@@ -102,6 +105,7 @@ export default class NavBar extends Vue {
         overflow: hidden;
         color: var(--font-secondary-color);
         transition: color 0.5s ease;
+        font-size: var(--font-medium-size);
         & .nav-link {
           color: var(--font-secondary-color);
         }
@@ -162,7 +166,7 @@ export default class NavBar extends Vue {
 
           & span {
             margin-left: 10px;
-            font-size: 35px;
+            font-size: var(--font-medium-size);
             font-weight: 700;
           }
         }

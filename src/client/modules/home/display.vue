@@ -81,25 +81,8 @@ export default class Display extends Vue {
       </header>
       <div class="content-main-subtitle">
         <DownloadButton :platform="platform" />
-        <router-link class="btn start" to="/about">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="30"
-            height="30"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path
-              d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"
-            />
-            <path d="M20 2v4" />
-            <path d="M22 4h-4" />
-            <circle cx="4" cy="20" r="2" />
-          </svg>
+        <router-link class="start" to="/about">
+          <img src="../../assets/images/sparkles.png" style="height: calc(var(--font-small-size) * 1.5)" alt="" />
           Learn More
         </router-link>
         <span class="download-all-platforms"
@@ -131,22 +114,21 @@ export default class Display extends Vue {
         ❤️
       </p>
       <svg
-      class="mouse"
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="var(--font-primary-color)"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      <rect x="5" y="2" width="14" height="20" rx="7" />
-      <path d="M12 6v4" />
-    </svg>
+        class="mouse"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="var(--font-primary-color)"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect x="5" y="2" width="14" height="20" rx="7" />
+        <path d="M12 6v4" />
+      </svg>
     </footer>
-    
   </div>
 </template>
 
@@ -172,13 +154,18 @@ export default class Display extends Vue {
 .content-main-subtitle {
   height: 20%;
   width: 100%;
+
   display: flex;
   justify-content: center;
   gap: 40px;
   align-items: center;
-  // background-color: red;
   margin-bottom: 50px;
   position: relative;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    height: 40%;
+    gap: 20px;
+  }
   & .download-all-platforms {
     position: absolute;
     bottom: 0;
@@ -191,45 +178,25 @@ export default class Display extends Vue {
     }
   }
 
-  & .btn {
-    width: 250px;
-    height: 70px;
+  & .start {
+    padding: 10px 15px;
+    @media screen and (min-width: 768px) {
+      padding: 15px 20px;
+    }
+    @media screen and (min-width: 1700px) {
+      padding: 20px 25px;
+    }
     background-color: transparent;
     border: none;
     outline: none;
     border-radius: 100px;
-    font-size: 20px;
+    font-size: var(--font-small-size);
     font-weight: 600;
     text-decoration: none;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 6px;
-  }
-
-  & .download {
-    width: 300px;
-    background-color: #fff;
-    color: #000;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border: 2px solid transparent;
-    outline: 2px solid var(--glass-border-color);
-
-    & img {
-      height: 40%;
-    }
-
-    &:hover {
-      background-color: #dddddd;
-    }
-  }
-
-  & .start {
-    width: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background-color: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(15px);
     outline: 1px solid rgba(255, 255, 255, 0.4);
@@ -243,14 +210,19 @@ export default class Display extends Vue {
 }
 
 .old-version {
-  width: 250px;
-  height: 45px;
+  padding: 10px 15px;
+  @media screen and (min-width: 768px) {
+    padding: 15px 20px;
+  }
+  @media screen and (min-width: 1700px) {
+    padding: 20px 25px;
+  }
   background-color: var(--glass-bg-color);
   backdrop-filter: blur(10px);
   border-radius: 100px;
   border: 1px solid var(--glass-border-color);
   color: var(--font-secondary-color);
-  font-size: 20px;
+  font-size: var(--font-medium-size);
   display: flex;
   justify-content: center;
   gap: 20px;
@@ -278,9 +250,14 @@ export default class Display extends Vue {
     flex-direction: column;
     align-items: center;
     padding-top: 100px;
+    @media screen and (max-width: 1700px) {
+      padding-top: 50px;
+    }
+    @media screen and (max-width: 760px) {
+      padding-top: 40px;
+    }
     &-title {
-      flex-basis: 60%;
-      width: 80%;
+      width: 100%;
       font-weight: 700;
       display: flex;
       justify-content: center;
@@ -288,6 +265,13 @@ export default class Display extends Vue {
       flex-direction: column;
       font-size: var(--font-large-size) !important;
       gap: 40px;
+
+      @media screen and (max-width: 1700px) {
+        gap: 20px;
+      }
+      @media screen and (max-width: 768px) {
+        gap: 10px;
+      }
 
       & h1 {
         color: var(--font-primary-color);
@@ -327,6 +311,7 @@ export default class Display extends Vue {
     color: var(--font-secondary-color);
     user-select: none;
     position: relative;
+    font-size: var(--font-small-size) !important;
 
     & p {
       display: flex;

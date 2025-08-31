@@ -11,6 +11,7 @@ module.exports = defineConfig(({ mode }) => {
   
   return {
     server: {
+      host: '0.0.0.0', // 允许局域网访问
       fs: {
         // The API logic is in outside of the project
         strict: false,
