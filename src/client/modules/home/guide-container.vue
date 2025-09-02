@@ -13,7 +13,7 @@ export default class GuideContainer extends Vue {}
 <template>
   <div class="about">
     <header class="about-title">
-      <p class="about-title-p">Get Start</p>
+      <p class="about-title-p">Feature 🎉</p>
       <a
         href="https://www.bilibili.com/video/BV1zD4y1D7gD"
         target="_blank"
@@ -33,9 +33,8 @@ export default class GuideContainer extends Vue {}
       <Guide
         :guide-props="{
           title: '喵喵喵喵喵喵喵喵',
-          description: '喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵',
+          description: '喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵',
           guideURL: 'https://www.bilibili.com/video/BV1zD4y1D7gD',
-          videoURL: 'https://www.bilibili.com/video/BV1zD4y1D7gD',
         }"
       />
       <Guide
@@ -43,7 +42,6 @@ export default class GuideContainer extends Vue {}
           title: '喵喵喵喵喵喵喵喵',
           description: '喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵',
           guideURL: 'https://www.bilibili.com/video/BV1zD4y1D7gD',
-          videoURL: 'https://www.bilibili.com/video/BV1zD4y1D7gD',
         }"
       />
       <Guide
@@ -51,7 +49,6 @@ export default class GuideContainer extends Vue {}
           title: '喵喵喵喵喵喵喵喵',
           description: '喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵',
           guideURL: 'https://www.bilibili.com/video/BV1zD4y1D7gD',
-          videoURL: 'https://www.bilibili.com/video/BV1zD4y1D7gD',
         }"
       />
       <Guide
@@ -59,7 +56,6 @@ export default class GuideContainer extends Vue {}
           title: '喵喵喵喵喵喵喵喵',
           description: '喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵',
           guideURL: 'https://www.bilibili.com/video/BV1zD4y1D7gD',
-          videoURL: 'https://www.bilibili.com/video/BV1zD4y1D7gD',
         }"
       />
       <Guide
@@ -67,7 +63,6 @@ export default class GuideContainer extends Vue {}
           title: '喵喵喵喵喵喵喵喵',
           description: '喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵',
           guideURL: 'https://www.bilibili.com/video/BV1zD4y1D7gD',
-          videoURL: 'https://www.bilibili.com/video/BV1zD4y1D7gD',
         }"
       />
     </div>
@@ -104,7 +99,7 @@ export default class GuideContainer extends Vue {}
     gap: 20px;
 
     &-p:nth-child(1) {
-      color: var(--font-large-size);
+      color: calc(var(--font-large-size) * 0.4);
       color: var(--font-primary-color);
     }
 

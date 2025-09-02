@@ -12,17 +12,7 @@ import { SplitText } from 'gsap/SplitText';
 })
 export default class Display extends Vue {
   @Prop({ type: String, required: true }) readonly platform!: string;
-  
-  isMobile = false;
-
-  private checkIfMobile = () => {
-    this.isMobile = window.innerWidth < 768;
-    console.log('Window width:', window.innerWidth, 'Is mobile:', this.isMobile);
-  }
-
-  private handleResize = () => {
-    this.checkIfMobile();
-  }
+  @Prop({ type: Boolean, default: false }) readonly isMobile!: boolean;
 
   private splitTextAnimate() {
     const splitText_title = new SplitText('.content-main-title h1', {
@@ -53,14 +43,8 @@ export default class Display extends Vue {
   }
 
   mounted() {
-    this.checkIfMobile();
     gsap.registerPlugin(SplitText);
     this.splitTextAnimate();
-    window.addEventListener('resize', this.handleResize);
-  }
-
-  beforeDestroy() {
-    window.removeEventListener('resize', this.handleResize);
   }
 }
 </script>
@@ -116,14 +100,8 @@ export default class Display extends Vue {
         <p>
           Visit <a href="https://oj.sdutacm.cn/" target="_blank">SDUT OJ</a> to explore our products and contact us.
         </p>
-        <p>© 2008-2025 SDUTACM. All Rights Reserved.</p>
       </div>
     </main>
-    <footer class="content-footer" v-if="!isMobile">
-      <p>
-        <span class="developer-info">Developed by &nbsp;<a href="https://github.com/dreamerblue" class="blue" target="_blank"><img src="../../assets/blue.png" alt="" />&nbsp;bLue</a>&nbsp;×&nbsp;<a href="https://github.com/ATRIOR-LCL" class="atrior" target="_blank"><img src="../../assets/atrior.png" alt="" />&nbsp;atrior</a>&nbsp;of the&nbsp;</span><a href="https://lcl.sdutacm.cn/" target="_blank">SDUTACM Lightcone Laboratory</a><span>&nbsp;with ❤️</span>
-      </p>
-    </footer>
     <svg
         class="mouse"
         xmlns="http://www.w3.org/2000/svg"
@@ -164,19 +142,21 @@ export default class Display extends Vue {
 }
 
 .content-main-subtitle {
-  height: 20%;
+  height: 200px;
   width: 100%;
   display: flex;
   justify-content: center;
   gap: 40px;
   align-items: center;
-  // margin-bottom: 50px;
+  user-select: none;
   position: relative;
+
   @media screen and (max-width: 768px) {
     flex-direction: column;
     height: 30%;
     gap: 10px;
   }
+
   & .download-all-platforms {
     position: absolute;
     bottom: 0;
@@ -255,7 +235,7 @@ export default class Display extends Vue {
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-
+  justify-content: center;
   @media screen and (max-width: 768px) {
     width: 100%;
     justify-content: center;
@@ -268,13 +248,9 @@ export default class Display extends Vue {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 100px;
-    gap: 20px;
-    @media screen and (max-width: 1700px) {
-      padding-top: 50px;
-    }
+    gap: 30px;
+
     @media screen and (max-width: 760px) {
-      padding-top: 0px;
       gap: 10px;
     }
     &-title {
@@ -285,6 +261,7 @@ export default class Display extends Vue {
       align-items: center;
       flex-direction: column;
       font-size: var(--font-large-size) !important;
+      user-select: none;
       gap: 40px;
 
       @media screen and (max-width: 1700px) {
@@ -308,7 +285,6 @@ export default class Display extends Vue {
       flex-basis: 20%;
       width: 100%;
       user-select: none;
-      // padding-top: 100px;
 
       & p {
         color: var(--font-secondary-color);
@@ -335,43 +311,7 @@ export default class Display extends Vue {
     font-size: var(--font-small-size) !important;
     padding: 0 20px;
 
-    & p {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      text-align: center;
-      line-height: 1.5;
-
-      & .developer-info {
-        display: flex;
-        align-items: center;
-        white-space: nowrap;
-        flex-shrink: 0;
-      }
-
-      & a {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        color: var(--font-primary-color);
-        text-decoration: none;
-        font-weight: 600;
-        cursor: pointer;
-        white-space: nowrap;
-        &.blue {
-          color: #409eff;
-        }
-
-        &.atrior {
-          color: #e6c623;
-        }
-      }
-
-      & span {
-        white-space: nowrap;
-      }
-    }
+    
 
     @media (max-width: 768px) {
       font-size: 12px !important;
