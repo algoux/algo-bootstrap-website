@@ -13,7 +13,7 @@ export default class GuideContainer extends Vue {}
 <template>
   <div class="about">
     <header class="about-title">
-      <p>Get Start</p>
+      <p class="about-title-p">Get Start</p>
       <a
         href="https://www.bilibili.com/video/BV1zD4y1D7gD"
         target="_blank"
@@ -103,14 +103,15 @@ export default class GuideContainer extends Vue {}
     font-weight: 700;
     gap: 20px;
 
-    & p:nth-child(1) {
+    &-p:nth-child(1) {
+      color: var(--font-large-size);
       color: var(--font-primary-color);
     }
 
     & .video-link {
       width: fit-content;
       height: fit-content;
-      font-size: 16px;
+      font-size: var(--font-small-size);
       color: var(--font-secondary-color);
       font-weight: 400;
       display: flex;
