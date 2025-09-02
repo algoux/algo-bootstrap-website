@@ -124,7 +124,7 @@ export default class Display extends Vue {
 <style scoped lang="less">
 .mouse {
   position: absolute;
-  bottom: 10px;
+  bottom: 10%;
   opacity: 1;
   width: calc(var(--font-small-size) * 1.5);
   transform: scale(1);

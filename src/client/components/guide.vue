@@ -69,7 +69,7 @@ export default class Guide extends Vue {
     <div class="guide-display" ref="guide-video">
       <div class="guide-display-mask"></div>
       <video class="guide-display-video" autoplay muted loop playsinline>
-        <source src="../assets/video/demo.mov" />
+        <source src="../assets/video/demo.webm" />
       </video>
     </div>
   </div>
@@ -81,10 +81,18 @@ export default class Guide extends Vue {
   transform: translateX(0%) translateY(0%) !important;
 }
 .guide {
-  width: 85vh;
+  width: 55%;
+  @media screen and (max-width: 1200px) {
+    width: 75%;
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 90%;
+  }
   height: auto;
   display: flex;
   flex-direction: column;
+  position: relative;
   .hide() {
     opacity: 0;
     transform: translateX(100px);
@@ -156,6 +164,10 @@ export default class Guide extends Vue {
     padding: 20px 0px;
     border-radius: 20px;
     overflow: hidden;
+     @media screen and (max-width: 768px) {
+      padding: 10px 0px;
+      border-radius: 10px;
+    }
     background-image: linear-gradient(to right bottom, #00b2b5 0%, #b500b8 100%);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
     position: relative;
@@ -168,7 +180,7 @@ export default class Guide extends Vue {
     &-video {
       width: 90%;
       height: auto;
-      max-height: 90%;
+      background-color: none;
       z-index: 10;
     }
 

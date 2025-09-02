@@ -71,7 +71,7 @@ export default class GuideContainer extends Vue {}
 
 <style scoped lang="less">
 .about {
-  width: 100%;
+  width: 100vw;
   height: auto;
   min-height: 100dvh;
   position: relative;
@@ -94,12 +94,12 @@ export default class GuideContainer extends Vue {}
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 75px;
+    font-size: var(--font-large-size);
     font-weight: 700;
     gap: 20px;
 
-    &-p:nth-child(1) {
-      color: calc(var(--font-large-size) * 0.4);
+    &-p {
+      font-size: var(--font-large-size);
       color: var(--font-primary-color);
     }
 
@@ -114,13 +114,13 @@ export default class GuideContainer extends Vue {}
       align-items: center;
       text-decoration: none;
       position: relative;
-      transition: color .3s ease;
+      transition: color 0.3s ease;
 
       &:hover {
         color: var(--font-primary-color);
         &::after {
-            opacity: 1;
-            background-color: var(--font-primary-color);
+          opacity: 1;
+          background-color: var(--font-primary-color);
         }
       }
 
@@ -135,7 +135,7 @@ export default class GuideContainer extends Vue {}
         left: 0;
         opacity: 0;
         transform: translateY(120%);
-        transition: background-color .3s ease, opacity .3s ease;
+        transition: background-color 0.3s ease, opacity 0.3s ease;
       }
 
       & svg {

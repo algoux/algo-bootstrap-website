@@ -1,7 +1,23 @@
 <script lang="ts">
-import { Vue } from 'vue-class-component';
+import { Vue, Options } from 'vue-class-component';
 
-export default class NavBar extends Vue {}
+@Options({})
+export default class NavBar extends Vue {
+  isMobile = false;
+
+  mounted() {
+    this.checkMobile();
+    window.addEventListener('resize', this.checkMobile);
+  }
+
+  beforeDestroy() {
+    window.removeEventListener('resize', this.checkMobile);
+  }
+
+  checkMobile() {
+    this.isMobile = window.innerWidth < 768;
+  }
+}
 </script>
 
 <template>
@@ -13,7 +29,7 @@ export default class NavBar extends Vue {}
         </div>
         <span>AlgoBootstrap</span>
       </div>
-      <div class="nav">
+      <div class="nav" v-if="!isMobile">
         <router-link class="nav-link" to="/">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -126,11 +142,19 @@ export default class NavBar extends Vue {}
       display: flex;
       justify-content: left;
       padding-left: 50px;
+      @media screen and (max-width: 768px) {
+        flex-basis: 100%;
+        justify-content: center;
+        padding-left: 0;
+      }
       align-items: center;
       &-icon {
         width: 50px;
         height: 50px;
         position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         &::after {
           content: '';
           position: absolute;
@@ -152,12 +176,8 @@ export default class NavBar extends Vue {}
         }
         & img {
           width: auto;
-          height: 50px;
+          height: 80%;
           display: block;
-
-          @media screen and (max-width: 768px) {
-            height: 40px;
-          }
         }
       }
 
