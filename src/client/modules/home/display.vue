@@ -12,7 +12,18 @@ import { SplitText } from 'gsap/SplitText';
 })
 export default class Display extends Vue {
   @Prop({ type: String, required: true }) readonly platform!: string;
-  // Component logic goes here
+  
+  isMobile = false;
+
+  private checkIfMobile = () => {
+    this.isMobile = window.innerWidth < 768;
+    console.log('Window width:', window.innerWidth, 'Is mobile:', this.isMobile);
+  }
+
+  private handleResize = () => {
+    this.checkIfMobile();
+  }
+
   private splitTextAnimate() {
     const splitText_title = new SplitText('.content-main-title h1', {
       type: 'chars',
@@ -42,8 +53,14 @@ export default class Display extends Vue {
   }
 
   mounted() {
+    this.checkIfMobile();
     gsap.registerPlugin(SplitText);
     this.splitTextAnimate();
+    window.addEventListener('resize', this.handleResize);
+  }
+
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize);
   }
 }
 </script>
@@ -89,7 +106,7 @@ export default class Display extends Vue {
           >Download for <router-link class="link" to="/releases">other platforms</router-link>.</span
         >
       </div>
-      <div class="content-main-tools">
+      <div class="content-main-tools" v-if="!isMobile">
         <p>version 1.1.0 for macOS</p>
         <p>
           By using AlgoBootstrap you need to download
@@ -102,18 +119,12 @@ export default class Display extends Vue {
         <p>© 2008-2025 SDUTACM. All Rights Reserved.</p>
       </div>
     </main>
-    <footer class="content-footer">
+    <footer class="content-footer" v-if="!isMobile">
       <p>
-        <span>Developed by &nbsp;</span
-        ><a href="https://github.com/dreamerblue" class="blue" target="_blank"
-          ><img src="../../assets/blue.png" alt="" />&nbsp;bLue</a
-        >&nbsp;×&nbsp;
-        <a href="https://github.com/ATRIOR-LCL" class="atrior" target="_blank"
-          ><img src="../../assets/atrior.png" alt="" />&nbsp;atrior</a
-        >&nbsp;of the&nbsp;<a href="https://lcl.sdutacm.cn/" target="_blank">SDUTACM Lightcone Laboratory</a>&nbsp;with
-        ❤️
+        <span class="developer-info">Developed by &nbsp;<a href="https://github.com/dreamerblue" class="blue" target="_blank"><img src="../../assets/blue.png" alt="" />&nbsp;bLue</a>&nbsp;×&nbsp;<a href="https://github.com/ATRIOR-LCL" class="atrior" target="_blank"><img src="../../assets/atrior.png" alt="" />&nbsp;atrior</a>&nbsp;of the&nbsp;</span><a href="https://lcl.sdutacm.cn/" target="_blank">SDUTACM Lightcone Laboratory</a><span>&nbsp;with ❤️</span>
       </p>
-      <svg
+    </footer>
+    <svg
         class="mouse"
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -124,19 +135,20 @@ export default class Display extends Vue {
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
+        v-if="!isMobile"
       >
         <rect x="5" y="2" width="14" height="20" rx="7" />
         <path d="M12 6v4" />
       </svg>
-    </footer>
   </div>
 </template>
 
 <style scoped lang="less">
 .mouse {
   position: absolute;
-  bottom: -100%;
+  bottom: 10px;
   opacity: 1;
+  width: calc(var(--font-small-size) * 1.5);
   transform: scale(1);
   animation: mouse 1.5s infinite;
   @keyframes mouse {
@@ -154,22 +166,20 @@ export default class Display extends Vue {
 .content-main-subtitle {
   height: 20%;
   width: 100%;
-
   display: flex;
   justify-content: center;
   gap: 40px;
   align-items: center;
-  margin-bottom: 50px;
+  // margin-bottom: 50px;
   position: relative;
   @media screen and (max-width: 768px) {
     flex-direction: column;
-    height: 40%;
-    gap: 20px;
+    height: 30%;
+    gap: 10px;
   }
   & .download-all-platforms {
     position: absolute;
     bottom: 0;
-    transform: translateY(100%);
     color: var(--font-secondary-color);
     font-size: var(--font-small-size);
 
@@ -222,13 +232,16 @@ export default class Display extends Vue {
   border-radius: 100px;
   border: 1px solid var(--glass-border-color);
   color: var(--font-secondary-color);
-  font-size: var(--font-medium-size);
+  font-size: var(--font-small-size);
   display: flex;
   justify-content: center;
   gap: 20px;
   text-decoration: none;
   align-items: center;
   transition: color 0.5s ease;
+  & svg {
+    height: calc(var(--font-small-size) * 1.5);
+  }
   &:hover {
     color: var(--font-primary-color);
   }
@@ -243,6 +256,12 @@ export default class Display extends Vue {
   align-items: center;
   justify-content: space-around;
 
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
+    gap: 10px;
+  }
+
   &-main {
     flex-basis: 60%;
     width: 100%;
@@ -250,11 +269,13 @@ export default class Display extends Vue {
     flex-direction: column;
     align-items: center;
     padding-top: 100px;
+    gap: 20px;
     @media screen and (max-width: 1700px) {
       padding-top: 50px;
     }
     @media screen and (max-width: 760px) {
-      padding-top: 40px;
+      padding-top: 0px;
+      gap: 10px;
     }
     &-title {
       width: 100%;
@@ -312,20 +333,32 @@ export default class Display extends Vue {
     user-select: none;
     position: relative;
     font-size: var(--font-small-size) !important;
+    padding: 0 20px;
 
     & p {
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-wrap: wrap;
+      text-align: center;
+      line-height: 1.5;
+
+      & .developer-info {
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
 
       & a {
-        display: flex;
+        display: inline-flex;
         justify-content: center;
         align-items: center;
         color: var(--font-primary-color);
         text-decoration: none;
         font-weight: 600;
         cursor: pointer;
+        white-space: nowrap;
         &.blue {
           color: #409eff;
         }
@@ -334,10 +367,32 @@ export default class Display extends Vue {
           color: #e6c623;
         }
       }
+
+      & span {
+        white-space: nowrap;
+      }
+    }
+
+    @media (max-width: 768px) {
+      font-size: 12px !important;
+      padding: 0 10px;
+      
+      & p {
+        gap: 2px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      font-size: 11px !important;
+      
+      & p {
+        flex-direction: column;
+        gap: 5px;
+      }
     }
 
     & img {
-      height: 30px;
+      height: 25px;
     }
   }
 }
