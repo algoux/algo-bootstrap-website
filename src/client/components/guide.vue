@@ -74,7 +74,7 @@ export default class Guide extends Vue {
   transform: translateX(0%) translateY(0%) !important;
 }
 .guide {
-  width: 80vh;  
+  width: 85vh;
   height: 800px;
   display: flex;
   flex-direction: column;
@@ -87,17 +87,16 @@ export default class Guide extends Vue {
   &-desc {
     width: 100%;
     height: 20%;
+    background-color: red;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: start;
-    padding-left: 30px;
-    padding-right: 30px;
     line-height: 1.5;
 
     & h1 {
-      font-size: 30px;
       font-weight: 600;
+      font-size: var(--font-medium-size);
       color: var(--font-primary-color);
       margin-bottom: 10px;
       .hide();
@@ -107,13 +106,14 @@ export default class Guide extends Vue {
       font-size: 20px;
       font-weight: 500px;
       text-align: start;
+      font-size: var(--font-medium-size);
       color: var(--font-secondary-color);
       .hide();
       transition-delay: .2s;
     }
 
     & a {
-      font-size: 16px;
+      font-size: var(--font-small-size);
       font-weight: 500;
       color: #4daafc;
       margin-top: 10px;
@@ -125,7 +125,7 @@ export default class Guide extends Vue {
   &-display {
     width: 100%;
     height: 80%;
-    min-width: 700px;
+    // min-width: 700px;
     border-radius: 20px;
     overflow: hidden;
     background-image: linear-gradient(to right bottom, #00b2b5 0%, #b500b8 100%);
