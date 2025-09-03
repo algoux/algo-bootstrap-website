@@ -21,7 +21,6 @@ export default class Releases extends Vue {}
     </header>
     <div class="release-container">
       <ReleaseItem :platform="'windows'" />
-      <ReleaseItem :platform="'linux'" />
       <ReleaseItem :platform="'macOS'" />
     </div>
     <home-footer/>
@@ -51,7 +50,7 @@ export default class Releases extends Vue {}
   }
 
   &-container {
-    width: 40%;
+    width: 100%;
     height: auto;
     display: flex;
     @media screen and (max-width: 768px) {

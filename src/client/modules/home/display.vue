@@ -4,6 +4,7 @@ import { Prop } from 'vue-property-decorator';
 import DownloadButton from '@client/components/download-button.vue';
 import { gsap } from 'gsap';
 import { SplitText } from 'gsap/SplitText';
+import { isMac, isWindows } from '@client/utils';
 
 @Options({
   components: {
@@ -13,7 +14,8 @@ import { SplitText } from 'gsap/SplitText';
 export default class Display extends Vue {
   @Prop({ type: String, required: true }) readonly platform!: string;
   @Prop({ type: Boolean, default: false }) readonly isMobile!: boolean;
-
+  isSupportedPlatform = isMac() || isWindows();
+  
   private splitTextAnimate() {
     const splitText_title = new SplitText('.content-main-title h1', {
       type: 'chars',
@@ -100,9 +102,6 @@ export default class Display extends Vue {
           </svg>
           Learn More
         </router-link>
-        <span class="download-all-platforms"
-          >Download for <router-link class="link" to="/releases">other platforms</router-link>.</span
-        >
       </div>
       <div class="content-main-tools" v-if="!isMobile">
         <p>version 1.1.0 for macOS</p>
@@ -169,21 +168,6 @@ export default class Display extends Vue {
     flex-direction: column;
     height: 30%;
     gap: 10px;
-  }
-
-  & .download-all-platforms {
-    position: absolute;
-    bottom: 0;
-    color: var(--font-secondary-color);
-    font-size: var(--font-small-size);
-
-    @media screen and (max-width: 768px) {
-      transform: translateY(48px);
-    }
-
-    & .link {
-      color: var(--font-primary-color);
-    }
   }
 
   & .start {

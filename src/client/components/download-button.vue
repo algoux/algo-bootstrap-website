@@ -3,13 +3,13 @@ import { Vue } from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 import macOS from '@client/assets/images/macos.png';
 import windows from '@client/assets/images/windows.png';
-import linux from '@client/assets/images/linux.png';
 
 export default class DownloadButton extends Vue {
-  @Prop({ type: String, default: 'macOS' }) platform!: string;
-  @Prop({type: String, default: '250px'}) width!: string;
-  @Prop({type: String, default: '70px'}) height !: string;
+  @Prop({ type: String, default: 'Windows' }) platform!: string;
 
+  get platformName(): string {
+    return this.platform === 'macOS' ? 'macOS' : 'Windows';
+  }
 
   get platformImage(): string {
     switch (this.platform) {
@@ -17,25 +17,52 @@ export default class DownloadButton extends Vue {
         return windows;
       case 'macOS':
         return macOS;
-      case 'Linux':
-        return linux;
       default:
-        return '';
+        return windows;
     }
   }
 }
 </script>
 
 <template>
-  <button class="download btn" >
-    <img :src="platformImage" alt="" />
-    Download for {{ platform }}
-  </button>
+  <div class="btn-container">
+    <button class="download btn">
+      <img :src="platformImage" alt="" />
+      Download for {{ platform }}
+    </button>
+    <span class="download-all-platforms" v-if="platform === 'Windows' || platform === 'macOS'">
+      Download for <router-link class="link" to="/releases">other platforms</router-link>.
+    </span>
+    <span class="download-all-platform" v-else>Only Windows and macOS are supported.</span>
+  </div>
 </template>
 
 <style scoped lang="less">
+.btn-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.download-all-platforms {
+  position: absolute;
+  bottom: 0;
+  color: var(--font-secondary-color);
+  font-size: var(--font-small-size);
+  transform: translateY(24px);
+
+  @media screen and (max-width: 768px) {
+    transform: translateY(48px);
+  }
+
+  & .link {
+    color: var(--font-primary-color);
+  }
+}
 .btn {
   padding: 10px 15px;
+  position: relative;
   @media screen and (min-width: 768px) {
     padding: 15px 20px;
   }

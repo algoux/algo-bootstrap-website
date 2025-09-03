@@ -101,10 +101,8 @@ export default class ReleaseItem extends Vue {
         return `version ${process.env.VITE_VERSION} for .exe`;
       case 'macOS':
         return `version ${process.env.VITE_VERSION} for .dmg`;
-      case 'linux':
-        return `version ${process.env.VITE_VERSION} for .AppImage`;
       default:
-        return '';
+        return `version ${process.env.VITE_VERSION} for .exe`;
     }
   }
 }
@@ -116,7 +114,7 @@ export default class ReleaseItem extends Vue {
       <img :src="platformImage" alt="" />
     </header>
     <main>
-      <DownloadButton :platform="this.platform" :width="'230px'" :height="'50px'" />
+      <DownloadButton :platform="this.platform" />
     </main>
     <aside>{{ asideDesc }}</aside>
     <footer>
