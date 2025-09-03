@@ -7,6 +7,7 @@ import { BwcxClientRouterPlugin } from 'bwcx-client-vue3';
 import { clientRoutesMap } from '@common/router/client-routes';
 import { ApiClientPlugin } from './plugins/api-client.plugin';
 import type { ApiType, ApiClientType } from './api';
+import { getOperatingSystem, isMac, isWindows } from './utils/platform.util';
 import 'element-plus/dist/index.css'
 
 Vue.registerHooks(['setup', 'beforeRouteEnter', 'beforeRouteUpdate', 'beforeRouteLeave', 'asyncData']);
@@ -42,6 +43,29 @@ export function mainEntry({
     if (isClient) {
       // 可以在此展示全局错误提示
     }
+  });
+
+  // 添加路由守卫：检测平台并重定向
+  router.beforeEach((to, from, next) => {
+    if (isClient) {
+      if (to.path === '/' && (!from.name || from.path === '/')) {
+        try {
+          const os = getOperatingSystem();
+          const isSupportedPlatform = isMac() || isWindows();
+          
+          // 如果不是 Windows 或 macOS，重定向到 releases 页面
+          if (!isSupportedPlatform) {
+            console.log(`检测到平台: ${os.name}，重定向到 releases 页面`);
+            return next('/releases');
+          }
+        } catch (error) {
+          console.error('平台检测失败:', error);
+        }
+      }
+    }
+    
+    // 继续正常的路由导航
+    next();
   });
 
   router.beforeResolve(async (to, from, next) => {
