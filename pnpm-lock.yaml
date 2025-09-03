@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@element-plus/icons-vue':
+    specifier: ^2.3.2
+    version: 2.3.2(vue@3.2.31)
   '@types/gsap':
     specifier: ^3.0.0
     version: 3.0.0

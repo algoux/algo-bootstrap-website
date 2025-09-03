@@ -13,7 +13,7 @@ export default class GuideContainer extends Vue {}
 <template>
   <div class="about">
     <header class="about-title">
-      <p class="about-title-p">Feature 🎉</p>
+      <div class="about-title-font">Feature 🎉</div>
       <a
         href="https://www.bilibili.com/video/BV1zD4y1D7gD"
         target="_blank"
@@ -84,23 +84,41 @@ export default class GuideContainer extends Vue {}
     flex-direction: column;
     align-items: center;
     padding-top: 50px;
+    @media screen and (max-width: 768px) {
+      padding-top: 20px;
+    }
     gap: 120px;
   }
 
   &-title {
     width: 100%;
     height: 300px;
+    @media screen and (max-width: 768px) {
+      height: 100px;
+      gap: 10px;
+    }
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: var(--font-large-size);
     font-weight: 700;
     gap: 20px;
 
-    &-p {
-      font-size: var(--font-large-size);
+    &-font {
+      width: fit-content;
+      height: fit-content;
       color: var(--font-primary-color);
+      font-size: 50px !important;
+      font-weight: 700;
+      line-height: 1.2;
+      
+      @media screen and (max-width: 1700px) {
+        font-size: 30px !important;
+      }
+      
+      @media screen and (max-width: 768px) {
+        font-size: 20px !important;
+      }
     }
 
     & .video-link {

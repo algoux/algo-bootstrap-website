@@ -33,6 +33,7 @@
     "url": "git+https://github.com/bwcxjs/bwcx-vue3-ssr-template.git"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.2",
     "@types/gsap": "^3.0.0",
     "@types/three": "^0.179.0",
     "@vue/runtime-core": "^3.2.31",

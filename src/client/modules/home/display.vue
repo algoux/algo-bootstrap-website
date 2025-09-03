@@ -82,7 +82,7 @@ export default class Display extends Vue {
       </header>
       <div class="content-main-subtitle">
         <DownloadButton :platform="platform" />
-        <router-link class="start" to="/about">
+        <router-link class="start" v-if="!isMobile" to="/about">
           <img src="../../assets/images/sparkles.png" style="height: calc(var(--font-small-size) * 1.5)" alt="" />
           Learn More
         </router-link>
@@ -163,6 +163,10 @@ export default class Display extends Vue {
     color: var(--font-secondary-color);
     font-size: var(--font-small-size);
 
+    @media screen and (max-width: 768px) {
+      transform: translateY(48px);
+    }
+
     & .link {
       color: var(--font-primary-color);
     }
@@ -230,6 +234,12 @@ export default class Display extends Vue {
   position: relative;
   width: 70%;
   height: 100vh;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: auto;
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
   z-index: 10;
   display: flex;
   flex-direction: column;
@@ -250,9 +260,6 @@ export default class Display extends Vue {
     align-items: center;
     gap: 30px;
 
-    @media screen and (max-width: 760px) {
-      gap: 10px;
-    }
     &-title {
       width: 100%;
       font-weight: 700;

@@ -137,7 +137,9 @@ export default class ReleaseItem extends Vue {
 <style scoped lang="less">
 .container {
   width: 30%;
-  min-width: 200px;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -147,7 +149,7 @@ export default class ReleaseItem extends Vue {
     height: fit-content;
 
     & img {
-      width: 100px;
+      width: calc(var(--font-large-size) * 4);
     }
   }
 
@@ -163,7 +165,7 @@ export default class ReleaseItem extends Vue {
     width: 100%;
     height: fit-content;
     color: var(--font-secondary-color);
-    font-size: 12px;
+    font-size: var(--font-small-size);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -176,6 +178,7 @@ export default class ReleaseItem extends Vue {
     & ul {
       width: 100%;
       display: flex;
+      font-size: var(--font-small-size);
       & li {
         width: 100%;
         height: fit-content;

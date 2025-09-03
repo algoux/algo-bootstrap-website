@@ -2,11 +2,13 @@
 import { Vue, Options } from 'vue-class-component';
 import { View } from 'bwcx-client-vue3';
 import ReleaseItem from '@client/components/release-item.vue';
+import HomeFooter from '@client/components/home-footer.vue';
 
 @View('/releases')
 @Options({
     components: {
-        ReleaseItem
+        ReleaseItem,
+        HomeFooter
     }
 })
 export default class Releases extends Vue {}
@@ -22,32 +24,40 @@ export default class Releases extends Vue {}
       <ReleaseItem :platform="'linux'" />
       <ReleaseItem :platform="'macOS'" />
     </div>
+    <home-footer/>
   </div>
 </template>
 
 <style scoped lang="less">
+@import url('../../index.less');
 .release {
   width: 100%;
   height: 100dvh;
+  @media screen and (max-width: 768px) {
+    height: auto;
+    padding-top: 100px;
+  }
   background-color: var(--bg-color);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 100px;
+  gap: 50px;
   align-items: center;
 
   &-header {
-    font-size: 50px;
+    font-size: var(--font-large-size);
     font-weight: 700;
     color: var(--font-primary-color);
-    // background-color: red;
   }
 
   &-container {
     width: 40%;
-    height: 700px;
-    // background-color: red;
+    height: auto;
     display: flex;
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+      gap: 40px;
+    }
     justify-content: space-around;
     align-items: center;
   }

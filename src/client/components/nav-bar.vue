@@ -1,7 +1,16 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-
-@Options({})
+import { ElDropdown, ElDropdownMenu, ElDropdownItem, ElIcon } from 'element-plus';
+import { ArrowDown } from '@element-plus/icons-vue';
+@Options({
+  components: {
+    ElDropdown,
+    ElDropdownMenu,
+    ElDropdownItem,
+    ArrowDown,
+    ElIcon,
+  },
+})
 export default class NavBar extends Vue {
   isMobile = false;
 
@@ -24,7 +33,7 @@ export default class NavBar extends Vue {
   <header class="content-header">
     <div class="content-header-navbar">
       <div class="logo">
-        <div class="logo-icon">
+        <div class="logo-icon" v-if="!isMobile">
           <img src="../assets/logo.png" alt="AlgoBootstrap" />
         </div>
         <span>AlgoBootstrap</span>
@@ -87,11 +96,91 @@ export default class NavBar extends Vue {
           <span>Download</span>
         </router-link>
       </div>
+      <el-dropdown v-else class="dropdown-style">
+        <span class="el-dropdown-link">
+          Menu
+          <el-icon class="el-icon--right">
+            <arrow-down />
+          </el-icon>
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>
+              <router-link to="/" class="dropdown-item"> Home </router-link>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <a class="dropdown-item" href="#" target="_blank"> F&Q </a>
+            </el-dropdown-item>
+            <el-dropdown-item divided>
+              <router-link class="dropdown-item" to="/releases"> Download </router-link>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
   </header>
 </template>
 
 <style scoped lang="less">
+.dropdown-item {
+  text-decoration: none;
+  color: var(--bg-color);
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  &:hover {
+    color: var(--font-primary-color);
+  }
+}
+
+.dropdown-style {
+  font-size: var(--font-small-size);
+  color: var(--font-primary-color);
+  flex-basis: 20%;
+  position: absolute;
+  right: 5%;
+
+  &:focus {
+    outline: none;
+    border: none;
+  }
+
+  :deep(.el-dropdown-link) {
+    outline: none;
+    border: none;
+
+    &:focus {
+      outline: none !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    &:focus-visible {
+      outline: none !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+  }
+
+  :deep(.el-dropdown) {
+    outline: none;
+    &:focus {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    &:focus-visible {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+  }
+
+  :deep(.el-dropdown-item) {
+    background-color: var(--glass-bg-color) !important;
+  }
+}
+
 .content-header {
   height: 70px;
   @media screen and (max-width: 768px) {
@@ -105,10 +194,19 @@ export default class NavBar extends Vue {
   top: 20px;
   z-index: 20;
 
+  @media screen and (max-width: 768px) {
+    top: 0;
+  }
   &-navbar {
     width: 80vw;
     height: 100%;
     border-radius: 100px;
+
+    @media screen and (max-width: 768px) {
+      width: 100vw;
+      border-radius: 0;
+      outline: none;
+    }
     background-color: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(15px);
     outline: 1px solid rgba(255, 255, 255, 0.4);
@@ -174,6 +272,7 @@ export default class NavBar extends Vue {
             radial-gradient(at 91% 83%, hsla(283, 74%, 69%, 1) 0px, transparent 50%),
             radial-gradient(at 72% 91%, hsla(213, 75%, 75%, 1) 0px, transparent 50%);
         }
+
         & img {
           width: auto;
           height: 80%;

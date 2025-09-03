@@ -24,6 +24,10 @@ footer {
     z-index: 10;
     gap: 30px;
 
+    @media screen and (max-width: 768px) {
+      width: 80vw;
+    }
+
     & .copyright {
         color: var(--font-secondary-color);
         line-height: 1.5;

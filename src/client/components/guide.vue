@@ -87,7 +87,7 @@ export default class Guide extends Vue {
   }
 
   @media screen and (max-width: 768px) {
-    width: 90%;
+    width: 80%;
   }
   height: auto;
   display: flex;
