@@ -49,25 +49,25 @@ export default class ReleaseItem extends Vue {
             items: [
               { arch: 'x64', name: 'Windows 10', link: 'https://example.com/windows-10' },
               { arch: 'arm64', name: 'Windows 11', link: 'https://example.com/windows-11' },
-            ]
+            ],
           },
           {
             type: 'Portable',
             items: [
               { arch: 'x64', name: 'Windows 10', link: 'https://example.com/windows-10-msi' },
               { arch: 'arm64', name: 'Windows 11', link: 'https://example.com/windows-11-msi' },
-            ]
-          }
+            ],
+          },
         ];
       case 'macOS':
         return [
           {
             type: '.dmg',
             items: [
-              {arch: 'x64', name: 'macOS Big Sur', link: 'https://example.com/macos-big-sur'},
-              {arch: 'arm64', name: 'macOS Monterey', link: 'https://example.com/macos-monterey'}
-            ]
-          }
+              { arch: 'x64', name: 'macOS Big Sur', link: 'https://example.com/macos-big-sur' },
+              { arch: 'arm64', name: 'macOS Monterey', link: 'https://example.com/macos-monterey' },
+            ],
+          },
         ];
       case 'linux':
         return [
@@ -75,22 +75,20 @@ export default class ReleaseItem extends Vue {
             type: '.deb',
             items: [
               { arch: 'x64', name: 'Ubuntu', link: 'https://example.com/ubuntu' },
-              { arch: 'arm64', name: 'Ubuntu ARM', link: 'https://example.com/ubuntu-arm' }
-            ]
+              { arch: 'arm64', name: 'Ubuntu ARM', link: 'https://example.com/ubuntu-arm' },
+            ],
           },
           {
             type: '.rpm',
             items: [
               { arch: 'x64', name: 'Fedora', link: 'https://example.com/fedora' },
-              { arch: 'arm64', name: 'Fedora ARM', link: 'https://example.com/fedora-arm' }
-            ]
+              { arch: 'arm64', name: 'Fedora ARM', link: 'https://example.com/fedora-arm' },
+            ],
           },
           {
             type: '.AppImage',
-            items: [
-              { arch: 'x64', name: 'Arch Linux', link: 'https://example.com/arch-linux' }
-            ]
-          }
+            items: [{ arch: 'x64', name: 'Arch Linux', link: 'https://example.com/arch-linux' }],
+          },
         ];
       default:
         return [];
@@ -149,7 +147,10 @@ export default class ReleaseItem extends Vue {
     height: fit-content;
 
     & img {
-      width: calc(var(--font-large-size) * 4);
+      width: 100px;
+      @media screen and (max-width: 768px) {
+        width: calc(var(--font-large-size) * 4);
+      }
     }
   }
 

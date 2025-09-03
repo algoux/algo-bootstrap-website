@@ -86,6 +86,7 @@ export default class GuideContainer extends Vue {}
     padding-top: 50px;
     @media screen and (max-width: 768px) {
       padding-top: 20px;
+      gap: 80px;
     }
     gap: 120px;
   }

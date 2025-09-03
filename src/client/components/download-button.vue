@@ -13,11 +13,11 @@ export default class DownloadButton extends Vue {
 
   get platformImage(): string {
     switch (this.platform) {
-      case 'windows':
+      case 'Windows':
         return windows;
       case 'macOS':
         return macOS;
-      case 'linux':
+      case 'Linux':
         return linux;
       default:
         return '';
