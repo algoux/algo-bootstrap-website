@@ -35,10 +35,10 @@ export default class HomeFooter extends Vue {
           <img src="../assets/images/bilibili.png" alt="">
           bilibili
         </a>
-        <a :href="getLinks().docs" class="friend-link-item" target="_blank">
+        <router-link to="/docs" class="friend-link-item">
           <img src="../assets/images/docs.png" alt="">
           Help
-        </a>
+        </router-link>
       </div>
         <p class="developer-info">
             <span class="developer-info">Developed by &nbsp;<a :href="getLinks().bLue" class="blue" target="_blank"><img src="@client/assets/blue.png" alt="" />&nbsp;bLue</a>&nbsp;×&nbsp;<a :href="getLinks().atrior" class="atrior" target="_blank"><img src="@client/assets/atrior.png" alt="" />&nbsp;atrior</a>&nbsp;of the&nbsp;</span><a href="https://lcl.sdutacm.cn/" target="_blank">SDUTACM Lightcone Laboratory</a><span>&nbsp;with ❤️</span>
@@ -52,6 +52,7 @@ footer {
     width: 100vw;
     height: auto;
     margin-top: 100px;
+    user-select: none;
 
     @media screen and (max-width: 768px) {
       height: auto;

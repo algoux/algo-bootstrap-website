@@ -112,7 +112,7 @@ export default class ReleaseItem extends Vue {
 <style scoped lang="less">
 .container {
   width: 20%;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1200px) {
     width: 100%;
   }
   height: 100%;
@@ -166,11 +166,12 @@ export default class ReleaseItem extends Vue {
         display: flex;
         margin-top: 5px;
         & .type {
-          width: 40%;
+          width: 50%;
           height: fit-content;
           display: flex;
-          justify-content: center;
+          justify-content: end;
           align-items: center;
+          padding-right: 10px;
           font-weight: 700;
         }
 

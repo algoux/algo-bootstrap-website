@@ -32,7 +32,7 @@ export default class Releases extends Vue {}
 .release {
   width: 100%;
   height: 100dvh;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1200px) {
     height: auto;
     padding-top: 100px;
   }
@@ -42,7 +42,7 @@ export default class Releases extends Vue {}
   justify-content: center;
   gap: 100px;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1200px) {
     gap: 40px;
   }
   align-items: center;
@@ -57,7 +57,7 @@ export default class Releases extends Vue {}
     width: 100%;
     height: auto;
     display: flex;
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 1200px) {
       flex-direction: column;
       gap: 40px;
     }

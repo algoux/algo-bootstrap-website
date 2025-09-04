@@ -36,7 +36,7 @@ export default class NavBar extends Vue {
         <div class="logo-icon" v-if="!isMobile">
           <img src="../assets/logo.png" alt="AlgoBootstrap" />
         </div>
-        <span>AlgoBootstrap</span>
+        <router-link to="/" class="goHome">AlgoBootstrap</router-link>
       </div>
       <div class="nav" v-if="!isMobile">
         <router-link class="nav-link" to="/">
@@ -75,7 +75,7 @@ export default class NavBar extends Vue {
             <path d="M8 11h8" />
             <path d="M8 7h6" />
           </svg>
-          Docs
+          Help
         </router-link>
         <a class="nav-link" href="#" target="_blank">
           <svg
@@ -128,7 +128,7 @@ export default class NavBar extends Vue {
               <router-link to="/" class="dropdown-item"> Home </router-link>
             </el-dropdown-item>
             <el-dropdown-item>
-              <router-link class="dropdown-item" to="/docs"> Docs </router-link>
+              <router-link class="dropdown-item" to="/docs"> Help </router-link>
             </el-dropdown-item>
             <el-dropdown-item>
               <a class="dropdown-item" href="#" target="_blank"> F&Q </a>
@@ -254,6 +254,10 @@ export default class NavBar extends Vue {
       & svg {
         stroke: var(--font-primary-color);
       }
+
+      .goHome {
+        color: var(--font-primary-color);
+      }
     }
 
     & .logo {
@@ -302,9 +306,11 @@ export default class NavBar extends Vue {
         }
       }
 
-      & span {
+      & .goHome {
         margin-left: 10px;
         font-size: var(--font-medium-size);
+        color: var(--font-secondary-color);
+        text-decoration: none;
         font-weight: 700;
       }
     }
