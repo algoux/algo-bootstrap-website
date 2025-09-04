@@ -83,7 +83,7 @@ export default class Display extends Vue {
         <h2>Quickly configure your VScode programming environment</h2>
       </header>
       <div class="content-main-subtitle">
-        <DownloadButton :platform="platform" />
+        <DownloadButton :platform="platform" :is-home="true" />
         <router-link class="start" v-if="!isMobile" to="/about">
           <svg
             xmlns="http://www.w3.org/2000/svg"

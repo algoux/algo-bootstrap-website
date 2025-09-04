@@ -40,7 +40,11 @@ export default class Releases extends Vue {}
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 50px;
+  gap: 100px;
+
+  @media screen and (max-width: 768px) {
+    gap: 40px;
+  }
   align-items: center;
 
   &-header {
@@ -57,7 +61,7 @@ export default class Releases extends Vue {}
       flex-direction: column;
       gap: 40px;
     }
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
   }
 }

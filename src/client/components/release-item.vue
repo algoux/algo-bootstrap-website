@@ -69,27 +69,6 @@ export default class ReleaseItem extends Vue {
             ],
           },
         ];
-      case 'linux':
-        return [
-          {
-            type: '.deb',
-            items: [
-              { arch: 'x64', name: 'Ubuntu', link: 'https://example.com/ubuntu' },
-              { arch: 'arm64', name: 'Ubuntu ARM', link: 'https://example.com/ubuntu-arm' },
-            ],
-          },
-          {
-            type: '.rpm',
-            items: [
-              { arch: 'x64', name: 'Fedora', link: 'https://example.com/fedora' },
-              { arch: 'arm64', name: 'Fedora ARM', link: 'https://example.com/fedora-arm' },
-            ],
-          },
-          {
-            type: '.AppImage',
-            items: [{ arch: 'x64', name: 'Arch Linux', link: 'https://example.com/arch-linux' }],
-          },
-        ];
       default:
         return [];
     }
@@ -132,7 +111,7 @@ export default class ReleaseItem extends Vue {
 
 <style scoped lang="less">
 .container {
-  width: 30%;
+  width: 20%;
   @media screen and (max-width: 768px) {
     width: 100%;
   }
@@ -177,9 +156,10 @@ export default class ReleaseItem extends Vue {
     & ul {
       width: 100%;
       display: flex;
+      justify-content: center;
       font-size: var(--font-small-size);
       & li {
-        width: 100%;
+        width: 50%;
         height: fit-content;
         list-style: none;
         color: var(--font-secondary-color);
@@ -192,7 +172,6 @@ export default class ReleaseItem extends Vue {
           justify-content: center;
           align-items: center;
           font-weight: 700;
-          // background-color: red;
         }
 
         & .info {

@@ -34,7 +34,13 @@ export default class HomeFooter extends Vue {}
 <style scoped lang="less">
 footer {
     width: 100vw;
-    height: 350px;
+    height: auto;
+
+    @media screen and (max-width: 768px) {
+      height: auto;
+      padding: 40px 0;
+      
+    }
     display: flex;
     flex-direction: column;
     align-items: center;

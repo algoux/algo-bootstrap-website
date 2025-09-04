@@ -6,6 +6,7 @@ import windows from '@client/assets/images/windows.png';
 
 export default class DownloadButton extends Vue {
   @Prop({ type: String, default: 'Windows' }) platform!: string;
+  @Prop({ type: Boolean, default: false }) isHome: Boolean;
 
   get platformName(): string {
     return this.platform === 'macOS' ? 'macOS' : 'Windows';
@@ -28,12 +29,14 @@ export default class DownloadButton extends Vue {
   <div class="btn-container">
     <button class="download btn">
       <img :src="platformImage" alt="" />
-      Download for {{ platform }}
+      Download for {{ platformName }}
     </button>
-    <span class="download-all-platforms" v-if="platform === 'Windows' || platform === 'macOS'">
+    <span class="download-all-platforms" v-if="(platform === 'Windows' || platform === 'macOS') && isHome">
       Download for <router-link class="link" to="/releases">other platforms</router-link>.
     </span>
-    <span class="download-all-platform" v-else>Only Windows and macOS are supported.</span>
+    <span class="download-all-platforms" v-if="platform !== 'Windows' && platform !== 'macOS' && isHome"
+      >Only Windows and macOS are supported.</span
+    >
   </div>
 </template>
 
