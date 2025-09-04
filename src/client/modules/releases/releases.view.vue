@@ -32,6 +32,7 @@ export default class Releases extends Vue {}
 .release {
   width: 100%;
   height: 100dvh;
+  padding-top: 50px;
   @media screen and (max-width: 1200px) {
     height: auto;
     padding-top: 100px;

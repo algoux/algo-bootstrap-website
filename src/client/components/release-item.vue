@@ -166,7 +166,7 @@ export default class ReleaseItem extends Vue {
         display: flex;
         margin-top: 5px;
         & .type {
-          width: 50%;
+          width: 40%;
           height: fit-content;
           display: flex;
           justify-content: end;

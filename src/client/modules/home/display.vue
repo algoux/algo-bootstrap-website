@@ -193,7 +193,7 @@ export default class Display extends Vue {
   user-select: none;
   position: relative;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 760px) {
     flex-direction: column;
     height: 30%;
     gap: 10px;
@@ -261,6 +261,10 @@ export default class Display extends Vue {
   position: relative;
   width: 70%;
   height: 100vh;
+  @media screen and (max-height: 800px) {
+    height: 150vh;
+    
+  }
   @media screen and (max-width: 768px) {
     width: 100%;
     height: auto;
