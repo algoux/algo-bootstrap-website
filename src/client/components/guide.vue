@@ -162,7 +162,7 @@ export default class Guide extends Vue {
     height: fit-content;
     margin-top: 20px;
     padding: 20px 0px;
-    border-radius: 20px;
+    border-radius: 10px;
     overflow: hidden;
      @media screen and (max-width: 768px) {
       padding: 10px 0px;

@@ -128,6 +128,9 @@ export default class NavBar extends Vue {
               <router-link to="/" class="dropdown-item"> Home </router-link>
             </el-dropdown-item>
             <el-dropdown-item>
+              <router-link class="dropdown-item" to="/docs"> Docs </router-link>
+            </el-dropdown-item>
+            <el-dropdown-item>
               <a class="dropdown-item" href="#" target="_blank"> F&Q </a>
             </el-dropdown-item>
             <el-dropdown-item divided>

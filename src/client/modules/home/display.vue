@@ -5,6 +5,7 @@ import DownloadButton from '@client/components/download-button.vue';
 import { gsap } from 'gsap';
 import { SplitText } from 'gsap/SplitText';
 import { isMac, isWindows } from '@client/utils';
+import DataConfig from '@client/utils/data.config';
 
 @Options({
   components: {
@@ -15,7 +16,19 @@ export default class Display extends Vue {
   @Prop({ type: String, required: true }) readonly platform!: string;
   @Prop({ type: Boolean, default: false }) readonly isMobile!: boolean;
   isSupportedPlatform = isMac() || isWindows();
-  
+
+  private getLinks() {
+    return {
+      docs: DataConfig.DOCS_LINK,
+      faq: DataConfig.FAQ_LINK,
+      sdutacm: DataConfig.SDUTACM_LINK,
+      oj: DataConfig.OJ_LINK,
+      bilibili: DataConfig.BILIBILI_LINK,
+      oldWebsite: DataConfig.OLD_WEBSITE_LINK,
+      vscode: DataConfig.VSCODE_LINK,
+    };
+  }
+
   private splitTextAnimate() {
     const splitText_title = new SplitText('.content-main-title h1', {
       type: 'chars',
@@ -44,6 +57,10 @@ export default class Display extends Vue {
     });
   }
 
+  get getVersion() {
+    return process.env.VITE_VERSION;
+  }
+
   mounted() {
     gsap.registerPlugin(SplitText);
     this.splitTextAnimate();
@@ -55,7 +72,7 @@ export default class Display extends Vue {
   <div class="content">
     <main class="content-main">
       <header class="content-main-title">
-        <a href="https://ab.algoux.org/" target="_blank" class="old-version">
+        <a href="#" target="_blank" class="old-version">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -74,7 +91,7 @@ export default class Display extends Vue {
             <polyline points="3.29 7 12 12 20.71 7" />
             <path d="m7.5 4.27 9 5.15" />
           </svg>
-          <span>Old Website</span>
+          <span>version {{ getVersion }}</span>
         </a>
         <h1>
           Born for <br v-if="isMobile" />programming <br />
@@ -84,7 +101,7 @@ export default class Display extends Vue {
       </header>
       <div class="content-main-subtitle">
         <DownloadButton :platform="platform" :is-home="true" />
-        <router-link class="start" v-if="!isMobile" to="/about">
+        <a class="start" v-if="!isMobile" :href="getLinks().docs" target="_blank">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -101,18 +118,19 @@ export default class Display extends Vue {
             <rect x="2" y="6" width="14" height="12" rx="2" />
           </svg>
           Learn More
-        </router-link>
+        </a>
       </div>
       <div class="content-main-tools" v-if="!isMobile">
-        <p>version 1.1.0 for macOS</p>
+        <p v-if="isSupportedPlatform">version 1.1.0 for {{ platform }}</p>
         <p>
           By using AlgoBootstrap you need to download
-          <a href="https://code.visualstudio.com/" target="_blank">VScode</a> for your device.
+          <a :href="getLinks().vscode" target="_blank">VScode</a> for your device.
         </p>
-        <p>You can download historical versions from <a href="#" target="_blank">GitHub</a>.</p>
+        <p>You can download historical versions from <a :href="'#'" target="_blank">GitHub</a>.</p>
         <p>
-          Visit <a href="https://oj.sdutacm.cn/" target="_blank">SDUT OJ</a> to explore our products and contact us.
+          Visit <a :href="getLinks().oj" target="_blank">SDUT OJ</a> to explore our products and contact us.
         </p>
+        <p><a :href="getLinks().oldWebsite" class="old-web" target="_blank">Old website</a>.</p>
       </div>
     </main>
     <svg
@@ -135,6 +153,17 @@ export default class Display extends Vue {
 </template>
 
 <style scoped lang="less">
+.old-web {
+  color: var(--font-secondary-color);
+  text-decoration: none;
+  transition: color 0.5s ease;
+
+  &:hover {
+    color: var(--font-primary-color);
+    text-decoration: underline;
+  }
+}
+
 .mouse {
   position: absolute;
   bottom: 10%;
@@ -202,12 +231,12 @@ export default class Display extends Vue {
 }
 
 .old-version {
-  padding: 10px 15px;
+  padding: 5px 15px;
   @media screen and (min-width: 768px) {
-    padding: 15px 20px;
+    padding: 10px 20px;
   }
   @media screen and (min-width: 1700px) {
-    padding: 20px 25px;
+    padding: 15px 25px;
   }
   background-color: var(--glass-bg-color);
   backdrop-filter: blur(10px);
@@ -217,7 +246,7 @@ export default class Display extends Vue {
   font-size: var(--font-small-size);
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 10px;
   text-decoration: none;
   align-items: center;
   transition: color 0.5s ease;

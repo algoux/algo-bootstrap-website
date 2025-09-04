@@ -1,7 +1,23 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
+import DataConfig from '@client/utils/data.config';
 
-export default class HomeFooter extends Vue {}
+export default class HomeFooter extends Vue {
+
+  getLinks() {
+    return {
+      docs: DataConfig.DOCS_LINK,
+      faq: DataConfig.FAQ_LINK,
+      sdutacm: DataConfig.SDUTACM_LINK,
+      oj: DataConfig.OJ_LINK,
+      bilibili: DataConfig.BILIBILI_LINK,
+      oldWebsite: DataConfig.OLD_WEBSITE_LINK,
+      vscode: DataConfig.VSCODE_LINK,
+      bLue: DataConfig.BLUE_GITHUB_LINK,
+      atrior: DataConfig.ATRIOR_GITHUB_LINK,
+    };
+  }
+}
 </script>
 
 <template>
@@ -11,21 +27,21 @@ export default class HomeFooter extends Vue {}
           <img src="../assets/images/github.png" alt="">
           GitHub
         </a>
-        <a href="https://acm.sdut.edu.cn/" class="friend-link-item" target="_blank">
+        <a :href="getLinks().sdutacm" class="friend-link-item" target="_blank">
           <img src="../assets/images/sdutacm_logo_colorful.png" alt="">
           SDUTACM
         </a>
-        <a href="https://space.bilibili.com/1479542015" class="friend-link-item" target="_blank">
+        <a :href="getLinks().bilibili" class="friend-link-item" target="_blank">
           <img src="../assets/images/bilibili.png" alt="">
           bilibili
         </a>
-        <a href="#" class="friend-link-item" target="_blank">
+        <a :href="getLinks().docs" class="friend-link-item" target="_blank">
           <img src="../assets/images/docs.png" alt="">
           Help
         </a>
       </div>
         <p class="developer-info">
-            <span class="developer-info">Developed by &nbsp;<a href="https://github.com/dreamerblue" class="blue" target="_blank"><img src="@client/assets/blue.png" alt="" />&nbsp;bLue</a>&nbsp;×&nbsp;<a href="https://github.com/ATRIOR-LCL" class="atrior" target="_blank"><img src="@client/assets/atrior.png" alt="" />&nbsp;atrior</a>&nbsp;of the&nbsp;</span><a href="https://lcl.sdutacm.cn/" target="_blank">SDUTACM Lightcone Laboratory</a><span>&nbsp;with ❤️</span>
+            <span class="developer-info">Developed by &nbsp;<a :href="getLinks().bLue" class="blue" target="_blank"><img src="@client/assets/blue.png" alt="" />&nbsp;bLue</a>&nbsp;×&nbsp;<a :href="getLinks().atrior" class="atrior" target="_blank"><img src="@client/assets/atrior.png" alt="" />&nbsp;atrior</a>&nbsp;of the&nbsp;</span><a href="https://lcl.sdutacm.cn/" target="_blank">SDUTACM Lightcone Laboratory</a><span>&nbsp;with ❤️</span>
         </p>
         <p class="copyright">© 2008-2025 SDUTACM. All Rights Reserved.</p>
     </footer>
@@ -35,10 +51,12 @@ export default class HomeFooter extends Vue {}
 footer {
     width: 100vw;
     height: auto;
+    margin-top: 100px;
 
     @media screen and (max-width: 768px) {
       height: auto;
       padding: 40px 0;
+      margin-top: 50px;
       
     }
     display: flex;
