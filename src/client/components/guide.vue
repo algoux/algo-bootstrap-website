@@ -65,7 +65,6 @@ export default class Guide extends Vue {
       <a :href="guideProps.guideURL" class="split-text" ref="split-text-link">视频教程 ↗</a>
     </div>
     <div class="guide-display" ref="guide-video">
-      <div class="guide-display-mask"></div>
       <video class="guide-display-video" autoplay muted loop playsinline>
         <source src="../assets/video/demo.webm" />
       </video>
@@ -145,14 +144,10 @@ export default class Guide extends Vue {
     width: 100%;
     height: fit-content;
     margin-top: 20px;
-    padding: 20px 0px;
-    border-radius: 10px;
-    overflow: hidden;
     @media screen and (max-width: 768px) {
       padding: 10px 0px;
       border-radius: 5px;
     }
-    background-image: linear-gradient(to right bottom, #00b2b5 0%, #b500b8 100%);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
     position: relative;
     .hide(.5s);
@@ -160,17 +155,14 @@ export default class Guide extends Vue {
     justify-content: center;
     align-items: center;
     &-video {
-      width: 90%;
-      height: auto;
-      background-color: none;
-      z-index: 10;
-    }
-
-    &-mask {
-      position: absolute;
       width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.4);
+      height: auto;
+      background-color: transparent;
+      z-index: 10;
+
+      & source {
+        background-color: transparent;
+      }
     }
   }
 }

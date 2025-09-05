@@ -23,6 +23,7 @@ module.exports = defineConfig(({ mode }) => {
       'process.env': {
         BWCX_RUNTIME_SCOPE: JSON.stringify('client'),
         VITE_VERSION: env.VITE_VERSION || '1.0.0',
+        VITE_RELEASES_TIME: env.VITE_RELEASES_TIME || '2025-09-07',
       },
     },
     resolve: {

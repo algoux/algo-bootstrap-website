@@ -31,6 +31,52 @@ export default class Display extends Vue {
   get getVersion() {
     return process.env.VITE_VERSION;
   }
+
+  get getReleasesTime() {
+    return process.env.VITE_RELEASES_TIME;
+  }
+
+  isStartOpen = false;
+
+  handleStartClick(e: MouseEvent) {
+    e.preventDefault();
+    this.isStartOpen = !this.isStartOpen;
+  }
+
+  handleClickOutside = (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+    const dropdown = document.querySelector('.start-dropdown') as HTMLElement;
+    
+    // 如果点击的不是下拉菜单内部元素，则关闭菜单
+    if (dropdown && !dropdown.contains(target)) {
+      this.isStartOpen = false;
+    }
+  }
+
+  handleEscapeKey = (e: KeyboardEvent) => {
+    // 按 Escape 键关闭菜单
+    if (e.key === 'Escape') {
+      this.isStartOpen = false;
+    }
+  }
+
+  handleMenuItemClick = () => {
+    // 点击菜单项后关闭菜单
+    this.isStartOpen = false;
+  }
+
+  mounted() {
+    // 添加全局点击事件监听器
+    document.addEventListener('click', this.handleClickOutside);
+    // 添加键盘事件监听器
+    document.addEventListener('keydown', this.handleEscapeKey);
+  }
+
+  beforeUnmount() {
+    // 清理事件监听器
+    document.removeEventListener('click', this.handleClickOutside);
+    document.removeEventListener('keydown', this.handleEscapeKey);
+  }
 }
 </script>
 
@@ -43,38 +89,38 @@ export default class Display extends Vue {
           beginners -->
           为编程初学者而生
         </h1>
-        <h2>快速配置您的 VScode 编程环境</h2>
+        <h2>一键配置现代的 C++、Python 和 VSCode 编程环境</h2>
       </header>
       <div class="content-main-subtitle">
         <DownloadButton :platform="platform" :is-home="true" />
-        <a class="start" v-if="!isMobile" :href="getLinks().docs" target="_blank">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-video-icon lucide-video"
-          >
-            <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5" />
-            <rect x="2" y="6" width="14" height="12" rx="2" />
-          </svg>
-          Learn More
-        </a>
+        <div class="start-dropdown">
+          <a class="start" href="#" @click="handleStartClick">
+            快速上手
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-chevron-down-icon lucide-chevron-down"
+              :style="{ transform: isStartOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }"
+            >
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </a>
+          <div class="start-menu" :class="{ open: isStartOpen }">
+            <a class="start-menu-item" :href="getLinks().docs" target="_blank" @click="handleMenuItemClick">安装教程</a>
+            <a class="start-menu-item" :href="getLinks().faq" target="_blank" @click="handleMenuItemClick">使用技巧</a>
+          </div>
+        </div>
       </div>
       <div class="content-main-tools" v-if="!isMobile">
-        <p v-if="isSupportedPlatform">version 1.1.0 for {{ platform }}</p>
-        <p>
-          在使用 Algo Bootstrap 之前，请确保您已经安装了
-          <a :href="getLinks().vscode" target="_blank">VScode</a>
-        </p>
-        <p>
-          访问 <a :href="getLinks().algoUX" target="_blank">algoUX</a> 以探索我们的产品并与我们联系
-        </p>
+        <p v-if="isSupportedPlatform">版本 {{ getVersion }} 发布于 {{ getReleasesTime }}</p>
+        <p>访问 <a :href="getLinks().algoUX" target="_blank">algoUX</a> 以探索我们的产品并与我们联系</p>
         <p><a :href="getLinks().oldWebsite" class="old-web" target="_blank">old website</a></p>
       </div>
     </main>
@@ -98,14 +144,63 @@ export default class Display extends Vue {
 </template>
 
 <style scoped lang="less">
-.old-web {
+.start-dropdown {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.start-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  border-radius: 16px;
+  outline: 1px solid rgba(255,255,255,0.4);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  overflow: hidden;
+  opacity: 0;
+  height: 0;
+  pointer-events: none;
+  transition: height 0.3s, opacity 0.3s;
+  z-index: 10;
+}
+.start-menu.open {
+  opacity: 1;
+  height: calc(var(--font-small-size) * 4 + 20px);
+  pointer-events: auto;
+}
+.start-menu-item {
+  display: block;
+  width: 100%;
+  text-align: center;
+  height: calc(var(--font-small-size) * 2 + 10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--font-secondary-color);
   text-decoration: none;
+  font-size: var(--font-small-size);
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: color 0.3s, background 0.3s;
+}
+.start-menu-item:hover {
+  color: var(--font-primary-color);
+  background: rgba(255,255,255,0.15);
+}
+.old-web {
+  color: var(--font-secondary-color);
   transition: color 0.5s ease;
-
   &:hover {
     color: var(--font-primary-color);
-    text-decoration: underline;
   }
 }
 
@@ -141,11 +236,11 @@ export default class Display extends Vue {
   @media screen and (max-width: 760px) {
     flex-direction: column;
     height: 30%;
-    gap: 10px;
+    gap: 60px;
   }
 
   & .start {
-    padding: 10px 15px;
+    padding: 5px 15px;
     @media screen and (min-width: 768px) {
       padding: 15px 20px;
     }
@@ -181,7 +276,6 @@ export default class Display extends Vue {
   height: 100vh;
   @media screen and (max-height: 800px) {
     height: 150vh;
-    
   }
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -241,6 +335,7 @@ export default class Display extends Vue {
       flex-basis: 20%;
       width: 100%;
       user-select: none;
+      margin-top: 100px;
 
       & p {
         color: var(--font-secondary-color);

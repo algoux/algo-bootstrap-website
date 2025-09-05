@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { Vue } from 'vue-class-component';
 
 export default class NotFound extends Vue {}
@@ -10,7 +10,7 @@ export default class NotFound extends Vue {}
     <h2>
       Oops! The page you're looking for doesn't exist.
     </h2>
-    <router-link to="/">Go Home ↗</router-link>
+    <router-link to="/">返回主页 ↗</router-link>
   </div>
 </template>
 

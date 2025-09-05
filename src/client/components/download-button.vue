@@ -34,13 +34,13 @@ export default class DownloadButton extends Vue {
   <div class="btn-container">
     <button class="download btn">
       <img :src="platformImage" alt="" />
-      {{ isUnSupportedPlatform && isHome ? '下载可用版本' : 'Download for ' + platformName }}
+      {{ isUnSupportedPlatform && isHome ? '下载可用版本' : '下载 ' + platformName + "版本" }}
     </button>
     <span class="download-all-platforms" v-if="isSupportedPlatform && isHome">
-      Download for <router-link class="link" to="/releases">other platforms</router-link>.
+      下载 <router-link class="link" to="/releases">其他平台</router-link> 版本.
     </span>
     <span class="download-all-platforms" v-if="isUnSupportedPlatform && isHome"
-      >Only Windows and macOS are supported.</span
+      >仅支持 Windows 和 macOS.</span
     >
   </div>
 </template>
@@ -58,10 +58,10 @@ export default class DownloadButton extends Vue {
   bottom: 0;
   color: var(--font-secondary-color);
   font-size: var(--font-small-size);
-  transform: translateY(36px);
+  transform: translateY(38px);
 
   @media screen and (max-width: 768px) {
-    transform: translateY(48px);
+    transform: translateY(150%);
   }
 
   & .link {

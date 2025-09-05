@@ -9,6 +9,7 @@ import { getPlatformInfo } from '@client/utils';
 import Display from './display.vue';
 import GuideContainer from './guide-container.vue';
 import HomeFooter from '@client/components/home-footer.vue';
+import BackTop from '@client/components/backtop.vue';
 
 @View('/')
 @Options({
@@ -18,7 +19,7 @@ import HomeFooter from '@client/components/home-footer.vue';
     DownloadButton,
     Display,
     GuideContainer,
-    ElBacktop,
+    BackTop,
     HomeFooter,
   },
 })
@@ -64,7 +65,9 @@ export default class Home extends Vue {
       :rotation="30"
       :isMobile="homeState.isMobile"
     />
-    <el-backtop v-if="!homeState.isMobile" class="backtop" :right="100" :bottom="100" :style="{ zIndex: 999 }" />
+    <!-- <el-backtop v-if="!homeState.isMobile" class="backtop" :right="100" :bottom="100" :style="{ zIndex: 999 }" />
+      -->
+    <back-top v-if="!homeState.isMobile" />
   </div>
 </template>
 

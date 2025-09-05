@@ -76,7 +76,7 @@ export default class NavBar extends Vue {
             <path d="M8 11h8" />
             <path d="M8 7h6" />
           </svg>
-          Help
+          帮助文档
         </router-link>
         <a class="nav-link" href="#" target="_blank">
           <svg
@@ -94,7 +94,7 @@ export default class NavBar extends Vue {
             <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
             <path d="M12 17h.01" />
           </svg>
-          <span>F&Q</span>
+          <span>常见问题</span>
         </a>
         <router-link class="nav-link" to="/releases">
           <svg
@@ -113,7 +113,7 @@ export default class NavBar extends Vue {
             <path d="M12 8v8" />
             <path d="m8 12 4 4 4-4" />
           </svg>
-          <span>Download</span>
+          <span>下载</span>
         </router-link>
       </div>
       <el-dropdown v-else class="dropdown-style">
@@ -127,12 +127,10 @@ export default class NavBar extends Vue {
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="lucide lucide-hamburger-icon lucide-hamburger"
         >
-          <path d="M12 16H4a2 2 0 1 1 0-4h16a2 2 0 1 1 0 4h-4.25" />
-          <path d="M5 12a2 2 0 0 1-2-2 9 7 0 0 1 18 0 2 2 0 0 1-2 2" />
-          <path d="M5 16a2 2 0 0 0-2 2 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 2 2 0 0 0-2-2q0 0 0 0" />
-          <path d="m6.67 12 6.13 4.6a2 2 0 0 0 2.8-.4l3.15-4.2" />
+          <path d="M3 5h18" />
+          <path d="M3 12h18" />
+          <path d="M3 19h18" />
         </svg>
         <template #dropdown>
           <el-dropdown-menu>
@@ -140,13 +138,13 @@ export default class NavBar extends Vue {
               <router-link to="/" class="dropdown-item"> GitHub </router-link>
             </el-dropdown-item>
             <el-dropdown-item>
-              <router-link class="dropdown-item" to="/docs"> Help </router-link>
+              <router-link class="dropdown-item" to="/docs"> 帮助文档 </router-link>
             </el-dropdown-item>
             <el-dropdown-item>
-              <a class="dropdown-item" href="#" target="_blank"> F&Q </a>
+              <a class="dropdown-item" href="#" target="_blank"> 常见问题 </a>
             </el-dropdown-item>
             <el-dropdown-item divided>
-              <router-link class="dropdown-item" to="/releases"> Download </router-link>
+              <router-link class="dropdown-item" to="/releases"> 下载 </router-link>
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -211,7 +209,24 @@ export default class NavBar extends Vue {
   }
 
   :deep(.el-dropdown-item) {
-    background-color: var(--glass-bg-color) !important;
+    background-color: transparent !important;
+    background: transparent !important;
+    color: var(--font-secondary-color) !important;
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1) !important;
+      background: rgba(255, 255, 255, 0.1) !important;
+      color: var(--font-primary-color) !important;
+    }
+  }
+
+  // 设置下拉菜单容器的毛玻璃效果
+  :deep(.el-dropdown-menu) {
+    background-color: rgba(25, 25, 25, 0.8) !important;
+    backdrop-filter: blur(15px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
   }
 }
 
