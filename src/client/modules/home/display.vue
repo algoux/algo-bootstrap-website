@@ -2,8 +2,6 @@
 import { Vue, Options } from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 import DownloadButton from '@client/components/download-button.vue';
-import { gsap } from 'gsap';
-import { SplitText } from 'gsap/SplitText';
 import { isMac, isWindows } from '@client/utils';
 import DataConfig from '@client/utils/data.config';
 
@@ -26,6 +24,7 @@ export default class Display extends Vue {
       bilibili: DataConfig.BILIBILI_LINK,
       oldWebsite: DataConfig.OLD_WEBSITE_LINK,
       vscode: DataConfig.VSCODE_LINK,
+      algoUX: DataConfig.ALGOUX_LINK,
     };
   }
 
@@ -40,10 +39,11 @@ export default class Display extends Vue {
     <main class="content-main">
       <header class="content-main-title">
         <h1>
-          Born for <br v-if="isMobile" />programming <br />
-          beginners
+          <!-- Born for <br v-if="isMobile" />programming <br />
+          beginners -->
+          为编程初学者而生
         </h1>
-        <h2>Quickly configure your VScode programming environment</h2>
+        <h2>快速配置您的 VScode 编程环境</h2>
       </header>
       <div class="content-main-subtitle">
         <DownloadButton :platform="platform" :is-home="true" />
@@ -69,14 +69,13 @@ export default class Display extends Vue {
       <div class="content-main-tools" v-if="!isMobile">
         <p v-if="isSupportedPlatform">version 1.1.0 for {{ platform }}</p>
         <p>
-          By using AlgoBootstrap you need to download
-          <a :href="getLinks().vscode" target="_blank">VScode</a> for your device.
+          在使用 Algo Bootstrap 之前，请确保您已经安装了
+          <a :href="getLinks().vscode" target="_blank">VScode</a>
         </p>
-        <p>You can download historical versions from <a :href="'#'" target="_blank">GitHub</a>.</p>
         <p>
-          Visit <a :href="getLinks().oj" target="_blank">SDUT OJ</a> to explore our products and contact us.
+          访问 <a :href="getLinks().algoUX" target="_blank">algoUX</a> 以探索我们的产品并与我们联系
         </p>
-        <p><a :href="getLinks().oldWebsite" class="old-web" target="_blank">Old website</a>.</p>
+        <p><a :href="getLinks().oldWebsite" class="old-web" target="_blank">old website</a></p>
       </div>
     </main>
     <svg

@@ -6,6 +6,12 @@
 import { onMounted, onUnmounted, watch, computed, ref } from 'vue';
 import * as THREE from 'three';
 import { degToRad } from 'three/src/math/MathUtils.js';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+
 
 interface BeamsProps {
   beamWidth?: number;
@@ -16,6 +22,7 @@ interface BeamsProps {
   noiseIntensity?: number;
   scale?: number;
   rotation?: number;
+  isMobile?: boolean;
 }
 
 const props = withDefaults(defineProps<BeamsProps>(), {
@@ -26,10 +33,16 @@ const props = withDefaults(defineProps<BeamsProps>(), {
   speed: 2,
   noiseIntensity: 1.75,
   scale: 0.2,
-  rotation: 30
+  rotation: 30,
+  isMobile: false
 });
 
 const containerRef = ref<HTMLDivElement | null>(null);
+
+// 控制动画播放/暂停
+const controlAnimation = () => {
+  isAnimationPaused = props.isMobile;
+};
 
 let renderer: THREE.WebGLRenderer | null = null;
 let scene: THREE.Scene | null = null;
@@ -38,6 +51,7 @@ let beamMesh: THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial> | null = nu
 let directionalLight: THREE.DirectionalLight | null = null;
 let ambientLight: THREE.AmbientLight | null = null;
 let animationId: number | null = null;
+let isAnimationPaused = false;
 
 type UniformValue = THREE.IUniform<unknown> | unknown;
 
@@ -363,6 +377,16 @@ const initThreeJS = () => {
   const animate = () => {
     animationId = requestAnimationFrame(animate);
 
+    // 如果动画被暂停（移动端），只渲染静态画面，不更新时间
+    if (isAnimationPaused) {
+      // 移动端：只渲染，不更新动画
+      if (renderer && scene && camera) {
+        renderer.render(scene, camera);
+      }
+      return;
+    }
+
+    // 桌面端：更新动画并渲染
     if (beamMesh?.material) {
       beamMesh.material.uniforms.time.value += 0.1 * 0.016;
     }
@@ -429,8 +453,28 @@ watch(
   { deep: true }
 );
 
+// 监听 isMobile 变化
+watch(
+  () => props.isMobile,
+  () => {
+    controlAnimation();
+  },
+  { immediate: true }
+);
+
 onMounted(() => {
-  initThreeJS();
+  initThreeJS(); // 先初始化 Three.js 场景
+  controlAnimation(); // 然后控制动画状态
+  gsap.to(".beams-container", {
+    scrollTrigger: {
+      trigger: ".beams-container",
+      start: "top top",
+      end: "bottom top",
+      scrub: 1,
+    },
+    opacity: .1,
+    duration: 1,
+  });
 });
 
 onUnmounted(() => {

@@ -17,7 +17,7 @@ export default class Releases extends Vue {}
 <template>
   <div class="release">
     <header class="release-header">
-        Download AlgoBootstrap
+        Download Algo Bootstrap
     </header>
     <div class="release-container">
       <ReleaseItem :platform="'windows'" />

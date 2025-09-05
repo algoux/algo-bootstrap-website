@@ -6,15 +6,10 @@ export default class HomeFooter extends Vue {
 
   getLinks() {
     return {
-      docs: DataConfig.DOCS_LINK,
-      faq: DataConfig.FAQ_LINK,
+      rankland: DataConfig.RANKLAND_LINK,
       sdutacm: DataConfig.SDUTACM_LINK,
-      oj: DataConfig.OJ_LINK,
-      bilibili: DataConfig.BILIBILI_LINK,
-      oldWebsite: DataConfig.OLD_WEBSITE_LINK,
-      vscode: DataConfig.VSCODE_LINK,
-      bLue: DataConfig.BLUE_GITHUB_LINK,
-      atrior: DataConfig.ATRIOR_GITHUB_LINK,
+      algoUX: DataConfig.ALGOUX_LINK,
+      pasteThenAC: DataConfig.PASTE_THEN_AC_LINK,
     };
   }
 }
@@ -23,27 +18,24 @@ export default class HomeFooter extends Vue {
 <template>
     <footer>
       <div class="friend-link">
-        <a href="#" class="friend-link-item" target="_blank">
-          <img src="../assets/images/github.png" alt="">
-          GitHub
+        <a :href="getLinks().algoUX" class="friend-link-item" target="_blank">
+          <img src="../assets/images/algoUX.ico" alt="">
+          algoUX
         </a>
         <a :href="getLinks().sdutacm" class="friend-link-item" target="_blank">
           <img src="../assets/images/sdutacm_logo_colorful.png" alt="">
           SDUTACM
         </a>
-        <a :href="getLinks().bilibili" class="friend-link-item" target="_blank">
-          <img src="../assets/images/bilibili.png" alt="">
-          bilibili
+        <a :href="getLinks().rankland" class="friend-link-item" target="_blank">
+          <img src="../assets/images/rankland.ico" alt="">
+          RankLand
         </a>
-        <router-link to="/docs" class="friend-link-item">
-          <img src="../assets/images/docs.png" alt="">
-          Help
-        </router-link>
+        <a :href="getLinks().pasteThenAC" class="friend-link-item" target="_blank">
+          <img src="../assets/images/thenac.ico" alt="">
+          paste.then.ac
+        </a>
       </div>
-        <p class="developer-info">
-            <span class="developer-info">Developed by &nbsp;<a :href="getLinks().bLue" class="blue" target="_blank"><img src="@client/assets/blue.png" alt="" />&nbsp;bLue</a>&nbsp;×&nbsp;<a :href="getLinks().atrior" class="atrior" target="_blank"><img src="@client/assets/atrior.png" alt="" />&nbsp;atrior</a>&nbsp;of the&nbsp;</span><a href="https://lcl.sdutacm.cn/" target="_blank">SDUTACM Lightcone Laboratory</a><span>&nbsp;with ❤️</span>
-        </p>
-        <p class="copyright">© 2008-2025 SDUTACM. All Rights Reserved.</p>
+        <p class="copyright">© 2019-present algoUX. All Rights Reserved.</p>
     </footer>
 </template>
 
@@ -105,44 +97,6 @@ footer {
         color: var(--font-secondary-color);
         line-height: 1.5;
         font-size: var(--font-small-size);
-    }
-
-    & .developer-info {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      text-align: center;
-      line-height: 1.5;
-      font-size: var(--font-small-size);
-      color: var(--font-secondary-color);
-
-      & a {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        color: var(--font-primary-color);
-        text-decoration: none;
-        font-weight: 600;
-        cursor: pointer;
-        white-space: nowrap;
-
-        & img {
-            display: block;
-            height: calc(var(--font-small-size) * 1.5);
-        }
-        &.blue {
-          color: #409eff;
-        }
-
-        &.atrior {
-          color: #e6c623;
-        }
-      }
-
-      & span {
-        white-space: nowrap;
-      }
     }
 }
 </style>

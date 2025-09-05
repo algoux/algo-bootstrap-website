@@ -62,13 +62,32 @@ export default class Home extends Vue {
       :noise-intensity="1.75"
       :scale="0.15"
       :rotation="30"
-      v-if="!homeState.isMobile"
+      :isMobile="homeState.isMobile"
     />
-    <el-backtop v-if="!homeState.isMobile" :right="100" :bottom="100" :style="{ zIndex: 999 }" />
+    <el-backtop v-if="!homeState.isMobile" class="backtop" :right="100" :bottom="100" :style="{ zIndex: 999 }" />
   </div>
 </template>
 
 <style scoped lang="less">
+.backtop {
+  background: var(--glass-border-color) !important;
+  backdrop-filter: blur(10px);
+
+  :deep(.el-icon) {
+    color: #ffffff !important;
+  }
+  
+  :deep(svg) {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+  }
+  
+  :deep(svg path) {
+    fill: #ffffff !important;
+    stroke: #ffffff !important;
+  }
+}
+
 .home {
   width: 100vw;
   height: auto;

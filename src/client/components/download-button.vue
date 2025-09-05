@@ -3,10 +3,15 @@ import { Vue } from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 import macOS from '@client/assets/images/macos.png';
 import windows from '@client/assets/images/windows.png';
+import download from '@client/assets/images/download.png';
 
 export default class DownloadButton extends Vue {
   @Prop({ type: String, default: 'Windows' }) platform!: string;
   @Prop({ type: Boolean, default: false }) isHome: Boolean;
+
+  isSupportedPlatform = this.platform === 'windows' || this.platform === 'macOS';
+
+  isUnSupportedPlatform = this.platform !== 'windows' && this.platform !== 'macOS';
 
   get platformName(): string {
     return this.platform === 'macOS' ? 'macOS' : 'Windows';
@@ -14,12 +19,12 @@ export default class DownloadButton extends Vue {
 
   get platformImage(): string {
     switch (this.platform) {
-      case 'Windows':
+      case 'windows':
         return windows;
       case 'macOS':
         return macOS;
       default:
-        return windows;
+        return download;
     }
   }
 }
@@ -29,12 +34,12 @@ export default class DownloadButton extends Vue {
   <div class="btn-container">
     <button class="download btn">
       <img :src="platformImage" alt="" />
-      Download for {{ platformName }}
+      {{ isUnSupportedPlatform && isHome ? '下载可用版本' : 'Download for ' + platformName }}
     </button>
-    <span class="download-all-platforms" v-if="(platform === 'Windows' || platform === 'macOS') && isHome">
+    <span class="download-all-platforms" v-if="isSupportedPlatform && isHome">
       Download for <router-link class="link" to="/releases">other platforms</router-link>.
     </span>
-    <span class="download-all-platforms" v-if="platform !== 'Windows' && platform !== 'macOS' && isHome"
+    <span class="download-all-platforms" v-if="isUnSupportedPlatform && isHome"
       >Only Windows and macOS are supported.</span
     >
   </div>

@@ -76,7 +76,7 @@ export default class Guide extends Vue {
 <style scoped lang="less">
 .text-show {
   opacity: 1 !important;
-  transform: translateX(0%) translateY(0%) !important;
+  transform: translateY(0%) !important;
 }
 .guide {
   width: 55%;
@@ -91,10 +91,11 @@ export default class Guide extends Vue {
   display: flex;
   flex-direction: column;
   position: relative;
-  .hide() {
+  .hide(@delay: 0s) {
     opacity: 0;
-    transform: translateX(100px);
+    transform: translateY(100px);
     transition: transform 0.5s ease, opacity 0.3s ease;
+    transition-delay: @delay;
   }
 
   &-desc {
@@ -113,7 +114,7 @@ export default class Guide extends Vue {
       align-items: center;
       font-weight: 600;
       max-width: 100%;
-      font-size: var(--font-medium-size);
+      font-size: calc(var(--font-medium-size) * 1.5);
       color: var(--font-primary-color);
       margin-bottom: 10px;
       position: relative;
@@ -127,8 +128,7 @@ export default class Guide extends Vue {
       text-align: start;
       font-size: var(--font-medium-size);
       color: var(--font-secondary-color);
-      .hide();
-      transition-delay: 0.2s;
+      .hide(0.2s);
     }
 
     & a {
@@ -137,8 +137,7 @@ export default class Guide extends Vue {
       font-weight: 500;
       color: #4daafc;
       line-height: 1.5;
-      .hide();
-      transition-delay: 0.4s;
+      .hide(0.4s);
     }
   }
 
@@ -149,16 +148,14 @@ export default class Guide extends Vue {
     padding: 20px 0px;
     border-radius: 10px;
     overflow: hidden;
-     @media screen and (max-width: 768px) {
+    @media screen and (max-width: 768px) {
       padding: 10px 0px;
-      border-radius: 10px;
+      border-radius: 5px;
     }
     background-image: linear-gradient(to right bottom, #00b2b5 0%, #b500b8 100%);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
     position: relative;
-    .hide();
-    transform: translateY(20%);
-    transition: transform 0.5s ease, opacity 0.5s ease !important;
+    .hide(.5s);
     display: flex;
     justify-content: center;
     align-items: center;

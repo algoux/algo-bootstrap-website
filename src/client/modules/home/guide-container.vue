@@ -81,31 +81,30 @@ export default class GuideContainer extends Vue {}
     width: 100%;
     height: fit-content;
     @media screen and (max-width: 768px) {
-      height: fit-content;
       gap: 10px;
     }
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-weight: 700;
     gap: 20px;
+    font-size: 55px !important;
+    font-weight: 700;
+    font-weight: 700;
+    line-height: 1.5;
+
+    @media screen and (max-width: 1700px) {
+      font-size: 35px !important;
+    }
+
+    @media screen and (max-width: 768px) {
+      font-size: 25px !important;
+    }
 
     &-font {
       width: fit-content;
       height: fit-content;
       color: var(--font-primary-color);
-      font-size: 50px !important;
-      font-weight: 700;
-      line-height: 1.2;
-      
-      @media screen and (max-width: 1700px) {
-        font-size: 30px !important;
-      }
-      
-      @media screen and (max-width: 768px) {
-        font-size: 25px !important;
-      }
     }
 
     & .video-link {

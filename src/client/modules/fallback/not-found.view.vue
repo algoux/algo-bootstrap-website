@@ -7,7 +7,9 @@ export default class NotFound extends Vue {}
 <template>
   <div class="fallback">
     <h1>404</h1>
-    <h2>前面的区域以后再来探索吧 ☺️</h2>
+    <h2>
+      Oops! The page you're looking for doesn't exist.
+    </h2>
     <router-link to="/">Go Home ↗</router-link>
   </div>
 </template>

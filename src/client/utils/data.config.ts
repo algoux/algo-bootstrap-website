@@ -22,4 +22,10 @@ export default class DataConfig {
     static readonly BLUE_GITHUB_LINK = "https://github.com/dreamerblue"
 
     static readonly ATRIOR_GITHUB_LINK = "https://github.com/ATRIOR-LCL"
+
+    static readonly ALGOUX_LINK = "https://algoux.org/"
+
+    static readonly PASTE_THEN_AC_LINK = "https://paste.then.ac/"
+
+    static readonly RANKLAND_LINK = "https://rl.algoux.org/"
 }
