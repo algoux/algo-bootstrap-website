@@ -57,9 +57,7 @@ export default class Guide extends Vue {
   <div class="guide" ref="guide">
     <div class="guide-desc">
       <h1 class="split-text" ref="split-text-title">
-        <img src="@client/assets/images/star.png" alt="" />
         {{ guideProps.title }}
-        <img src="@client/assets/images/star.png" alt="" />
       </h1>
       <p class="split-text" ref="split-text-desc">
         {{ guideProps.description }}
@@ -120,19 +118,6 @@ export default class Guide extends Vue {
       margin-bottom: 10px;
       position: relative;
       .hide();
-      & img {
-        position: absolute;
-        height: var(--font-medium-size);
-      }
-      & img:nth-child(1) {
-        left: 0;
-        transform: translateX(-120%);
-      }
-
-      & img:nth-child(2) {
-        right: 0;
-        transform: translateX(120%);
-      }
     }
 
     & p {

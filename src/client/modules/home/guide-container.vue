@@ -13,7 +13,7 @@ export default class GuideContainer extends Vue {}
 <template>
   <div class="about">
     <header class="about-title">
-      <div class="about-title-font">Feature 🎉</div>
+      <div class="about-title-font">Feature</div>
     </header>
     <div class="about-guide">
       <Guide

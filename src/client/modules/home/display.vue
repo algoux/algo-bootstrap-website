@@ -29,41 +29,8 @@ export default class Display extends Vue {
     };
   }
 
-  private splitTextAnimate() {
-    const splitText_title = new SplitText('.content-main-title h1', {
-      type: 'chars',
-      linesClass: 'chars',
-    });
-
-    const splitText_subtitle = new SplitText('.content-main-title h2', {
-      type: 'words',
-      linesClass: 'words',
-    });
-    gsap.from(splitText_title.chars, {
-      duration: 0.6,
-      x: 150,
-      opacity: 0,
-      ease: 'power4',
-      stagger: 0.04,
-    });
-    gsap.from(splitText_subtitle.words, {
-      duration: 0.7,
-      y: -100,
-      opacity: 0,
-      rotation: 'random(-80, 80)',
-      ease: 'back',
-      delay: 1,
-      stagger: 0.15,
-    });
-  }
-
   get getVersion() {
     return process.env.VITE_VERSION;
-  }
-
-  mounted() {
-    gsap.registerPlugin(SplitText);
-    this.splitTextAnimate();
   }
 }
 </script>
@@ -72,27 +39,6 @@ export default class Display extends Vue {
   <div class="content">
     <main class="content-main">
       <header class="content-main-title">
-        <a href="#" target="_blank" class="old-version">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path
-              d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
-            />
-            <path d="M12 22V12" />
-            <polyline points="3.29 7 12 12 20.71 7" />
-            <path d="m7.5 4.27 9 5.15" />
-          </svg>
-          <span>version {{ getVersion }}</span>
-        </a>
         <h1>
           Born for <br v-if="isMobile" />programming <br />
           beginners
@@ -230,33 +176,6 @@ export default class Display extends Vue {
   }
 }
 
-.old-version {
-  padding: 5px 15px;
-  @media screen and (min-width: 768px) {
-    padding: 10px 20px;
-  }
-  @media screen and (min-width: 1700px) {
-    padding: 15px 25px;
-  }
-  background-color: var(--glass-bg-color);
-  backdrop-filter: blur(10px);
-  border-radius: 100px;
-  border: 1px solid var(--glass-border-color);
-  color: var(--font-secondary-color);
-  font-size: var(--font-small-size);
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  text-decoration: none;
-  align-items: center;
-  transition: color 0.5s ease;
-  & svg {
-    height: calc(var(--font-small-size) * 1.5);
-  }
-  &:hover {
-    color: var(--font-primary-color);
-  }
-}
 .content {
   position: relative;
   width: 70%;
