@@ -335,7 +335,7 @@ export default class Display extends Vue {
       flex-basis: 20%;
       width: 100%;
       user-select: none;
-      margin-top: 100px;
+      margin-top: 50px;
 
       & p {
         color: var(--font-secondary-color);

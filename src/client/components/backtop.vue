@@ -42,20 +42,20 @@ export default class BackTop extends Vue {
 </script>
 
 <template>
-  <div class="backtop" ref="backtop">
+  <div class="my-backtop" ref="backtop">
     <div class="backtop-inner"></div>
   </div>
 </template>
 
 <style scoped lang="less">
-.backtop {
+.my-backtop {
   position: fixed;
   bottom: 100px;
   right: 100px;
   width: 40px;
   height: 40px;
-  background-color: var(--glass-bg-color);
-  backdrop-filter: blur(10px);
+  background: var(--glass-bg-color) !important;
+  backdrop-filter: blur(15px);
   border: 1px solid var(--glass-border-color);
   border-radius: 50%;
   cursor: pointer;
@@ -64,7 +64,7 @@ export default class BackTop extends Vue {
   justify-content: center;
   opacity: 0;
   z-index: 999;
-  transition: background-color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
+  transition: opacity 0.5s ease;
 
   .backtop-inner {
     width: 10px;

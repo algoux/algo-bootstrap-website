@@ -53,10 +53,7 @@ export default class Releases extends Vue {
     font-size: var(--font-large-size);
     font-weight: 700;
     color: var(--font-primary-color);
-    transform: translateY(150px);
-    @media screen and (max-width: 768px) {
-      transform: translateY(100px);
-    }
+    transform: translateY(100px);
   }
 
   &-container {

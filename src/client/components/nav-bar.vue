@@ -24,7 +24,7 @@ export default class NavBar extends Vue {
   }
 
   checkMobile() {
-    this.isMobile = window.innerWidth < 768;
+    this.isMobile = window.innerWidth < 900;
   }
 }
 </script>
@@ -212,7 +212,7 @@ export default class NavBar extends Vue {
     background-color: transparent !important;
     background: transparent !important;
     color: var(--font-secondary-color) !important;
-    
+
     &:hover {
       background-color: rgba(255, 255, 255, 0.1) !important;
       background: rgba(255, 255, 255, 0.1) !important;
@@ -231,9 +231,15 @@ export default class NavBar extends Vue {
 }
 
 .content-header {
-  height: 70px;
+  height: 60px;
+  @media screen and (max-width: 900px) {
+    position: fixed;
+    top: 0;
+  }
   @media screen and (max-width: 768px) {
     height: 40px;
+    position: fixed;
+    top: 0;
   }
   width: 100vw;
   display: flex;
@@ -243,16 +249,12 @@ export default class NavBar extends Vue {
   top: 20px;
   z-index: 20;
 
-  @media screen and (max-width: 768px) {
-    position: fixed;
-    top: 0;
-  }
   &-navbar {
     width: 80vw;
     height: 100%;
     border-radius: 100px;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 900px) {
       width: 100vw;
       border-radius: 0;
       outline: none;
@@ -294,7 +296,7 @@ export default class NavBar extends Vue {
       display: flex;
       justify-content: left;
       padding-left: 50px;
-      @media screen and (max-width: 768px) {
+      @media screen and (max-width: 900px) {
         flex-basis: 100%;
         justify-content: center;
         padding-left: 0;
@@ -317,7 +319,7 @@ export default class NavBar extends Vue {
           z-index: -1;
           filter: blur(30px);
           border-radius: 20px;
-          background-color: #999cff;
+          background-color: #ffffff;
           background-image: radial-gradient(at 85% 51%, hsla(60, 60%, 61%, 1) 0px, transparent 50%),
             radial-gradient(at 74% 68%, hsla(235, 69%, 77%, 1) 0px, transparent 50%),
             radial-gradient(at 64% 79%, hsla(284, 72%, 73%, 1) 0px, transparent 50%),
