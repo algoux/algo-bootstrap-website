@@ -46,24 +46,24 @@ export default class Display extends Vue {
   handleClickOutside = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
     const dropdown = document.querySelector('.start-dropdown') as HTMLElement;
-    
+
     // 如果点击的不是下拉菜单内部元素，则关闭菜单
     if (dropdown && !dropdown.contains(target)) {
       this.isStartOpen = false;
     }
-  }
+  };
 
   handleEscapeKey = (e: KeyboardEvent) => {
     // 按 Escape 键关闭菜单
     if (e.key === 'Escape') {
       this.isStartOpen = false;
     }
-  }
+  };
 
   handleMenuItemClick = () => {
     // 点击菜单项后关闭菜单
     this.isStartOpen = false;
-  }
+  };
 
   mounted() {
     // 添加全局点击事件监听器
@@ -95,6 +95,20 @@ export default class Display extends Vue {
         <DownloadButton :platform="platform" :is-home="true" />
         <div class="start-dropdown">
           <a class="start" href="#" @click="handleStartClick">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5" />
+              <rect x="2" y="6" width="14" height="12" rx="2" />
+            </svg>
             快速上手
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -160,8 +174,8 @@ export default class Display extends Vue {
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(15px);
   border-radius: 16px;
-  outline: 1px solid rgba(255,255,255,0.4);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  outline: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   overflow: hidden;
   opacity: 0;
   height: 0;
@@ -194,7 +208,7 @@ export default class Display extends Vue {
 }
 .start-menu-item:hover {
   color: var(--font-primary-color);
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
 }
 .old-web {
   color: var(--font-secondary-color);

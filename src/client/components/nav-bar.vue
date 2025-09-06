@@ -231,7 +231,7 @@ export default class NavBar extends Vue {
 }
 
 .content-header {
-  height: 60px;
+  height: 70px;
   @media screen and (max-width: 900px) {
     position: fixed;
     top: 0;
@@ -285,7 +285,7 @@ export default class NavBar extends Vue {
         stroke: var(--font-primary-color);
       }
 
-      .goHome {
+      & .logo .goHome {
         color: var(--font-primary-color);
       }
     }
@@ -303,8 +303,8 @@ export default class NavBar extends Vue {
       }
       align-items: center;
       &-icon {
-        width: 50px;
-        height: 50px;
+        height: 90%;
+        aspect-ratio: 1;
         position: relative;
         display: flex;
         justify-content: center;
@@ -330,17 +330,17 @@ export default class NavBar extends Vue {
         }
 
         & img {
-          width: auto;
-          height: 80%;
-          display: block;
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
         }
       }
 
       & .goHome {
         margin-left: 10px;
-        font-size: var(--font-medium-size);
+        font-size: calc(var(--font-medium-size) * 1.2);
         color: var(--font-secondary-color);
-
+        transition: color 0.5s ease;
         @media screen and (max-width: 768px) {
           color: var(--font-primary-color) !important;
         }
@@ -354,7 +354,6 @@ export default class NavBar extends Vue {
       display: flex;
       justify-content: end;
       align-items: center;
-      // background-color: red;
       gap: 20px;
       padding-right: 50px;
 
