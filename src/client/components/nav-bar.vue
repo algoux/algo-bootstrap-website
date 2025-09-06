@@ -232,7 +232,7 @@ export default class NavBar extends Vue {
 
 .content-header {
   height: 70px;
-  @media screen and (max-width: 900px) {
+  @media screen and (max-width: 1000px) {
     position: fixed;
     top: 0;
   }
@@ -254,7 +254,7 @@ export default class NavBar extends Vue {
     height: 100%;
     border-radius: 100px;
 
-    @media screen and (max-width: 900px) {
+    @media screen and (max-width: 1000px) {
       width: 100vw;
       border-radius: 0;
       outline: none;
@@ -338,10 +338,12 @@ export default class NavBar extends Vue {
 
       & .goHome {
         margin-left: 10px;
-        font-size: calc(var(--font-medium-size) * 1.2);
+        font-size: 36px;
+        white-space: nowrap;
         color: var(--font-secondary-color);
         transition: color 0.5s ease;
         @media screen and (max-width: 768px) {
+          font-size: 20px;
           color: var(--font-primary-color) !important;
         }
         text-decoration: none;
