@@ -269,6 +269,7 @@ export default class NavBar extends Vue {
     color: var(--font-secondary-color);
     transition: color 0.5s ease;
     font-size: var(--font-medium-size);
+
     & .nav-link {
       color: var(--font-secondary-color);
     }
@@ -303,7 +304,7 @@ export default class NavBar extends Vue {
       }
       align-items: center;
       &-icon {
-        height: 90%;
+        height: calc(var(--font-medium-size) * 1.6);
         aspect-ratio: 1;
         position: relative;
         display: flex;
@@ -338,7 +339,7 @@ export default class NavBar extends Vue {
 
       & .goHome {
         margin-left: 10px;
-        font-size: 36px;
+        font-size: var(--font-medium-size);
         white-space: nowrap;
         color: var(--font-secondary-color);
         transition: color 0.5s ease;

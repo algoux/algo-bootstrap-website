@@ -43,6 +43,7 @@ footer {
   width: 100vw;
   height: auto;
   margin-top: 100px;
+  margin-bottom: 50px;
   user-select: none;
 
   @media screen and (max-width: 768px) {

@@ -92,7 +92,7 @@ export default class Guide extends Vue {
   position: relative;
   .hide(@delay: 0s) {
     opacity: 0;
-    transform: translateY(100px);
+    transform: translateY(30px);
     transition: transform 0.5s ease, opacity 0.3s ease;
     transition-delay: @delay;
   }
