@@ -45,8 +45,7 @@ export default class Releases extends Vue {
   background-color: var(--bg-color);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-
+  justify-content: space-around;
   align-items: center;
 
   &-header {
@@ -71,7 +70,10 @@ export default class Releases extends Vue {
   }
   .old-version {
       position: absolute;
-      bottom: 200px;
+      bottom: 300px;
+      @media screen and (max-width: 1200px) {
+        bottom: 250px;
+      }
       transform: translateY(50px);
       font-size: var(--font-small-size);
       color: var(--font-secondary-color);

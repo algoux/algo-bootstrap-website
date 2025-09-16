@@ -105,12 +105,14 @@ export default class Display extends Vue {
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
+              class="start-svg"
             >
               <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5" />
               <rect x="2" y="6" width="14" height="12" rx="2" />
             </svg>
             快速上手
             <svg
+              class="start-svg lucide lucide-chevron-down-icon lucide-chevron-down"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
@@ -120,7 +122,6 @@ export default class Display extends Vue {
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="lucide lucide-chevron-down-icon lucide-chevron-down"
               :style="{ transform: isStartOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }"
             >
               <path d="m6 9 6 6 6-6" />
@@ -254,14 +255,13 @@ export default class Display extends Vue {
   }
 
   & .start {
-    padding: 5px 15px;
+    padding: 10px 15px;
     @media screen and (min-width: 768px) {
       padding: 15px 20px;
     }
     @media screen and (min-width: 1700px) {
       padding: 20px 25px;
     }
-    background-color: transparent;
     border: none;
     outline: none;
     border-radius: 100px;
@@ -281,6 +281,17 @@ export default class Display extends Vue {
     &:hover {
       color: var(--font-primary-color);
     }
+  }
+
+  & .start-svg {
+    width: calc(var(--font-small-size) * 1.5);
+    height: calc(var(--font-small-size) * 1.5);
+    min-width: 0;
+    min-height: 0;
+    max-width: 100%;
+    max-height: 100%;
+    display: inline-block;
+    vertical-align: middle;
   }
 }
 

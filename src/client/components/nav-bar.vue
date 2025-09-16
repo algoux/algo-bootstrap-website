@@ -236,11 +236,6 @@ export default class NavBar extends Vue {
     position: fixed;
     top: 0;
   }
-  @media screen and (max-width: 768px) {
-    height: 40px;
-    position: fixed;
-    top: 0;
-  }
   width: 100vw;
   display: flex;
   justify-content: center;
@@ -287,6 +282,7 @@ export default class NavBar extends Vue {
       }
 
       & .logo .goHome {
+        font-size: var(--font-small-size);
         color: var(--font-primary-color);
       }
     }
@@ -294,6 +290,7 @@ export default class NavBar extends Vue {
     & .logo {
       flex-basis: 40%;
       height: 100%;
+      // background-color: red;
       display: flex;
       justify-content: left;
       padding-left: 50px;
@@ -313,8 +310,8 @@ export default class NavBar extends Vue {
         &::after {
           content: '';
           position: absolute;
-          width: 110%;
-          height: 100%;
+          width: calc(var(--font-medium-size) * 1.6);
+          height: calc(var(--font-medium-size) * 1.6);
           left: 0;
           bottom: 0;
           z-index: -1;
@@ -331,15 +328,14 @@ export default class NavBar extends Vue {
         }
 
         & img {
-          width: 100%;
-          height: 100%;
+          width: calc(var(--font-medium-size) * 1.2);
           object-fit: contain;
         }
       }
 
       & .goHome {
         margin-left: 10px;
-        font-size: var(--font-medium-size);
+        font-size: var(--font-small-size);
         white-space: nowrap;
         color: var(--font-secondary-color);
         transition: color 0.5s ease;
@@ -368,6 +364,7 @@ export default class NavBar extends Vue {
         justify-content: center;
         align-items: center;
         transition: color 0.5s ease;
+        font-size: var(--font-small-size);
 
         & svg {
           width: 20px;
