@@ -3,7 +3,7 @@ import { Vue, Options } from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 import DownloadButton from '@client/components/download-button.vue';
 import { isMac, isWindows } from '@client/utils';
-import DataConfig from '@client/utils/data.config';
+import { DataConfig } from '@client/utils/data.config';
 
 @Options({
   components: {
@@ -12,6 +12,7 @@ import DataConfig from '@client/utils/data.config';
 })
 export default class Display extends Vue {
   @Prop({ type: String, required: true }) readonly platform!: string;
+  @Prop({ type: String, default: "arm64"}) readonly arch!: string;
   @Prop({ type: Boolean, default: false }) readonly isMobile!: boolean;
   isSupportedPlatform = isMac() || isWindows();
 
@@ -46,34 +47,27 @@ export default class Display extends Vue {
   handleClickOutside = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
     const dropdown = document.querySelector('.start-dropdown') as HTMLElement;
-
-    // 如果点击的不是下拉菜单内部元素，则关闭菜单
     if (dropdown && !dropdown.contains(target)) {
       this.isStartOpen = false;
     }
   };
 
   handleEscapeKey = (e: KeyboardEvent) => {
-    // 按 Escape 键关闭菜单
     if (e.key === 'Escape') {
       this.isStartOpen = false;
     }
   };
 
   handleMenuItemClick = () => {
-    // 点击菜单项后关闭菜单
     this.isStartOpen = false;
   };
 
-  mounted() {
-    // 添加全局点击事件监听器
+  created() {
     document.addEventListener('click', this.handleClickOutside);
-    // 添加键盘事件监听器
     document.addEventListener('keydown', this.handleEscapeKey);
   }
 
   beforeUnmount() {
-    // 清理事件监听器
     document.removeEventListener('click', this.handleClickOutside);
     document.removeEventListener('keydown', this.handleEscapeKey);
   }
@@ -84,13 +78,11 @@ export default class Display extends Vue {
   <div class="content">
     <main class="content-main">
       <header class="content-main-title">
-        <h1>
-          为编程初学者而生
-        </h1>
+        <h1>为编程初学者而生</h1>
         <h2>一键配置现代的 C++、Python 和 VSCode 编程环境</h2>
       </header>
       <div class="content-main-subtitle">
-        <DownloadButton :platform="platform" :is-home="true" />
+        <DownloadButton :platform="platform" :is-home="true" :arch="arch" />
         <div class="start-dropdown">
           <a class="start" href="#" @click="handleStartClick">
             <svg

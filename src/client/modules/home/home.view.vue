@@ -51,7 +51,7 @@ export default class Home extends Vue {
 
 <template>
   <div class="home">
-    <Display :platform="this.getPlatform.os" :isMobile="homeState.isMobile" />
+    <Display :platform="this.getPlatform.os" :arch="this.getPlatform.architecture"  :isMobile="homeState.isMobile" />
     <GuideContainer />
     <HomeFooter />
     <Beams
@@ -76,12 +76,12 @@ export default class Home extends Vue {
   :deep(.el-icon) {
     color: #ffffff !important;
   }
-  
+
   :deep(svg) {
     color: #ffffff !important;
     fill: #ffffff !important;
   }
-  
+
   :deep(svg path) {
     fill: #ffffff !important;
     stroke: #ffffff !important;

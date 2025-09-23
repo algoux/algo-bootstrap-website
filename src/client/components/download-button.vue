@@ -4,42 +4,53 @@ import { Prop } from 'vue-property-decorator';
 import macOS from '@client/assets/images/macos.png';
 import windows from '@client/assets/images/windows.png';
 import download from '@client/assets/images/download.png';
+import platformUtil from '@client/utils/platform.util';
+import { ReleasesConfig } from '@client/utils/data.config';
 
 export default class DownloadButton extends Vue {
   @Prop({ type: String, default: 'Windows' }) platform!: string;
+  @Prop({ type: String, default: "arm64"}) arch!: string;
   @Prop({ type: Boolean, default: false }) isHome: Boolean;
 
-  isSupportedPlatform = this.platform === 'windows' || this.platform === 'macOS';
+  isSupportedPlatform = this.platform === 'windows' || this.platform === 'mac';
 
-  isUnSupportedPlatform = this.platform !== 'windows' && this.platform !== 'macOS';
+  isUnsupportedPlatform = this.platform !== 'windows' && this.platform !== 'mac';
 
   get platformName(): string {
-    return this.platform === 'macOS' ? 'macOS' : 'Windows';
+    return this.platform === 'mac' ? 'mac' : 'windows';
   }
 
   get platformImage(): string {
     switch (this.platform) {
       case 'windows':
         return windows;
-      case 'macOS':
+      case 'mac':
         return macOS;
       default:
         return download;
     }
+  }
+
+  private handleDownload() {
+    const version = process.env.VITE_VERSION;
+    const releasesConfig = new ReleasesConfig(version as string);
+    let downloadLink = releasesConfig.downloadSingleSystemLink(this.platform, this.arch);
+    console.log("Download link:", downloadLink);
+    // window.open(downloadLink, '_blank');
   }
 }
 </script>
 
 <template>
   <div class="btn-container">
-    <button class="download btn">
+    <button class="download btn" @click="handleDownload">
       <img :src="platformImage" alt="" />
-      {{ isUnSupportedPlatform && isHome ? '下载可用版本' : '下载 ' + platformName + "版本" }}
+      {{ isUnsupportedPlatform && isHome ? '下载可用版本' : '下载 ' + platformName + "版本" }}
     </button>
     <span class="download-all-platforms" v-if="isSupportedPlatform && isHome">
       下载 <router-link class="link" to="/releases">其他平台</router-link> 版本
     </span>
-    <span class="download-all-platforms" v-if="isUnSupportedPlatform && isHome"
+    <span class="download-all-platforms" v-if="isUnsupportedPlatform && isHome"
       >仅支持 Windows 和 macOS.</span
     >
   </div>

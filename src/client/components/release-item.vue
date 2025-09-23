@@ -3,8 +3,9 @@ import { Vue, Options } from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 import windows from '@client/assets/images/windows_colorful.png';
 import macOS from '@client/assets/images/macos_colorful.png';
-import linux from '@client/assets/images/linux_colorful.png';
 import DownloadButton from './download-button.vue';
+import { ReleasesConfig } from '@client/utils/data.config';
+import platformUtil from '@client/utils/platform.util';
 
 @Options({
   components: {
@@ -18,26 +19,20 @@ export default class ReleaseItem extends Vue {
     switch (this.platform) {
       case 'windows':
         return windows;
-      case 'macOS':
+      case 'mac':
         return macOS;
-      case 'linux':
-        return linux;
       default:
         return '';
     }
   }
 
   get downloadLink(): string {
-    switch (this.platform) {
-      case 'windows':
-        return 'https://example.com/windows-download';
-      case 'mac':
-        return 'https://example.com/macos-download';
-      case 'linux':
-        return 'https://example.com/linux-download';
-      default:
-        return '';
-    }
+    const arch = platformUtil.getArchitecture();
+    const downloadLink = new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink(
+      this.platform,
+      arch,
+    );
+    return downloadLink;
   }
 
   get otherLinks(): Array<{ type: string; items: Array<{ arch: string; name: string; link: string }> }> {
@@ -45,27 +40,49 @@ export default class ReleaseItem extends Vue {
       case 'windows':
         return [
           {
-            type: 'Installer',
+            type: 'Intel',
             items: [
-              { arch: 'x64', name: 'Windows 10', link: 'https://example.com/windows-10' },
-              { arch: 'arm64', name: 'Windows 11', link: 'https://example.com/windows-11' },
+              {
+                arch: 'x64',
+                name: 'Windows (Intel)',
+                link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink('windows', 'x64'),
+              },
             ],
           },
           {
-            type: 'Portable',
+            type: 'Apple Silicon',
             items: [
-              { arch: 'x64', name: 'Windows 10', link: 'https://example.com/windows-10-msi' },
-              { arch: 'arm64', name: 'Windows 11', link: 'https://example.com/windows-11-msi' },
+              {
+                arch: 'arm64',
+                name: 'Windows (Apple Silicon)',
+                link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink(
+                  'windows',
+                  'arm64',
+                ),
+              },
             ],
           },
         ];
-      case 'macOS':
+      case 'mac':
         return [
           {
-            type: '.dmg',
+            type: 'Apple Silicon',
             items: [
-              { arch: 'x64', name: 'macOS Big Sur', link: 'https://example.com/macos-big-sur' },
-              { arch: 'arm64', name: 'macOS Monterey', link: 'https://example.com/macos-monterey' },
+              {
+                arch: 'arm64',
+                name: 'macOS (Apple Silicon)',
+                link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink('mac', 'arm64'),
+              },
+            ],
+          },
+          {
+            type: 'Intel',
+            items: [
+              {
+                arch: 'x64',
+                name: 'macOS (Intel)',
+                link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink('mac', 'x64'),
+              },
             ],
           },
         ];
@@ -78,10 +95,10 @@ export default class ReleaseItem extends Vue {
     switch (this.platform) {
       case 'windows':
         return `version ${process.env.VITE_VERSION} for .exe`;
-      case 'macOS':
+      case 'mac':
         return `version ${process.env.VITE_VERSION} for .dmg`;
       default:
-        return `version ${process.env.VITE_VERSION} for .exe`;
+        return null;
     }
   }
 }

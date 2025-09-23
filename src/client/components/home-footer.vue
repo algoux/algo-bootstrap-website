@@ -1,6 +1,6 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-import DataConfig from '@client/utils/data.config';
+import { DataConfig } from '@client/utils/data.config';
 
 @Options({})
 export default class HomeFooter extends Vue {
