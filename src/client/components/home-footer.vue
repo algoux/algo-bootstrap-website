@@ -1,7 +1,8 @@
 <script lang="ts">
-import { Vue } from 'vue-class-component';
+import { Vue, Options } from 'vue-class-component';
 import DataConfig from '@client/utils/data.config';
 
+@Options({})
 export default class HomeFooter extends Vue {
   getLinks() {
     return {

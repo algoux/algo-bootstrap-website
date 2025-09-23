@@ -85,8 +85,6 @@ export default class Display extends Vue {
     <main class="content-main">
       <header class="content-main-title">
         <h1>
-          <!-- Born for <br v-if="isMobile" />programming <br />
-          beginners -->
           为编程初学者而生
         </h1>
         <h2>一键配置现代的 C++、Python 和 VSCode 编程环境</h2>
