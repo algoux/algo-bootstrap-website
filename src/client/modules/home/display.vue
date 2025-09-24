@@ -79,7 +79,7 @@ export default class Display extends Vue {
     <main class="content-main">
       <header class="content-main-title">
         <h1>为编程初学者而生</h1>
-        <h2>一键配置现代的 C++、Python 和 VSCode 编程环境</h2>
+        <h2>一键配置现代的 C++、Python 和 VS Code 编程环境</h2>
       </header>
       <div class="content-main-subtitle">
         <DownloadButton :platform="platform" :is-home="true" :arch="arch" />
@@ -124,9 +124,9 @@ export default class Display extends Vue {
         </div>
       </div>
       <div class="content-main-tools" v-if="!isMobile">
-        <p v-if="isSupportedPlatform">版本 {{ getVersion }} 发布于 {{ getReleasesTime }}</p>
-        <p>访问 <a :href="getLinks().algoUX" target="_blank">algoUX</a> 以探索我们的产品并与我们联系</p>
-        <p><a :href="getLinks().oldWebsite" class="old-web" target="_blank">old website</a></p>
+        <p v-if="isSupportedPlatform">版本 {{ getVersion }}，发布于 {{ getReleasesTime }}</p>
+        <p>访问 <a :href="getLinks().algoUX" target="_blank">algoUX</a>，探索更多编程与算竞工具链产品</p>
+        <p><a :href="getLinks().oldWebsite" class="old-web" target="_blank">旧版网站</a></p>
       </div>
     </main>
     <svg

@@ -183,9 +183,10 @@ export default class ReleaseItem extends Vue {
         display: flex;
         margin-top: 5px;
         & .type {
-          width: 40%;
+          width: 50%;
           height: fit-content;
           display: flex;
+          white-space: nowrap;
           justify-content: end;
           align-items: center;
           padding-right: 10px;

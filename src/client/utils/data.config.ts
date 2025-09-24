@@ -1,5 +1,5 @@
 export class DataConfig {
-  static readonly GITHUB_REPO = '';
+  static readonly GITHUB_REPO = 'https://github.com/algoux/algo-bootstrap';
 
   static readonly GITHUB_RELEASES_API = 'https://api.github.com/repos/Algobootstrap/algobootstrap/releases';
 

@@ -2,6 +2,8 @@
 import { Vue, Options } from 'vue-class-component';
 import { ElDropdown, ElDropdownMenu, ElDropdownItem, ElIcon } from 'element-plus';
 import { ArrowDown } from '@element-plus/icons-vue';
+import { DataConfig } from '@client/utils/data.config';
+
 @Options({
   components: {
     ElDropdown,
@@ -13,7 +15,9 @@ import { ArrowDown } from '@element-plus/icons-vue';
 })
 export default class NavBar extends Vue {
   isMobile = false;
-
+  get dataConfig() {
+    return DataConfig;
+  }
   mounted() {
     this.checkMobile();
     window.addEventListener('resize', this.checkMobile);
@@ -39,7 +43,7 @@ export default class NavBar extends Vue {
         <router-link to="/" class="goHome">Algo Bootstrap</router-link>
       </div>
       <div class="nav" v-if="!isMobile">
-        <router-link class="nav-link" to="/">
+        <a class="nav-link" :href="dataConfig.GITHUB_REPO" target="_blank">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -58,7 +62,7 @@ export default class NavBar extends Vue {
             <path d="M9 18c-4.51 2-5-2-7-2" />
           </svg>
           <span>GitHub</span>
-        </router-link>
+        </a>
         <router-link class="nav-link" to="/docs">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -282,7 +286,6 @@ export default class NavBar extends Vue {
       }
 
       & .logo .goHome {
-        font-size: var(--font-small-size);
         color: var(--font-primary-color);
       }
     }
@@ -328,14 +331,14 @@ export default class NavBar extends Vue {
         }
 
         & img {
-          width: calc(var(--font-medium-size) * 1.2);
+          width: 100%;
           object-fit: contain;
         }
       }
 
       & .goHome {
         margin-left: 10px;
-        font-size: var(--font-small-size);
+        font-size: calc(var(--font-small-size) * 1.2);
         white-space: nowrap;
         color: var(--font-secondary-color);
         transition: color 0.5s ease;

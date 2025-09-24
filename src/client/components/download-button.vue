@@ -17,7 +17,7 @@ export default class DownloadButton extends Vue {
   isUnsupportedPlatform = this.platform !== 'windows' && this.platform !== 'mac';
 
   get platformName(): string {
-    return this.platform === 'mac' ? 'mac' : 'windows';
+    return this.platform === 'mac' ? 'macOS' : 'Windows';
   }
 
   get platformImage(): string {
@@ -45,7 +45,7 @@ export default class DownloadButton extends Vue {
   <div class="btn-container">
     <button class="download btn" @click="handleDownload">
       <img :src="platformImage" alt="" />
-      {{ isUnsupportedPlatform && isHome ? '下载可用版本' : '下载 ' + platformName + "版本" }}
+      {{ isUnsupportedPlatform && isHome ? '下载可用版本' : '下载 ' + platformName + " 版本" }}
     </button>
     <span class="download-all-platforms" v-if="isSupportedPlatform && isHome">
       下载 <router-link class="link" to="/releases">其他平台</router-link> 版本
