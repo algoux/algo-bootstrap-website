@@ -12,9 +12,10 @@ import { DataConfig } from '@client/utils/data.config';
 })
 export default class Display extends Vue {
   @Prop({ type: String, required: true }) readonly platform!: string;
-  @Prop({ type: String, default: "arm64"}) readonly arch!: string;
+  @Prop({ type: String, default: 'arm64' }) readonly arch!: string;
   @Prop({ type: Boolean, default: false }) readonly isMobile!: boolean;
   isSupportedPlatform = isMac() || isWindows();
+  isStartOpen = false;
 
   private getLinks() {
     return {
@@ -36,8 +37,6 @@ export default class Display extends Vue {
   get getReleasesTime() {
     return process.env.VITE_RELEASES_TIME;
   }
-
-  isStartOpen = false;
 
   handleStartClick(e: MouseEvent) {
     e.preventDefault();
@@ -62,9 +61,22 @@ export default class Display extends Vue {
     this.isStartOpen = false;
   };
 
-  created() {
+  mounted() {
+    const mouse = document.querySelector('.mouse') as HTMLElement;
     document.addEventListener('click', this.handleClickOutside);
     document.addEventListener('keydown', this.handleEscapeKey);
+    if(mouse) {
+      mouse.classList.add('mouse-anim');
+    }else {
+      console.log("mouse not found");
+    }
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 10) {
+        mouse.classList.remove('mouse-anim');
+      } else {
+        mouse.classList.add('mouse-anim');
+      }
+    });
   }
 
   beforeUnmount() {
@@ -212,9 +224,13 @@ export default class Display extends Vue {
 .mouse {
   position: absolute;
   bottom: 10%;
-  opacity: 1;
+  opacity: 0;
   width: calc(var(--font-small-size) * 1.5);
   transform: scale(1);
+  transition: all 0.3s ease;
+}
+
+.mouse-anim {
   animation: mouse 1.5s infinite;
   @keyframes mouse {
     from {

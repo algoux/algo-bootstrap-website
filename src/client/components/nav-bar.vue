@@ -82,7 +82,7 @@ export default class NavBar extends Vue {
           </svg>
           帮助文档
         </router-link>
-        <a class="nav-link" href="#" target="_blank">
+        <a class="nav-link" :href="dataConfig.FAQ_LINK" target="_blank">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -139,13 +139,13 @@ export default class NavBar extends Vue {
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>
-              <router-link to="/" class="dropdown-item"> GitHub </router-link>
+              <a :href="dataConfig.GITHUB_RELEASES" class="dropdown-item"> GitHub </a>
             </el-dropdown-item>
             <el-dropdown-item>
               <router-link class="dropdown-item" to="/docs"> 帮助文档 </router-link>
             </el-dropdown-item>
             <el-dropdown-item>
-              <a class="dropdown-item" href="#" target="_blank"> 常见问题 </a>
+              <a class="dropdown-item" :href="dataConfig.FAQ_LINK" target="_blank"> 常见问题 </a>
             </el-dropdown-item>
             <el-dropdown-item divided>
               <router-link class="dropdown-item" to="/releases"> 下载 </router-link>
@@ -224,7 +224,6 @@ export default class NavBar extends Vue {
     }
   }
 
-  // 设置下拉菜单容器的毛玻璃效果
   :deep(.el-dropdown-menu) {
     background-color: rgba(25, 25, 25, 0.8) !important;
     backdrop-filter: blur(15px) !important;
@@ -293,7 +292,6 @@ export default class NavBar extends Vue {
     & .logo {
       flex-basis: 40%;
       height: 100%;
-      // background-color: red;
       display: flex;
       justify-content: left;
       padding-left: 50px;
@@ -338,7 +336,7 @@ export default class NavBar extends Vue {
 
       & .goHome {
         margin-left: 10px;
-        font-size: calc(var(--font-small-size) * 1.2);
+        font-size: calc(var(--font-small-size) * 1.5);
         white-space: nowrap;
         color: var(--font-secondary-color);
         transition: color 0.5s ease;

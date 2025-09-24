@@ -43,7 +43,7 @@ export default class HomeFooter extends Vue {
 footer {
   width: 100vw;
   height: auto;
-  margin-top: 100px;
+  // margin-top: 100px;
   margin-bottom: 50px;
   user-select: none;
 

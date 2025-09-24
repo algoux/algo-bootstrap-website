@@ -65,9 +65,9 @@ export default class Guide extends Vue {
       <a :href="guideProps.guideURL" class="split-text" ref="split-text-link">视频教程 ↗</a>
     </div>
     <div class="guide-display" ref="guide-video">
-      <video class="guide-display-video" autoplay muted loop playsinline>
-        <source src="../assets/video/demo.webm" />
-      </video>
+      <div class="guide-display-video">
+        <img src="../assets/video/demo.png" />
+      </div>
     </div>
   </div>
 </template>
@@ -78,7 +78,7 @@ export default class Guide extends Vue {
   transform: translateY(0%) !important;
 }
 .guide {
-  width: 55%;
+  width: 65%;
   @media screen and (max-width: 1200px) {
     width: 75%;
   }
@@ -93,7 +93,7 @@ export default class Guide extends Vue {
   .hide(@delay: 0s) {
     opacity: 0;
     transform: translateY(30px);
-    transition: transform 0.5s ease, opacity 0.3s ease;
+    transition: transform 0.5s ease, opacity 0.2s ease;
     transition-delay: @delay;
   }
 
@@ -148,9 +148,9 @@ export default class Guide extends Vue {
       padding: 10px 0px;
       border-radius: 5px;
     }
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    // box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
     position: relative;
-    .hide(.5s);
+    .hide(0.5s);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -159,8 +159,8 @@ export default class Guide extends Vue {
       height: auto;
       background-color: transparent;
       z-index: 10;
-
-      & source {
+      & img {
+        width: 100%;
         background-color: transparent;
       }
     }

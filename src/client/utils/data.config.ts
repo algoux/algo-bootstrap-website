@@ -7,7 +7,7 @@ export class DataConfig {
 
   static readonly DOCS_LINK = '';
 
-  static readonly FAQ_LINK = '';
+  static readonly FAQ_LINK = 'https://github.com/algoux/algo-bootstrap/issues';
 
   static readonly SDUTACM_LINK = 'https://acm.sdut.edu.cn/';
 
