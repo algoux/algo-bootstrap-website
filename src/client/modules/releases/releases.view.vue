@@ -25,8 +25,7 @@ export default class Releases extends Vue {
     <div class="release-container">
       <ReleaseItem :platform="'windows'" />
       <ReleaseItem :platform="'mac'" />
-    <a :href="getOldWebsiteLink" class="old-version" target="_blank">旧版网站</a>
-
+      <a :href="getOldWebsiteLink" class="old-version" target="_blank">旧版网站</a>
     </div>
     <home-footer />
   </div>
@@ -47,7 +46,7 @@ export default class Releases extends Vue {
   background-color: var(--bg-color);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 
   &-header {
@@ -61,10 +60,10 @@ export default class Releases extends Vue {
     height: auto;
     display: flex;
     @media screen and (max-width: 1200px) {
-      padding-top: 100px;
       flex-direction: column;
+      gap: 20px;
     }
-    gap: 50px;
+    gap: 0px;
     justify-content: center;
     align-items: center;
     position: relative;
@@ -72,7 +71,7 @@ export default class Releases extends Vue {
   .old-version {
     position: absolute;
     bottom: 0;
-    transform: translateY(120%);
+    transform: translateY(100px);
     font-size: var(--font-small-size);
     color: var(--font-secondary-color);
     transition: color 0.3s ease;
