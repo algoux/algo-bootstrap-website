@@ -40,51 +40,41 @@ export default class ReleaseItem extends Vue {
       case 'windows':
         return [
           {
-            type: 'Intel',
+            type: 'User Installer',
             items: [
               {
                 arch: 'x64',
                 name: 'Windows (Intel)',
                 link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink('windows', 'x64'),
               },
-            ],
-          },
-          {
-            type: 'Apple Silicon',
-            items: [
               {
-                arch: 'arm64',
-                name: 'Windows (Apple Silicon)',
+                arch: 'Arm64',
+                name: 'Windows (ARM)',
                 link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink(
                   'windows',
                   'arm64',
                 ),
-              },
+              }
             ],
-          },
+          }
         ];
       case 'mac':
         return [
           {
-            type: 'Apple Silicon',
+            type: '.dmg',
             items: [
               {
-                arch: 'arm64',
+                arch: "Intel Chip",
+                name: 'macOS (Intel)',
+                link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink('mac', 'x64'),
+              },
+              {
+                arch: 'Apple Silicon',
                 name: 'macOS (Apple Silicon)',
                 link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink('mac', 'arm64'),
               },
             ],
-          },
-          {
-            type: 'Intel',
-            items: [
-              {
-                arch: 'x64',
-                name: 'macOS (Intel)',
-                link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink('mac', 'x64'),
-              },
-            ],
-          },
+          }
         ];
       default:
         return [];
@@ -196,6 +186,7 @@ export default class ReleaseItem extends Vue {
         & .info {
           display: flex;
           justify-content: start;
+          white-space: nowrap;
           color: #000;
           background-color: #ffffffb0;
           margin-left: 5px;

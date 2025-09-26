@@ -39,15 +39,31 @@ export default class Display extends Vue {
   }
 
   handleStartClick(e: MouseEvent) {
-    e.preventDefault();
-    this.isStartOpen = !this.isStartOpen;
+    if (this.isMobile) {
+      e.preventDefault();
+      this.isStartOpen = !this.isStartOpen;
+    }
+  }
+
+  handleStartMouseEnter() {
+    if (!this.isMobile) {
+      this.isStartOpen = true;
+    }
+  }
+
+  handleStartMouseLeave() {
+    if (!this.isMobile) {
+      this.isStartOpen = false;
+    }
   }
 
   handleClickOutside = (e: MouseEvent) => {
-    const target = e.target as HTMLElement;
-    const dropdown = document.querySelector('.start-dropdown') as HTMLElement;
-    if (dropdown && !dropdown.contains(target)) {
-      this.isStartOpen = false;
+    if (this.isMobile) {
+      const target = e.target as HTMLElement;
+      const dropdown = document.querySelector('.start-dropdown') as HTMLElement;
+      if (dropdown && !dropdown.contains(target)) {
+        this.isStartOpen = false;
+      }
     }
   };
 
@@ -95,7 +111,7 @@ export default class Display extends Vue {
       </header>
       <div class="content-main-subtitle">
         <DownloadButton :platform="platform" :is-home="true" :arch="arch" />
-        <div class="start-dropdown">
+        <div class="start-dropdown" @mouseenter="handleStartMouseEnter" @mouseleave="handleStartMouseLeave">
           <a class="start" href="#" @click="handleStartClick">
             <svg
               xmlns="http://www.w3.org/2000/svg"
