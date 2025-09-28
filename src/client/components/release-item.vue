@@ -35,58 +35,50 @@ export default class ReleaseItem extends Vue {
     return downloadLink;
   }
 
-  get otherLinks(): Array<{ type: string; items: Array<{ arch: string; name: string; link: string }> }> {
+  get otherLinks(): Array<{ arch: string; name?: string; link: string }> {
     switch (this.platform) {
       case 'windows':
         return [
           {
-            type: 'User Installer',
-            items: [
-              {
-                arch: 'x64',
-                name: 'Windows (Intel)',
-                link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink('windows', 'x64'),
-              },
-              {
-                arch: 'Arm64',
-                name: 'Windows (ARM)',
-                link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink(
-                  'windows',
-                  'arm64',
-                ),
-              }
-            ],
+            arch: 'x64',
+            name: 'Windows (x64)',
+            link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink('windows', 'x64'),
+          },
+          {
+            arch: 'arm64',
+            name: 'Windows (arm64)',
+            link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink('windows', 'arm64'),
           }
         ];
       case 'mac':
         return [
           {
-            type: '.dmg',
-            items: [
-              {
-                arch: "Intel Chip",
-                name: 'macOS (Intel)',
-                link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink('mac', 'x64'),
-              },
-              {
-                arch: 'Apple Silicon',
-                name: 'macOS (Apple Silicon)',
-                link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink('mac', 'arm64'),
-              },
-            ],
-          }
+            arch: 'Intel Chip',
+            name: 'macOS (Intel Chip)',
+            link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink('mac', 'x64'),
+          },
+          {
+            arch: 'Apple Silicon',
+            name: 'macOS (Apple Silicon)',
+            link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink('mac', 'arm64'),
+          },
         ];
       default:
         return [];
     }
   }
 
-  get asideDesc() {
+  get asideDesc(): string | null {
+    const arch = platformUtil.getArchitecture();
     switch (this.platform) {
       case 'windows':
-        return `version ${process.env.VITE_VERSION} for .exe`;
+        return `version ${process.env.VITE_VERSION} for ${arch}`;
       case 'mac':
-        return `version ${process.env.VITE_VERSION} for .dmg`;
+        if(arch == 'arm64') {
+          return `version ${process.env.VITE_VERSION} for Apple Silicon`;
+        }else {
+          return `version ${process.env.VITE_VERSION} for Intel Chip`;
+        }
       default:
         return null;
     }
@@ -103,22 +95,42 @@ export default class ReleaseItem extends Vue {
       <DownloadButton :platform="this.platform" />
     </main>
     <aside>{{ asideDesc }}</aside>
+    <aside>下载更多架构版本</aside>
     <footer>
-      <ul v-for="value in otherLinks" :key="value.type">
-        <li>
-          <span class="type">{{ value.type }}</span>
-          <span class="info" v-for="item in value.items" :key="item.link">
-            <a :href="item.link" target="_blank">{{ item.arch }}</a>
-          </span>
-        </li>
-      </ul>
+          <div v-for="item in otherLinks" key="item.arch" class="single-button">
+            {{ item.arch }}
+          </div>
     </footer>
   </div>
 </template>
 
 <style scoped lang="less">
+.single-button {
+  width: 25%;
+  @media screen and (max-width: 1200px) {
+    width: 30%;
+  }
+  white-space: nowrap;
+  padding: 10px;
+  background-color: var(--glass-bg-color);
+  backdrop-filter: blur(10px);
+  border-radius: 100px;
+  border: var(--glass-border-color) 1px solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  color: var(--font-secondary-color);
+  user-select: none;
+  transition: color 0.3s ease;
+  &:hover {
+    color: var(--font-primary-color);
+    cursor: pointer;
+  }
+}
+
 .container {
-  width: 20%;
+  width: 30%;
   @media screen and (max-width: 1200px) {
     width: 100%;
   }
@@ -159,11 +171,21 @@ export default class ReleaseItem extends Vue {
   & footer {
     width: 100%;
     height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    @media screen and (max-width: 1200px) {
+      flex-direction: column;
+    }
 
     & ul {
       width: 100%;
       display: flex;
       justify-content: center;
+      flex-direction: row;
+
+      align-items: center;
       font-size: var(--font-small-size);
       & li {
         width: 50%;

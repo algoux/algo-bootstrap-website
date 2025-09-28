@@ -264,29 +264,16 @@ export default class NavBar extends Vue {
     justify-content: space-between;
     align-items: center;
     overflow: hidden;
-    color: var(--font-secondary-color);
+    mix-blend-mode: difference;
     transition: color 0.5s ease;
     font-size: var(--font-medium-size);
 
     & .nav-link {
-      color: var(--font-secondary-color);
+      color: white;
+      mix-blend-mode: difference;
     }
     & svg {
       stroke: var(--font-secondary-color);
-    }
-
-    &:hover {
-      color: var(--font-primary-color);
-      & .nav-link {
-        color: var(--font-primary-color);
-      }
-      & svg {
-        stroke: var(--font-primary-color);
-      }
-
-      & .logo .goHome {
-        color: var(--font-primary-color);
-      }
     }
 
     & .logo {
@@ -338,11 +325,13 @@ export default class NavBar extends Vue {
         margin-left: 10px;
         font-size: calc(var(--font-small-size) * 1.5);
         white-space: nowrap;
-        color: var(--font-secondary-color);
+        // color: var(--font-secondary-color);
+        color: #fff;
+        mix-blend-mode: difference;
         transition: color 0.5s ease;
         @media screen and (max-width: 768px) {
           font-size: 20px;
-          color: var(--font-primary-color) !important;
+          // color: var(--font-primary-color) !important;
         }
         text-decoration: none;
         font-weight: 700;
@@ -356,6 +345,8 @@ export default class NavBar extends Vue {
       align-items: center;
       gap: 20px;
       padding-right: 50px;
+      color: #ffffff;
+      mix-blend-mode: difference;
 
       &-link {
         text-decoration: none;

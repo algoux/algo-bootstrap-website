@@ -33,9 +33,36 @@ export function getOperatingSystem(): 'windows' | 'mac' | 'Unknown' {
  */
 export function getArchitecture(): 'x64' | 'arm64' | 'Unknown' {
   const userAgent = navigator.userAgent;
+  const platform = navigator.platform;
 
-  // ARM64 检测
-  if (/ARM|arm64|aarch64/i.test(userAgent)) {
+  // 优先使用 WebGL 检测（对 macOS 最可靠）
+  if (/Mac|macOS/.test(platform)) {
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') as WebGLRenderingContext | null;
+      if (gl) {
+        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+        if (debugInfo) {
+          const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+
+          // Apple Silicon Macs 的 GPU 标识
+          if (/Apple M\d|Apple GPU/i.test(renderer)) {
+            return 'arm64';
+          }
+
+          // Intel Mac 的 GPU 标识
+          if (/Intel|AMD Radeon|NVIDIA/i.test(renderer) && !/Apple/i.test(renderer)) {
+            return 'x64';
+          }
+        }
+      }
+    } catch (error) {
+      // WebGL 检测失败，继续使用其他方法
+    }
+  }
+
+  // ARM64 检测 - 扩展模式匹配
+  if (/ARM|arm64|aarch64/i.test(userAgent) || /arm64/i.test(platform)) {
     return 'arm64';
   }
 
@@ -44,13 +71,23 @@ export function getArchitecture(): 'x64' | 'arm64' | 'Unknown' {
     return 'x64';
   }
 
-  // 通过平台信息补充检测
-  const platform = navigator.platform;
-  if (/arm|aarch64/i.test(platform)) {
-    return 'arm64';
-  }
+  // 针对 Intel Mac 的检测
   if (/x86_64|amd64/i.test(platform)) {
     return 'x64';
+  }
+
+  // macOS 启发式检测（fallback）
+  if (/Mac|macOS/.test(platform)) {
+    // Safari 版本和像素密度启发式检测
+    const safariVersion = userAgent.match(/Version\/([\d.]+).*Safari/);
+    if (safariVersion) {
+      const version = parseFloat(safariVersion[1]);
+
+      // Safari 14+ 和高像素密度更可能是 Apple Silicon
+      if (version >= 14 && window.devicePixelRatio >= 2) {
+        return 'arm64';
+      }
+    }
   }
 
   return 'Unknown';
