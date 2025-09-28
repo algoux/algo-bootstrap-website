@@ -2,7 +2,7 @@ const { defineConfig, loadEnv } = require('vite');
 const path = require('path');
 const viteSSR = require('vite-ssr/plugin');
 const vue = require('@vitejs/plugin-vue');
-
+// import seoPrerender from 'vite-plugin-seo-prerender'
 const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = defineConfig(({ mode }) => {

@@ -5,10 +5,11 @@ import Beams from '@client/components/beams.vue';
 import NavBar from '@client/components/nav-bar.vue';
 import DownloadButton from '@client/components/download-button.vue';
 import { getPlatformInfo } from '@client/utils';
-import Display from './display.vue';
 import GuideContainer from './guide-container.vue';
 import HomeFooter from '@client/components/home-footer.vue';
 import BackTop from '@client/components/backtop.vue';
+import { RenderMethod, RenderMethodKind } from 'bwcx-client-vue3';
+import HomeDisplay from './home-display.vue';
 
 @View('/')
 @Options({
@@ -16,7 +17,7 @@ import BackTop from '@client/components/backtop.vue';
     Beams,
     NavBar,
     DownloadButton,
-    Display,
+    HomeDisplay,
     GuideContainer,
     BackTop,
     HomeFooter,
@@ -51,7 +52,7 @@ export default class Home extends Vue {
 
 <template>
   <div class="home">
-    <Display :platform="this.getPlatform.os" :arch="this.getPlatform.architecture"  :isMobile="homeState.isMobile" />
+    <HomeDisplay :platform="this.getPlatform.os" :arch="this.getPlatform.architecture"  :isMobile="homeState.isMobile" />
     <GuideContainer />
     <HomeFooter />
     <Beams

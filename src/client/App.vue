@@ -28,10 +28,8 @@ export default class App extends Vue {}
   position: relative;
 }
 
-
 main {
   width: 100%;
   height: 100vh;
 }
-
 </style>

@@ -8,26 +8,6 @@ import { parseRoutes } from 'bwcx-client-vue3';
 
 const clientRoutes = parseRoutes([
   {
-    name: 'About',
-    path: '/about',
-    fullPath: '/about',
-    component: () => import(/* webpackChunkName: "About" */ '../modules/about/about.view.vue'),
-    routeProps: undefined,
-    priority: undefined,
-    renderMethod: undefined,
-    otherOptions: undefined,
-  },
-  {
-    name: 'DemoDetail',
-    path: '/demo',
-    fullPath: '/demo',
-    component: () => import(/* webpackChunkName: "DemoDetail" */ '../modules/demo/demo-detail.view.vue'),
-    routeProps: undefined,
-    priority: undefined,
-    renderMethod: undefined,
-    otherOptions: undefined,
-  },
-  {
     name: 'Home',
     path: '/',
     fullPath: '/',

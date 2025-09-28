@@ -4,6 +4,7 @@ import { View } from 'bwcx-client-vue3';
 import ReleaseItem from '@client/components/release-item.vue';
 import HomeFooter from '@client/components/home-footer.vue';
 import { DataConfig } from '@client/utils/data.config';
+import { RenderMethod, RenderMethodKind } from 'bwcx-client-vue3';
 
 @View('/releases')
 @Options({

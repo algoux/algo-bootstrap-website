@@ -1,3 +1,8 @@
+import shotOneMac from '@client/assets/images/shot/shot-1-mac.png';
+import shotOneWin from '@client/assets/images/shot/shot-1-win.png';
+import { ShotImageRPO } from '@common/modules/shot/shot.rpo';
+import { GuideRPO } from '@common/modules/guide/guide.rpo';
+
 export class DataConfig {
   static readonly GITHUB_REPO = 'https://github.com/algoux/algo-bootstrap';
 
@@ -5,7 +10,7 @@ export class DataConfig {
 
   static readonly GITHUB_RELEASES = 'https://github.com/Algobootstrap/algobootstrap/releases';
 
-  static readonly DOCS_LINK = '';
+  static readonly DOCS_LINK = 'https://docs.of.ab.algoux.cn/?utm_source=algo-bootstrap';
 
   static readonly FAQ_LINK = 'https://github.com/algoux/algo-bootstrap/issues';
 
@@ -28,6 +33,30 @@ export class DataConfig {
   static readonly PASTE_THEN_AC_LINK = 'https://paste.then.ac/';
 
   static readonly RANKLAND_LINK = 'https://rl.algoux.org/';
+}
+
+export class GuideConfig {
+  platfrom!: string;
+  constructor(p: string) {
+    this.platfrom = p
+  }
+
+  macGuideConfig: GuideRPO[] = [
+    { id: 1,  title: '喵喵喵喵喵', description: "喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵", guideURL: "#", imageURL: shotOneMac},
+    { id: 2,  title: '喵喵喵喵喵', description: "喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵", guideURL: "#", imageURL: shotOneMac},
+    { id: 3,  title: '喵喵喵喵喵', description: "喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵", guideURL: "#", imageURL: shotOneMac}
+  ]
+
+  winGuideConfig: GuideRPO[] = [
+    { id: 1,  title: '喵喵喵喵喵', description: "喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵", guideURL: "#", imageURL: shotOneMac},
+    { id: 2,  title: '喵喵喵喵喵', description: "喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵", guideURL: "#", imageURL: shotOneWin},
+    { id: 3,  title: '喵喵喵喵喵', description: "喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵", guideURL: "#", imageURL: shotOneWin},
+  ]
+
+  get guideConfigGroups(): GuideRPO[] {
+    if (this.platfrom === 'win') return this.winGuideConfig;
+    else return this.macGuideConfig;
+  }
 }
 
 export class ReleasesConfig {

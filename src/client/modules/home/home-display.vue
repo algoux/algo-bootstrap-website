@@ -10,7 +10,7 @@ import { DataConfig } from '@client/utils/data.config';
     DownloadButton,
   },
 })
-export default class Display extends Vue {
+export default class HomeDisplay extends Vue {
   @Prop({ type: String, required: true }) readonly platform!: string;
   @Prop({ type: String, default: 'arm64' }) readonly arch!: string;
   @Prop({ type: Boolean, default: false }) readonly isMobile!: boolean;

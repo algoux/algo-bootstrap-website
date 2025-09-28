@@ -7,9 +7,15 @@ import { onMounted, onUnmounted, watch, computed, ref } from 'vue';
 import * as THREE from 'three';
 import { degToRad } from 'three/src/math/MathUtils.js';
 import gsap from 'gsap';
-import ScrollTrigger from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
+// 只在客户端注册 ScrollTrigger
+let ScrollTrigger: any = null;
+if (typeof window !== 'undefined') {
+  import('gsap/ScrollTrigger').then((module) => {
+    ScrollTrigger = module.default;
+    gsap.registerPlugin(ScrollTrigger);
+  });
+}
 
 
 
@@ -462,19 +468,30 @@ watch(
   { immediate: true }
 );
 
-onMounted(() => {
+onMounted(async () => {
   initThreeJS(); // 先初始化 Three.js 场景
   controlAnimation(); // 然后控制动画状态
-  gsap.to(".beams-container", {
-    scrollTrigger: {
-      trigger: ".beams-container",
-      start: "top top",
-      end: "bottom top",
-      scrub: 1,
-    },
-    opacity: .1,
-    duration: 1,
-  });
+
+  // 确保 ScrollTrigger 已加载后再使用
+  if (typeof window !== 'undefined') {
+    // 如果 ScrollTrigger 还未加载，等待加载
+    if (!ScrollTrigger) {
+      const module = await import('gsap/ScrollTrigger');
+      ScrollTrigger = module.default;
+      gsap.registerPlugin(ScrollTrigger);
+    }
+
+    gsap.to(".beams-container", {
+      scrollTrigger: {
+        trigger: ".beams-container",
+        start: "top top",
+        end: "bottom top",
+        scrub: 1,
+      },
+      opacity: .1,
+      duration: 1,
+    });
+  }
 });
 
 onUnmounted(() => {

@@ -6,8 +6,6 @@
 import { Newable } from 'bwcx-common';
 import { RenderMethodKind } from 'bwcx-client-vue/enums';
 export const clientRoutesMap = new Map<string, { path: string; routeProps: Newable | undefined; renderMethod: RenderMethodKind | undefined }>([
-  ['About', { path: '/about', routeProps: undefined, renderMethod: undefined }],
-  ['DemoDetail', { path: '/demo', routeProps: undefined, renderMethod: undefined }],
   ['Home', { path: '/', routeProps: undefined, renderMethod: undefined }],
   ['Releases', { path: '/releases', routeProps: undefined, renderMethod: undefined }],
 ]);

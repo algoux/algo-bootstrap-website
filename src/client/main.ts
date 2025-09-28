@@ -52,10 +52,10 @@ export function mainEntry({
         try {
           const os = getOperatingSystem();
           const isSupportedPlatform = isMac() || isWindows();
-          
+
           // 如果不是 Windows 或 macOS，重定向到 releases 页面
           if (!isSupportedPlatform) {
-            console.log(`检测到平台: ${os.name}，重定向到 releases 页面`);
+            console.log(`检测到平台: ${os}，重定向到 releases 页面`);
             return next('/releases');
           }
         } catch (error) {
@@ -63,7 +63,7 @@ export function mainEntry({
         }
       }
     }
-    
+
     // 继续正常的路由导航
     next();
   });

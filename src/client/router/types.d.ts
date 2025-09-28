@@ -10,8 +10,6 @@ import * as R from '../../common/router/client-routes';
 declare module '@vue/runtime-core' {
   export interface ComponentCustomProperties {
     $$router: {
-      to(target: 'About'): BwcxVueRouterActions;
-      to(target: 'DemoDetail'): BwcxVueRouterActions;
       to(target: 'Home'): BwcxVueRouterActions;
       to(target: 'Releases'): BwcxVueRouterActions;
     };

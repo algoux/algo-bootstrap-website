@@ -1,5 +1,7 @@
 export class GuideRPO {
-    public title: string;
-    public description: string;
-    public guideURL: string;
+  public id: number;
+  public title: string;
+  public description: string;
+  public guideURL: string;
+  public imageURL: string;
 }

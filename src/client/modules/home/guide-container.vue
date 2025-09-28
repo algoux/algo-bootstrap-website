@@ -1,13 +1,23 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import Guide from '@client/components/guide.vue';
+import { GuideConfig } from '@client/utils/data.config';
+import { GuideRPO } from '@common/modules/guide/guide.rpo';
+import { Prop } from 'vue-property-decorator';
 
 @Options({
   components: {
     Guide,
   },
 })
-export default class GuideContainer extends Vue {}
+export default class GuideContainer extends Vue {
+  @Prop() platform!: string;
+
+  get guideConfigGroups(): GuideRPO[] {
+    const guideConfig = new GuideConfig(this.platform);
+    return guideConfig.guideConfigGroups;
+  }
+}
 </script>
 
 <template>
@@ -17,38 +27,13 @@ export default class GuideContainer extends Vue {}
     </header>
     <div class="about-guide">
       <Guide
+        v-for="item in guideConfigGroups"
+        :key="item.id"
         :guide-props="{
-          title: '喵喵喵喵喵喵喵喵',
-          description: '喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵',
-          guideURL: 'https://www.bilibili.com/video/BV1zD4y1D7gD',
-        }"
-      />
-      <Guide
-        :guide-props="{
-          title: '喵喵喵喵喵喵喵喵',
-          description: '喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵',
-          guideURL: 'https://www.bilibili.com/video/BV1zD4y1D7gD',
-        }"
-      />
-      <Guide
-        :guide-props="{
-          title: '喵喵喵喵喵喵喵喵',
-          description: '喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵',
-          guideURL: 'https://www.bilibili.com/video/BV1zD4y1D7gD',
-        }"
-      />
-      <Guide
-        :guide-props="{
-          title: '喵喵喵喵喵喵喵喵',
-          description: '喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵',
-          guideURL: 'https://www.bilibili.com/video/BV1zD4y1D7gD',
-        }"
-      />
-      <Guide
-        :guide-props="{
-          title: '喵喵喵喵喵喵喵喵',
-          description: '喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵',
-          guideURL: 'https://www.bilibili.com/video/BV1zD4y1D7gD',
+          title: item.title,
+          description: item.description,
+          guideURL: item.guideURL,
+          imageURL: item.imageURL,
         }"
       />
     </div>
