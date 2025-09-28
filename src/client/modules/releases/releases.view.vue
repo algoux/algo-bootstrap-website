@@ -14,8 +14,8 @@ import { RenderMethod, RenderMethodKind } from 'bwcx-client-vue3';
   },
 })
 export default class Releases extends Vue {
-  get getOldWebsiteLink() {
-    return DataConfig.OLD_WEBSITE_LINK;
+  get getHistoricalReleases() {
+    return DataConfig.GITHUB_RELEASES;
   }
 }
 </script>
@@ -26,7 +26,7 @@ export default class Releases extends Vue {
     <div class="release-container">
       <ReleaseItem :platform="'windows'" />
       <ReleaseItem :platform="'mac'" />
-      <a :href="getOldWebsiteLink" class="old-version" target="_blank">旧版网站</a>
+      <a :href="getHistoricalReleases" class="old-version" target="_blank">历史版本</a>
     </div>
     <home-footer />
   </div>

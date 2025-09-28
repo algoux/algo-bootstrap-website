@@ -63,7 +63,7 @@ export default class NavBar extends Vue {
           </svg>
           <span>GitHub</span>
         </a>
-        <router-link class="nav-link" to="/docs">
+        <a class="nav-link" :href="dataConfig.DOCS_LINK" target="_blank">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -81,7 +81,7 @@ export default class NavBar extends Vue {
             <path d="M8 7h6" />
           </svg>
           帮助文档
-        </router-link>
+        </a>
         <a class="nav-link" :href="dataConfig.FAQ_LINK" target="_blank">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -142,7 +142,7 @@ export default class NavBar extends Vue {
               <a :href="dataConfig.GITHUB_RELEASES" class="dropdown-item"> GitHub </a>
             </el-dropdown-item>
             <el-dropdown-item>
-              <router-link class="dropdown-item" to="/docs"> 帮助文档 </router-link>
+              <a class="dropdown-item" :href="dataConfig.DOCS_LINK" target="_blank"> 帮助文档 </a>
             </el-dropdown-item>
             <el-dropdown-item>
               <a class="dropdown-item" :href="dataConfig.FAQ_LINK" target="_blank"> 常见问题 </a>

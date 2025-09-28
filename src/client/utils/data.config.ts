@@ -1,6 +1,5 @@
 import shotOneMac from '@client/assets/images/shot/shot-1-mac.png';
 import shotOneWin from '@client/assets/images/shot/shot-1-win.png';
-import { ShotImageRPO } from '@common/modules/shot/shot.rpo';
 import { GuideRPO } from '@common/modules/guide/guide.rpo';
 
 export class DataConfig {
@@ -8,7 +7,7 @@ export class DataConfig {
 
   static readonly GITHUB_RELEASES_API = 'https://api.github.com/repos/Algobootstrap/algobootstrap/releases';
 
-  static readonly GITHUB_RELEASES = 'https://github.com/Algobootstrap/algobootstrap/releases';
+  static readonly GITHUB_RELEASES = 'https://github.com/algoux/algo-bootstrap/releases';
 
   static readonly DOCS_LINK = 'https://docs.of.ab.algoux.cn/?utm_source=algo-bootstrap';
 

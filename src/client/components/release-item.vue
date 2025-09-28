@@ -45,8 +45,8 @@ export default class ReleaseItem extends Vue {
             link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink('windows', 'x64'),
           },
           {
-            arch: 'arm64',
-            name: 'Windows (arm64)',
+            arch: 'Arm64',
+            name: 'Windows (Arm64)',
             link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink('windows', 'arm64'),
           }
         ];
@@ -72,7 +72,7 @@ export default class ReleaseItem extends Vue {
     const arch = platformUtil.getArchitecture();
     switch (this.platform) {
       case 'windows':
-        return `version ${process.env.VITE_VERSION} for ${arch}`;
+        return `version ${process.env.VITE_VERSION} for ${arch == 'arm64' ? 'Arm64' : arch}`;
       case 'mac':
         if(arch == 'arm64') {
           return `version ${process.env.VITE_VERSION} for Apple Silicon`;

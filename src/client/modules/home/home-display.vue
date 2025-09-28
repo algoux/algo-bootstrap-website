@@ -53,7 +53,7 @@ export default class HomeDisplay extends Vue {
 
   handleStartMouseLeave() {
     if (!this.isMobile) {
-      this.isStartOpen = false;
+        this.isStartOpen = false;
     }
   }
 
@@ -81,10 +81,10 @@ export default class HomeDisplay extends Vue {
     const mouse = document.querySelector('.mouse') as HTMLElement;
     document.addEventListener('click', this.handleClickOutside);
     document.addEventListener('keydown', this.handleEscapeKey);
-    if(mouse) {
+    if (mouse) {
       mouse.classList.add('mouse-anim');
-    }else {
-      console.log("mouse not found");
+    } else {
+      console.log('mouse not found');
     }
     window.addEventListener('scroll', () => {
       if (window.scrollY > 10) {
