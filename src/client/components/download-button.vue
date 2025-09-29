@@ -9,12 +9,16 @@ import { ReleasesConfig } from '@client/utils/data.config';
 
 export default class DownloadButton extends Vue {
   @Prop({ type: String, default: 'Windows' }) platform!: string;
-  @Prop({ type: String, default: "arm64"}) arch!: string;
+  @Prop({ type: String, default: 'arm64' }) arch!: string;
   @Prop({ type: Boolean, default: false }) isHome: Boolean;
 
-  isSupportedPlatform = this.platform === 'windows' || this.platform === 'mac';
+  get isSupportedPlatform(): boolean {
+    return this.platform === 'windows' || this.platform === 'mac';
+  }
 
-  isUnsupportedPlatform = this.platform !== 'windows' && this.platform !== 'mac';
+  get isUnsupportedPlatform(): boolean {
+    return this.platform !== 'windows' && this.platform !== 'mac';
+  }
 
   get platformName(): string {
     return this.platform === 'mac' ? 'macOS' : 'Windows';
@@ -35,7 +39,7 @@ export default class DownloadButton extends Vue {
     const version = process.env.VITE_VERSION;
     const releasesConfig = new ReleasesConfig(version as string);
     let downloadLink = releasesConfig.downloadSingleSystemLink(this.platform, this.arch);
-    console.log("Download link:", downloadLink);
+    console.log('Download link:', downloadLink);
     // window.open(downloadLink, '_blank');
   }
 }
@@ -44,15 +48,15 @@ export default class DownloadButton extends Vue {
 <template>
   <div class="btn-container">
     <button class="download btn" @click="handleDownload">
-      <img :src="platformImage" alt="" />
-      {{ isUnsupportedPlatform && isHome ? '下载可用版本' : '下载 ' + platformName + " 版本" }}
+      <client-only>
+        <img :src="platformImage" alt="" />
+      </client-only>
+      {{ isUnsupportedPlatform && isHome ? '下载可用版本' : '下载 ' + platformName + ' 版本' }}
     </button>
     <span class="download-all-platforms" v-if="isSupportedPlatform && isHome">
       下载 <router-link class="link" to="/releases">其他平台</router-link> 版本
     </span>
-    <span class="download-all-platforms" v-if="isUnsupportedPlatform && isHome"
-      >仅支持 Windows 和 macOS.</span
-    >
+    <span class="download-all-platforms" v-if="isUnsupportedPlatform && isHome">仅支持 Windows 和 macOS.</span>
   </div>
 </template>
 

@@ -5,7 +5,7 @@ import windows from '@client/assets/images/windows_colorful.png';
 import macOS from '@client/assets/images/macos_colorful.png';
 import DownloadButton from './download-button.vue';
 import { ReleasesConfig } from '@client/utils/data.config';
-import platformUtil from '@client/utils/platform.util';
+import platformUtil from '@common/utils/platform-ssr.util';
 
 @Options({
   components: {

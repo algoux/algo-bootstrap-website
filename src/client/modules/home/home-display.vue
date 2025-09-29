@@ -14,7 +14,7 @@ export default class HomeDisplay extends Vue {
   @Prop({ type: String, required: true }) readonly platform!: string;
   @Prop({ type: String, default: 'arm64' }) readonly arch!: string;
   @Prop({ type: Boolean, default: false }) readonly isMobile!: boolean;
-  isSupportedPlatform = isMac() || isWindows();
+  isSupportedPlatform = false; // 初始化为 false，在 mounted 中更新
   isStartOpen = false;
 
   private getLinks() {
@@ -53,7 +53,7 @@ export default class HomeDisplay extends Vue {
 
   handleStartMouseLeave() {
     if (!this.isMobile) {
-        this.isStartOpen = false;
+      this.isStartOpen = false;
     }
   }
 
@@ -78,6 +78,9 @@ export default class HomeDisplay extends Vue {
   };
 
   mounted() {
+    // 使用 props 传入的平台信息
+    this.isSupportedPlatform = this.platform === 'mac' || this.platform === 'windows';
+
     const mouse = document.querySelector('.mouse') as HTMLElement;
     document.addEventListener('click', this.handleClickOutside);
     document.addEventListener('keydown', this.handleEscapeKey);
@@ -145,10 +148,16 @@ export default class HomeDisplay extends Vue {
               <path d="m6 9 6 6 6-6" />
             </svg>
           </a>
-          <div class="start-menu" :class="{ open: isStartOpen }">
-            <a class="start-menu-item" :href="getLinks().docs" target="_blank" @click="handleMenuItemClick">安装教程</a>
-            <a class="start-menu-item" :href="getLinks().faq" target="_blank" @click="handleMenuItemClick">使用技巧</a>
-          </div>
+          <client-only>
+            <div class="start-menu" :class="{ open: isStartOpen }">
+              <a class="start-menu-item" :href="getLinks().docs" target="_blank" @click="handleMenuItemClick"
+                >安装教程</a
+              >
+              <a class="start-menu-item" :href="getLinks().faq" target="_blank" @click="handleMenuItemClick"
+                >使用技巧</a
+              >
+            </div>
+          </client-only>
         </div>
       </div>
       <div class="content-main-tools" v-if="!isMobile">

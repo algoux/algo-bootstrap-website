@@ -19,19 +19,27 @@ export default class HomeFooter extends Vue {
   <footer>
     <div class="friend-link">
       <a :href="getLinks().algoUX" class="friend-link-item" target="_blank">
-        <img src="../assets/images/algoUX.ico" alt="" />
+        <client-only>
+          <img src="../assets/images/algoUX.ico" alt="" />
+        </client-only>
         algoUX
       </a>
       <a :href="getLinks().pasteThenAC" class="friend-link-item" target="_blank">
-        <img src="../assets/images/thenac.ico" alt="" />
+        <client-only>
+          <img src="../assets/images/thenac.ico" alt="" />
+        </client-only>
         paste.then.ac
       </a>
       <a :href="getLinks().rankland" class="friend-link-item" target="_blank">
-        <img src="../assets/images/rankland.ico" alt="" />
+        <client-only>
+          <img src="../assets/images/rankland.ico" alt="" />
+        </client-only>
         RankLand
       </a>
       <a :href="getLinks().sdutacm" class="friend-link-item" target="_blank">
-        <img src="../assets/images/sdutacm_logo_colorful.png" alt="" />
+        <client-only>
+          <img src="../assets/images/sdutacm_logo_colorful.png" alt="" />
+        </client-only>
         SDUTACM
       </a>
     </div>

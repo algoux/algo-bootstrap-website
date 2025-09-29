@@ -13,6 +13,7 @@ import { RenderMethod, RenderMethodKind } from 'bwcx-client-vue3';
     HomeFooter,
   },
 })
+@RenderMethod(RenderMethodKind.SSR)
 export default class Releases extends Vue {
   get getHistoricalReleases() {
     return DataConfig.GITHUB_RELEASES;

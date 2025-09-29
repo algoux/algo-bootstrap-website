@@ -7,7 +7,7 @@ import { BwcxClientRouterPlugin } from 'bwcx-client-vue3';
 import { clientRoutesMap } from '@common/router/client-routes';
 import { ApiClientPlugin } from './plugins/api-client.plugin';
 import type { ApiType, ApiClientType } from './api';
-import { getOperatingSystem, isMac, isWindows } from './utils/platform.util';
+import { getOperatingSystem, isMac, isWindows } from '../common/utils/platform-ssr.util';
 import 'element-plus/dist/index.css'
 
 Vue.registerHooks(['setup', 'beforeRouteEnter', 'beforeRouteUpdate', 'beforeRouteLeave', 'asyncData']);

@@ -3,8 +3,7 @@
  * DO NOT MODIFY IT BY HAND.
  */
 
-import { parseRoutes } from 'bwcx-client-vue3';
-
+import { parseRoutes, RenderMethodKind } from 'bwcx-client-vue3';
 
 const clientRoutes = parseRoutes([
   {
@@ -14,7 +13,7 @@ const clientRoutes = parseRoutes([
     component: () => import(/* webpackChunkName: "Home" */ '../modules/home/home.view.vue'),
     routeProps: undefined,
     priority: undefined,
-    renderMethod: undefined,
+    renderMethod: RenderMethodKind.SSR,
     otherOptions: undefined,
   },
   {
@@ -24,7 +23,7 @@ const clientRoutes = parseRoutes([
     component: () => import(/* webpackChunkName: "Releases" */ '../modules/releases/releases.view.vue'),
     routeProps: undefined,
     priority: undefined,
-    renderMethod: undefined,
+    renderMethod: RenderMethodKind.SSR,
     otherOptions: undefined,
   },
 ]);

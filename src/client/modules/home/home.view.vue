@@ -4,7 +4,7 @@ import { View } from 'bwcx-client-vue3';
 import Beams from '@client/components/beams.vue';
 import NavBar from '@client/components/nav-bar.vue';
 import DownloadButton from '@client/components/download-button.vue';
-import { getPlatformInfo } from '@client/utils';
+import { getPlatformInfo } from '@common/utils/platform-ssr.util';
 import GuideContainer from './guide-container.vue';
 import HomeFooter from '@client/components/home-footer.vue';
 import BackTop from '@client/components/backtop.vue';
@@ -23,10 +23,14 @@ import HomeDisplay from './home-display.vue';
     HomeFooter,
   },
 })
+@RenderMethod(RenderMethodKind.SSR)
 export default class Home extends Vue {
   homeState = {
     isMobile: false,
   };
+  platform: string = 'Unknown';
+  arch: string = 'Unknown';
+
   private checkIfMobile = () => {
     this.homeState.isMobile = window.innerWidth < 768;
   };
@@ -42,6 +46,11 @@ export default class Home extends Vue {
   mounted() {
     this.checkIfMobile();
     window.addEventListener('resize', this.handleResize);
+
+    // 客户端平台检测
+    const platformInfo = getPlatformInfo();
+    this.platform = platformInfo.os;
+    this.arch = platformInfo.architecture;
   }
 
   beforeDestroy() {
@@ -52,7 +61,7 @@ export default class Home extends Vue {
 
 <template>
   <div class="home">
-    <HomeDisplay :platform="this.getPlatform.os" :arch="this.getPlatform.architecture"  :isMobile="homeState.isMobile" />
+    <HomeDisplay :platform="platform" :arch="arch"  :isMobile="homeState.isMobile" />
     <GuideContainer />
     <HomeFooter />
     <Beams
