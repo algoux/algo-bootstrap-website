@@ -17,7 +17,7 @@ import { GetReleasesDTO } from '@common/modules/releases/releases.dto';
 @RenderMethod(RenderMethodKind.SSR)
 export default class Releases extends Vue {
   releasesState: GetReleasesDTO = {
-    version: '',
+    version: '1.0.0-beta.1', // 默认版本，避免空字符串
     url: '',
     releaseDate: '',
     releasesInfo: {} as any,
@@ -27,12 +27,27 @@ export default class Releases extends Vue {
     return DataConfig.GITHUB_RELEASES;
   }
 
-  async created() {
+  async asyncData() {
     try {
-      const response = await axios.get('https://cdn.algoux.cn/algo-bootstrap/version.json');
+      const response = await axios.get('https://cdn.algoux.cn/algo-bootstrap/version.json?t=' + Date.now());
+      return {
+        releasesState: response.data,
+      }
+    } catch (error) {
+      console.error('Failed to load release data in asyncData:', error);
+      return {
+        releasesState: this.releasesState, // 使用默认值
+      }
+    }
+  }
+
+  async mounted() {
+    // 客户端也加载数据，确保数据同步
+    try {
+      const response = await axios.get('https://cdn.algoux.cn/algo-bootstrap/version.json?t=' + Date.now());
       this.releasesState = response.data;
     } catch (error) {
-      console.error('Failed to fetch latest release info:', error);
+      console.error('Failed to load release data in mounted:', error);
     }
   }
 }

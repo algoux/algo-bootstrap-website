@@ -15,7 +15,7 @@ import { ElMessage } from 'element-plus';
 })
 export default class ReleaseItem extends Vue {
   @Prop({ type: String, required: true }) platform!: string;
-  @Prop({ type: String, default: '1.0.0-beta.1' }) version!: string;
+  @Prop({ type: String, required: true }) version!: string;
 
   get platformImage(): string {
     switch (this.platform) {
@@ -34,25 +34,26 @@ export default class ReleaseItem extends Vue {
   }
 
   get downloadLink(): string {
-    const version = this.version || '1.0.0-beta.1';
-    const downloadLink = new ReleasesConfig(version).downloadSingleSystemLink(this.platform, this.defaultArch);
+    const downloadLink = new ReleasesConfig(this.version).downloadSingleSystemLink(
+      this.platform,
+      this.defaultArch,
+    );
     return downloadLink;
   }
 
   get otherLinks(): Array<{ arch: string; name?: string; link: string }> {
-    const version = this.version || '1.0.0-beta.1';
     switch (this.platform) {
       case 'windows':
         return [
           {
             arch: 'x64',
             name: 'Windows (x64)',
-            link: new ReleasesConfig(version).downloadSingleSystemLink('windows', 'x64'),
+            link: new ReleasesConfig(this.version).downloadSingleSystemLink('windows', 'x64'),
           },
           {
             arch: 'Arm64',
             name: 'Windows (Arm64)',
-            link: new ReleasesConfig(version).downloadSingleSystemLink('windows', 'arm64'),
+            link: new ReleasesConfig(this.version).downloadSingleSystemLink('windows', 'arm64'),
           },
         ];
       case 'mac':
@@ -60,12 +61,12 @@ export default class ReleaseItem extends Vue {
           {
             arch: 'Intel Chip',
             name: 'macOS (Intel Chip)',
-            link: new ReleasesConfig(version).downloadSingleSystemLink('mac', 'x64'),
+            link: new ReleasesConfig(this.version).downloadSingleSystemLink('mac', 'x64'),
           },
           {
             arch: 'Apple Silicon',
             name: 'macOS (Apple Silicon)',
-            link: new ReleasesConfig(version).downloadSingleSystemLink('mac', 'arm64'),
+            link: new ReleasesConfig(this.version).downloadSingleSystemLink('mac', 'arm64'),
           },
         ];
       default:
@@ -75,12 +76,11 @@ export default class ReleaseItem extends Vue {
 
   // SSR 安全的描述文本
   get staticAsideDesc(): string | null {
-    const version = this.version || '1.0.0-beta.1';
     switch (this.platform) {
       case 'windows':
-        return `version ${version} for x64`;
+        return `version ${this.version} for x64`;
       case 'mac':
-        return `version ${version} for Intel Chip`;
+        return `version ${this.version} for Intel Chip`;
       default:
         return null;
     }
@@ -98,15 +98,14 @@ export default class ReleaseItem extends Vue {
 
   get dynamicAsideDesc(): string | null {
     const arch = this.clientArch;
-    const version = this.version || '1.0.0-beta.1';
     switch (this.platform) {
       case 'windows':
-        return `version ${version} for ${arch == 'arm64' ? 'Arm64' : arch}`;
+        return `version ${this.version} for ${arch == 'arm64' ? 'Arm64' : arch}`;
       case 'mac':
         if (arch == 'arm64') {
-          return `version ${version} for Apple Silicon`;
+          return `version ${this.version} for Apple Silicon`;
         } else {
-          return `version ${version} for Intel Chip`;
+          return `version ${this.version} for Intel Chip`;
         }
       default:
         return null;
@@ -134,9 +133,9 @@ export default class ReleaseItem extends Vue {
     </client-only>
     <main>
       <ClientOnly>
-        <DownloadButton :platform="this.platform" :arch="this.arch" />
+        <DownloadButton :platform="this.platform" :arch="this.arch" :version="this.version" />
         <template #fallback>
-          <DownloadButton :platform="this.platform" :arch="defaultArch" />
+          <DownloadButton :platform="this.platform" :arch="defaultArch" :version="this.version" />
         </template>
       </ClientOnly>
     </main>

@@ -13,10 +13,10 @@ import { ElMessage } from 'element-plus';
   },
 })
 export default class DownloadButton extends Vue {
-  @Prop({ type: String, default: 'windows' }) platform!: string;
-  @Prop({ type: String, default: 'x64' }) arch!: string;
+  @Prop({ type: String, required: true }) platform!: string;
+  @Prop({ type: String, required: true }) arch!: string;
   @Prop({ type: Boolean, default: false }) isHome: Boolean;
-  @Prop({ type: String, default: '1.0.0-beta.1' }) version!: string;
+  @Prop({ type: String, required: true }) version!: string;
 
   get isSupportedPlatform(): boolean {
     return this.platform === 'windows' || this.platform === 'mac';

@@ -28,7 +28,7 @@ import { GetReleasesDTO } from '@common/modules/releases/releases.dto';
 @RenderMethod(RenderMethodKind.SSR)
 export default class Home extends Vue {
   homeState: GetReleasesDTO = {
-    version: '',
+    version: '1.0.0-beta.1', // 默认版本，避免空字符串
     releaseDate: '',
     url: '',
     releasesInfo: {} as any,
@@ -71,11 +71,14 @@ export default class Home extends Vue {
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize);
   }
-  created() {
+  async created() {
+    this.loadVersionData();
+  }
+
+  async loadVersionData() {
     try {
-      axios.get('https://cdn.algoux.cn/algo-bootstrap/version.json').then((response) => {
-        this.homeState = response.data;
-      });
+      const response = await axios.get('https://cdn.algoux.cn/algo-bootstrap/version.json?t=' + Date.now());
+      this.homeState = response.data;
     } catch (error) {
       console.error('Failed to load home view data:', error);
       this.homeState = this.homeState; // 使用默认值

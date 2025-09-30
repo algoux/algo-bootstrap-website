@@ -12,11 +12,11 @@ import { DataConfig } from '@client/utils/data.config';
 })
 export default class HomeDisplay extends Vue {
   @Prop({ type: String, required: true }) readonly platform!: string;
-  @Prop({ type: String, default: 'arm64' }) readonly arch!: string;
+  @Prop({ type: String, required: true }) readonly arch!: string;
   @Prop({ type: Boolean, default: false }) readonly isMobile!: boolean;
   @Prop({ type: Boolean, default: false }) readonly isClientMounted!: boolean;
-  @Prop({ type: String, default: '' }) readonly version!: string;
-  @Prop({ type: String, default: '' }) readonly releasesTime!: string;
+  @Prop({ type: String, required: true }) readonly version!: string;
+  @Prop({ type: String, required: true }) readonly releasesTime!: string;
   isSupportedPlatform = false;
   isStartOpen = false;
 
@@ -145,7 +145,7 @@ export default class HomeDisplay extends Vue {
         <h2>一键配置现代的 C++、Python 和 VS Code 编程环境</h2>
       </header>
       <div class="content-main-subtitle">
-        <DownloadButton :platform="platform" :is-home="true" :arch="arch" />
+        <DownloadButton :platform="platform" :is-home="true" :arch="arch" :version="version" />
         <div class="start-dropdown" @mouseenter="handleStartMouseEnter" @mouseleave="handleStartMouseLeave">
           <div class="start" :href="getLinks().docs" target="_blank" @click="handleStartClick">
             <!-- <svg
