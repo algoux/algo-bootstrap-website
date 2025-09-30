@@ -109,8 +109,8 @@ export default class HomeDisplay extends Vue {
     this.isSupportedPlatform = this.platform === 'mac' || this.platform === 'windows';
 
     const mouse = document.querySelector('.mouse') as HTMLElement;
-    document.addEventListener('click', this.handleClickOutside);
-    document.addEventListener('keydown', this.handleEscapeKey);
+    // document.addEventListener('click', this.handleClickOutside);
+    // document.addEventListener('keydown', this.handleEscapeKey);
     if (mouse) {
       mouse.classList.add('mouse-anim');
     } else {
@@ -123,18 +123,17 @@ export default class HomeDisplay extends Vue {
         mouse.classList.add('mouse-anim');
       }
     });
-    console.log("Info:", this.version, this.releasesTime)
   }
 
-  beforeUnmount() {
-    document.removeEventListener('click', this.handleClickOutside);
-    document.removeEventListener('keydown', this.handleEscapeKey);
+  // beforeUnmount() {
+  //   document.removeEventListener('click', this.handleClickOutside);
+  //   document.removeEventListener('keydown', this.handleEscapeKey);
 
-    if (this.closeTimer) {
-      clearTimeout(this.closeTimer);
-      this.closeTimer = null;
-    }
-  }
+  //   if (this.closeTimer) {
+  //     clearTimeout(this.closeTimer);
+  //     this.closeTimer = null;
+  //   }
+  // }
 }
 </script>
 
@@ -148,7 +147,7 @@ export default class HomeDisplay extends Vue {
       <div class="content-main-subtitle">
         <DownloadButton :platform="platform" :is-home="true" :arch="arch" />
         <div class="start-dropdown" @mouseenter="handleStartMouseEnter" @mouseleave="handleStartMouseLeave">
-          <a class="start" href="#" @click="handleStartClick">
+          <a class="start" :href="getLinks().docs" target="_blank">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -165,7 +164,7 @@ export default class HomeDisplay extends Vue {
               <rect x="2" y="6" width="14" height="12" rx="2" />
             </svg>
             快速上手
-            <svg
+            <!-- <svg
               class="start-svg lucide lucide-chevron-down-icon lucide-chevron-down"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -179,9 +178,9 @@ export default class HomeDisplay extends Vue {
               :style="{ transform: isStartOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }"
             >
               <path d="m6 9 6 6 6-6" />
-            </svg>
+            </svg> -->
           </a>
-          <client-only>
+          <!-- <client-only>
             <div
               class="start-menu"
               :class="{ open: isStartOpen }"
@@ -195,7 +194,7 @@ export default class HomeDisplay extends Vue {
                 >使用技巧</a
               >
             </div>
-          </client-only>
+          </client-only> -->
         </div>
       </div>
       <div class="content-main-tools" v-if="!isMobile">
