@@ -200,7 +200,7 @@ export default class HomeDisplay extends Vue {
       <div class="content-main-tools" v-if="!isMobile">
         <p v-if="isSupportedPlatform">版本 {{ version }}，发布于 {{ releasesTime }}</p>
         <p>访问 <a :href="getLinks().algoUX" target="_blank">algoUX</a>，探索更多编程与算竞工具链产品</p>
-        <p><a :href="getLinks().oldWebsite" class="old-web" target="_blank">旧版网站</a></p>
+        <p>访问<a :href="getLinks().oldWebsite" class="old-web" target="_blank">旧版网站</a></p>
       </div>
     </main>
     <svg

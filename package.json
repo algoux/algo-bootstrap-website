@@ -21,7 +21,8 @@
     "bwcx",
     "vue3",
     "vite",
-    "algobootstrap"
+    "algobootstrap",
+    "ssr"
   ],
   "author": {
     "name": "sdutacm",
@@ -30,7 +31,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bwcxjs/bwcx-vue3-ssr-template.git"
+    "url": "git+https://github.com/algoux/algo-bootstrap.git"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.2",
