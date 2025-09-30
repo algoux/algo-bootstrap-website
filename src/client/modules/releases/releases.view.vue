@@ -5,7 +5,8 @@ import ReleaseItem from '@client/components/release-item.vue';
 import HomeFooter from '@client/components/home-footer.vue';
 import { DataConfig } from '@client/utils/data.config';
 import { RenderMethod, RenderMethodKind } from 'bwcx-client-vue3';
-
+import axios from 'axios';
+import { GetReleasesDTO } from '@common/modules/releases/releases.dto';
 @View('/releases')
 @Options({
   components: {
@@ -15,8 +16,24 @@ import { RenderMethod, RenderMethodKind } from 'bwcx-client-vue3';
 })
 @RenderMethod(RenderMethodKind.SSR)
 export default class Releases extends Vue {
+  releasesState: GetReleasesDTO = {
+    version: '',
+    url: '',
+    releaseDate: '',
+    releasesInfo: {} as any,
+  };
+
   get getHistoricalReleases() {
     return DataConfig.GITHUB_RELEASES;
+  }
+
+  async created() {
+    try {
+      const response = await axios.get('https://cdn.algoux.cn/algo-bootstrap/version.json');
+      this.releasesState = response.data;
+    } catch (error) {
+      console.error('Failed to fetch latest release info:', error);
+    }
   }
 }
 </script>
@@ -25,8 +42,8 @@ export default class Releases extends Vue {
   <div class="release">
     <header class="release-header">Download Algo Bootstrap</header>
     <div class="release-container">
-      <ReleaseItem :platform="'windows'" />
-      <ReleaseItem :platform="'mac'" />
+      <ReleaseItem :platform="'windows'" :version="releasesState.version" />
+      <ReleaseItem :platform="'mac'" :version="releasesState.version" />
       <a :href="getHistoricalReleases" class="old-version" target="_blank">历史版本</a>
     </div>
     <home-footer />

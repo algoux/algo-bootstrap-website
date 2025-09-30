@@ -10,6 +10,8 @@ import HomeFooter from '@client/components/home-footer.vue';
 import BackTop from '@client/components/backtop.vue';
 import { RenderMethod, RenderMethodKind } from 'bwcx-client-vue3';
 import HomeDisplay from './home-display.vue';
+import axios from 'axios';
+import GetReleasesDTO from '@common/modules/releases/releases.dto';
 
 @View('/')
 @Options({
@@ -25,14 +27,20 @@ import HomeDisplay from './home-display.vue';
 })
 @RenderMethod(RenderMethodKind.SSR)
 export default class Home extends Vue {
-  homeState = {
-    isMobile: false,
+  homeState: GetReleasesDTO = {
+    version: '',
+    releaseDate: '',
+    url: '',
+    releasesInfo: {} as any,
   };
-  platform: string = 'Unknown';
-  arch: string = 'Unknown';
+  isMobile: boolean = false;
+  // 默认值，避免SSR水合不匹配
+  platform: string = 'windows'; // 使用最常见的平台作为默认值
+  arch: string = 'x64'; // 使用最常见的架构作为默认值
+  isClientMounted: boolean = false;
 
   private checkIfMobile = () => {
-    this.homeState.isMobile = window.innerWidth < 768;
+    this.isMobile = window.innerWidth < 768;
   };
 
   private handleResize = () => {
@@ -49,19 +57,39 @@ export default class Home extends Vue {
 
     // 客户端平台检测
     const platformInfo = getPlatformInfo();
-    this.platform = platformInfo.os;
-    this.arch = platformInfo.architecture;
+    this.platform = platformInfo.os !== 'Unknown' ? platformInfo.os : 'windows';
+    this.arch = platformInfo.architecture !== 'Unknown' ? platformInfo.architecture : 'x64';
+    this.isClientMounted = true;
+    console.log('Home View Info:', this.homeState);
   }
 
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize);
+  }
+  created() {
+    try {
+      axios.get('https://cdn.algoux.cn/algo-bootstrap/version.json').then((response) => {
+        console.log('Home View Data loaded:', response.data);
+        this.homeState = response.data;
+      });
+    } catch (error) {
+      console.error('Failed to load home view data:', error);
+      this.homeState = this.homeState; // 使用默认值
+    }
   }
 }
 </script>
 
 <template>
   <div class="home">
-    <HomeDisplay :platform="platform" :arch="arch"  :isMobile="homeState.isMobile" />
+    <HomeDisplay
+      :platform="platform"
+      :arch="arch"
+      :isMobile="isMobile"
+      :isClientMounted="isClientMounted"
+      :releasesTime="homeState.releaseDate"
+      :version="homeState.version"
+    />
     <GuideContainer />
     <HomeFooter />
     <Beams

@@ -13,7 +13,9 @@ import platformUtil from '@common/utils/platform-ssr.util';
   },
 })
 export default class ReleaseItem extends Vue {
-  @Prop() platform!: string;
+  @Prop({ type: String, required: true }) platform!: string;
+  @Prop({ type: String, default: '1.0.0-beta.1' }) version!: string;
+
 
   get platformImage(): string {
     switch (this.platform) {
@@ -26,28 +28,34 @@ export default class ReleaseItem extends Vue {
     }
   }
 
+  // 使用默认架构避免SSR不匹配
+  get defaultArch(): string {
+    return 'x64'; // 默认使用 x64，在客户端会动态更新
+  }
+
   get downloadLink(): string {
-    const arch = platformUtil.getArchitecture();
-    const downloadLink = new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink(
+    const version = this.version || '1.0.0-beta.1';
+    const downloadLink = new ReleasesConfig(version).downloadSingleSystemLink(
       this.platform,
-      arch,
+      this.defaultArch,
     );
     return downloadLink;
   }
 
   get otherLinks(): Array<{ arch: string; name?: string; link: string }> {
+    const version = this.version || '1.0.0-beta.1';
     switch (this.platform) {
       case 'windows':
         return [
           {
             arch: 'x64',
             name: 'Windows (x64)',
-            link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink('windows', 'x64'),
+            link: new ReleasesConfig(version).downloadSingleSystemLink('windows', 'x64'),
           },
           {
             arch: 'Arm64',
             name: 'Windows (Arm64)',
-            link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink('windows', 'arm64'),
+            link: new ReleasesConfig(version).downloadSingleSystemLink('windows', 'arm64'),
           }
         ];
       case 'mac':
@@ -55,12 +63,12 @@ export default class ReleaseItem extends Vue {
           {
             arch: 'Intel Chip',
             name: 'macOS (Intel Chip)',
-            link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink('mac', 'x64'),
+            link: new ReleasesConfig(version).downloadSingleSystemLink('mac', 'x64'),
           },
           {
             arch: 'Apple Silicon',
             name: 'macOS (Apple Silicon)',
-            link: new ReleasesConfig(process.env.VITE_VERSION as string).downloadSingleSystemLink('mac', 'arm64'),
+            link: new ReleasesConfig(version).downloadSingleSystemLink('mac', 'arm64'),
           },
         ];
       default:
@@ -68,16 +76,40 @@ export default class ReleaseItem extends Vue {
     }
   }
 
-  get asideDesc(): string | null {
-    const arch = platformUtil.getArchitecture();
+  // SSR 安全的描述文本
+  get staticAsideDesc(): string | null {
+    const version = this.version || '1.0.0-beta.1';
     switch (this.platform) {
       case 'windows':
-        return `version ${process.env.VITE_VERSION} for ${arch == 'arm64' ? 'Arm64' : arch}`;
+        return `version ${version} for x64`;
+      case 'mac':
+        return `version ${version} for Intel Chip`;
+      default:
+        return null;
+    }
+  }
+
+  // 客户端动态架构检测
+  clientArch: string = 'x64';
+  isClientMounted: boolean = false;
+
+  mounted() {
+    // 在客户端更新架构信息
+    this.clientArch = platformUtil.getArchitecture();
+    this.isClientMounted = true;
+  }
+
+  get dynamicAsideDesc(): string | null {
+    const arch = this.clientArch;
+    const version = this.version || '1.0.0-beta.1';
+    switch (this.platform) {
+      case 'windows':
+        return `version ${version} for ${arch == 'arm64' ? 'Arm64' : arch}`;
       case 'mac':
         if(arch == 'arm64') {
-          return `version ${process.env.VITE_VERSION} for Apple Silicon`;
+          return `version ${version} for Apple Silicon`;
         }else {
-          return `version ${process.env.VITE_VERSION} for Intel Chip`;
+          return `version ${version} for Intel Chip`;
         }
       default:
         return null;
@@ -85,11 +117,15 @@ export default class ReleaseItem extends Vue {
   }
 
   get arch() {
-    return platformUtil.getArchitecture();
+    return this.clientArch;
   }
 
   private handleDownload(link: string) {
     console.log('Download link:', link);
+    const a = document.createElement('a');
+    a.href = link;
+    a.target = '_parent';
+    a.click();
   }
 }
 </script>
@@ -100,9 +136,19 @@ export default class ReleaseItem extends Vue {
       <img :src="platformImage" alt="" />
     </header>
     <main>
-      <DownloadButton :platform="this.platform" :arch="this.arch" />
+      <ClientOnly>
+        <DownloadButton :platform="this.platform" :arch="this.arch" />
+        <template #fallback>
+          <DownloadButton :platform="this.platform" :arch="defaultArch" />
+        </template>
+      </ClientOnly>
     </main>
-    <aside>{{ asideDesc }}</aside>
+    <ClientOnly>
+      <aside>{{ dynamicAsideDesc }}</aside>
+      <template #fallback>
+        <aside>{{ staticAsideDesc }}</aside>
+      </template>
+    </ClientOnly>
     <aside>下载更多架构版本</aside>
     <footer>
           <div v-for="item in otherLinks" key="item.arch" class="single-button" @click="this.handleDownload(item.link)">
@@ -114,9 +160,11 @@ export default class ReleaseItem extends Vue {
 
 <style scoped lang="less">
 .single-button {
-  width: 25%;
+  width: 30%;
+
   @media screen and (max-width: 1200px) {
-    width: 30%;
+    max-width: 150px;
+    width: 40%;
   }
   white-space: nowrap;
   padding: 10px;

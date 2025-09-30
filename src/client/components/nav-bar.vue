@@ -40,7 +40,7 @@ export default class NavBar extends Vue {
         <div class="logo">
           <div class="logo-icon" v-if="!isMobile">
             <client-only>
-              <img src="../assets/logo.png" alt="AlgoBootstrap" />
+              <img src="../assets/logo_mac.png" alt="AlgoBootstrap" />
             </client-only>
           </div>
           <router-link :to="{ name: 'Home' }" class="goHome">Algo Bootstrap</router-link>
@@ -151,7 +151,7 @@ export default class NavBar extends Vue {
                 <a class="dropdown-item" :href="dataConfig.FAQ_LINK" target="_blank"> 常见问题 </a>
               </el-dropdown-item>
               <el-dropdown-item divided>
-                <router-link class="dropdown-item" to="/releases"> 下载 </router-link>
+                <router-link class="dropdown-item" :to="{ name: 'Releases' }"> 下载 </router-link>
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>

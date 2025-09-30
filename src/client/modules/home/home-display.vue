@@ -14,7 +14,10 @@ export default class HomeDisplay extends Vue {
   @Prop({ type: String, required: true }) readonly platform!: string;
   @Prop({ type: String, default: 'arm64' }) readonly arch!: string;
   @Prop({ type: Boolean, default: false }) readonly isMobile!: boolean;
-  isSupportedPlatform = false; // 初始化为 false，在 mounted 中更新
+  @Prop({ type: Boolean, default: false }) readonly isClientMounted!: boolean;
+  @Prop({ type: String, default: '' }) readonly version!: string;
+  @Prop({ type: String, default: '' }) readonly releasesTime!: string;
+  isSupportedPlatform = false;
   isStartOpen = false;
 
   private getLinks() {
@@ -31,11 +34,11 @@ export default class HomeDisplay extends Vue {
   }
 
   get getVersion() {
-    return process.env.VITE_VERSION;
+    return this.version;
   }
 
   get getReleasesTime() {
-    return process.env.VITE_RELEASES_TIME;
+    return this.releasesTime;
   }
 
   private closeTimer: number | null = null;
@@ -120,6 +123,7 @@ export default class HomeDisplay extends Vue {
         mouse.classList.add('mouse-anim');
       }
     });
+    console.log("Info:", this.version, this.releasesTime)
   }
 
   beforeUnmount() {
@@ -195,7 +199,7 @@ export default class HomeDisplay extends Vue {
         </div>
       </div>
       <div class="content-main-tools" v-if="!isMobile">
-        <p v-if="isSupportedPlatform">版本 {{ getVersion }}，发布于 {{ getReleasesTime }}</p>
+        <p v-if="isSupportedPlatform">版本 {{ version }}，发布于 {{ releasesTime }}</p>
         <p>访问 <a :href="getLinks().algoUX" target="_blank">algoUX</a>，探索更多编程与算竞工具链产品</p>
         <p><a :href="getLinks().oldWebsite" class="old-web" target="_blank">旧版网站</a></p>
       </div>

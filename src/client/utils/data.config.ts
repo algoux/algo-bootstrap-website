@@ -67,13 +67,13 @@ export class ReleasesConfig {
   public downloadSingleSystemLinks(platform: string): Array<string> {
     if (platform === 'windows') {
       return [
-        `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-windows-${this.version}-x64.exe`,
-        `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-windows-${this.version}-arm64.exe`,
+        `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-windows-x64-${this.version}.exe`,
+        `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-windows-arm64-${this.version}.exe`,
       ];
     } else {
       return [
-        `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-mac-${this.version}.arm64.dmg`,
-        `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-mac-${this.version}.x64.dmg`,
+        `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-mac-arm64-${this.version}.dmg`,
+        `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-mac-x64-${this.version}.dmg`,
       ];
     }
   }
@@ -81,25 +81,25 @@ export class ReleasesConfig {
   public downloadSingleSystemLink(platform: string, arch: string): string {
     if (platform === 'windows') {
       if (arch === 'x64') {
-        return `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-windows-${this.version}-x64.exe`;
+        return `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-windows-x64-${this.version}.exe`;
       } else {
-        return `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-windows-${this.version}-arm64.exe`;
+        return `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-windows-arm64-${this.version}.exe`;
       }
     } else {
       if (arch === 'x64') {
-        return `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-mac-${this.version}.x64.dmg`;
+        return `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-mac-x64-${this.version}.dmg`;
       } else {
-        return `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-mac-${this.version}.arm64.dmg`;
+        return `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-mac-arm64-${this.version}.dmg`;
       }
     }
   }
 
   public downloadAllSystemLink(): Array<string> {
     return [
-      `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-windows-${this.version}-x64.exe`,
-      `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-windows-${this.version}-arm64.exe`,
-      `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-mac-${this.version}.arm64.dmg`,
-      `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-mac-${this.version}.x64.dmg`,
+      `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-windows-x64-${this.version}.exe`,
+      `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-windows-arm64-${this.version}.exe`,
+      `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-mac-arm64-${this.version}.dmg`,
+      `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-mac-x64-${this.version}.dmg`,
     ];
   }
 }

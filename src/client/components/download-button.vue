@@ -8,9 +8,10 @@ import platformUtil from '@client/utils/platform.util';
 import { ReleasesConfig } from '@client/utils/data.config';
 
 export default class DownloadButton extends Vue {
-  @Prop({ type: String, default: 'Windows' }) platform!: string;
-  @Prop({ type: String, default: 'arm64' }) arch!: string;
+  @Prop({ type: String, default: 'windows' }) platform!: string;
+  @Prop({ type: String, default: 'x64' }) arch!: string;
   @Prop({ type: Boolean, default: false }) isHome: Boolean;
+  @Prop({ type: String, default: '1.0.0-beta.1' }) version!: string;
 
   get isSupportedPlatform(): boolean {
     return this.platform === 'windows' || this.platform === 'mac';
@@ -21,7 +22,15 @@ export default class DownloadButton extends Vue {
   }
 
   get platformName(): string {
-    return this.platform === 'mac' ? 'macOS' : 'Windows';
+    // 确保服务端和客户端返回一致的平台名称
+    switch (this.platform) {
+      case 'mac':
+        return 'macOS';
+      case 'windows':
+        return 'Windows';
+      default:
+        return 'Unknown';
+    }
   }
 
   get platformImage(): string {
@@ -36,11 +45,12 @@ export default class DownloadButton extends Vue {
   }
 
   private handleDownload() {
-    const version = process.env.VITE_VERSION;
-    const releasesConfig = new ReleasesConfig(version as string);
+    const releasesConfig = new ReleasesConfig(this.version);
     let downloadLink = releasesConfig.downloadSingleSystemLink(this.platform, this.arch);
-    console.log('Download link:', downloadLink);
-    // window.open(downloadLink, '_blank');
+    const a = document.createElement('a');
+    a.href = downloadLink;
+    a.target = '_parent';
+    a.click();
   }
 }
 </script>
