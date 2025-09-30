@@ -33,9 +33,9 @@ export default class OurApp extends App {
     '!./common/api/**',
   ];
 
-  protected hostname = '127.0.0.1';
+  protected hostname = process.env.HOST || '127.0.0.1';
 
-  protected port = 3000;
+  protected port = parseInt(process.env.PORT) || 3000;
 
   protected exitTimeout = 5000;
 

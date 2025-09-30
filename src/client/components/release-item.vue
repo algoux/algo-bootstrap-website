@@ -11,7 +11,6 @@ import { ElMessage } from 'element-plus';
 @Options({
   components: {
     DownloadButton,
-    ElMessage,
   },
 })
 export default class ReleaseItem extends Vue {

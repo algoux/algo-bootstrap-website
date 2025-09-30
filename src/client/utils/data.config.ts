@@ -1,5 +1,9 @@
 import shotOneMac from '@client/assets/images/shot/shot-1-mac.png';
+import shotTwoMac from '@client/assets/images/shot/shot-2-mac.png';
+import shotThreeMac from '@client/assets/images/shot/shot-3-mac.png';
 import shotOneWin from '@client/assets/images/shot/shot-1-win.png';
+import shotTwoWin from '@client/assets/images/shot/shot-2-win.png';
+import shotThreeWin from '@client/assets/images/shot/shot-3-win.png';
 import { GuideRPO } from '@common/modules/guide/guide.rpo';
 
 export class DataConfig {
@@ -37,15 +41,15 @@ export class GuideConfig {
   }
 
   macGuideConfig: GuideRPO[] = [
-    { id: 1,  title: '喵喵喵喵喵', description: "喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵", guideURL: "#", imageURL: shotOneMac},
-    { id: 2,  title: '喵喵喵喵喵', description: "喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵", guideURL: "#", imageURL: shotOneMac},
-    { id: 3,  title: '喵喵喵喵喵', description: "喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵", guideURL: "#", imageURL: shotOneMac}
+    { id: 1,  title: '轻松上手，配置难题全搞定', description: "Algo Bootstrap 替你将复杂的配置自动完成。只需轻点鼠标，即可拥有整套编程环境。", guideURL: "#", imageURL: shotOneMac},
+    { id: 2,  title: '开箱即用的调试支持', description: "无需参考教程，即使是单步调试，照样信手拈来。", guideURL: "#", imageURL: shotTwoMac},
+    { id: 3,  title: '为初学者量身打造的辅助提示', description: "内置强大的代码风格和错误检查功能，助你编程一臂之力。", guideURL: "#", imageURL: shotThreeMac}
   ]
 
   winGuideConfig: GuideRPO[] = [
-    { id: 1,  title: '喵喵喵喵喵', description: "喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵", guideURL: "#", imageURL: shotOneWin},
-    { id: 2,  title: '喵喵喵喵喵', description: "喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵", guideURL: "#", imageURL: shotOneWin},
-    { id: 3,  title: '喵喵喵喵喵', description: "喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵", guideURL: "#", imageURL: shotOneWin},
+    { id: 1,  title: '轻松上手，配置难题全搞定', description: "Algo Bootstrap 替你将复杂的配置自动完成。只需轻点鼠标，即可拥有整套编程环境。", guideURL: "#", imageURL: shotOneWin},
+    { id: 2,  title: '开箱即用的调试支持', description: "无需参考教程，即使是单步调试，照样信手拈来。", guideURL: "#", imageURL: shotTwoWin},
+    { id: 3,  title: '为初学者量身打造的辅助提示', description: "内置强大的代码风格和错误检查功能，助你编程一臂之力。", guideURL: "#", imageURL: shotThreeWin},
   ]
 
   get guideConfigGroups(): GuideRPO[] {

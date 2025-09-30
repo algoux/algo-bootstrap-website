@@ -11,7 +11,7 @@ import BackTop from '@client/components/backtop.vue';
 import { RenderMethod, RenderMethodKind } from 'bwcx-client-vue3';
 import HomeDisplay from './home-display.vue';
 import axios from 'axios';
-import GetReleasesDTO from '@common/modules/releases/releases.dto';
+import { GetReleasesDTO } from '@common/modules/releases/releases.dto';
 
 @View('/')
 @Options({
@@ -60,7 +60,6 @@ export default class Home extends Vue {
     this.platform = platformInfo.os !== 'Unknown' ? platformInfo.os : 'windows';
     this.arch = platformInfo.architecture !== 'Unknown' ? platformInfo.architecture : 'x64';
     this.isClientMounted = true;
-    console.log('Home View Info:', this.homeState);
   }
 
   beforeDestroy() {
@@ -69,7 +68,6 @@ export default class Home extends Vue {
   created() {
     try {
       axios.get('https://cdn.algoux.cn/algo-bootstrap/version.json').then((response) => {
-        console.log('Home View Data loaded:', response.data);
         this.homeState = response.data;
       });
     } catch (error) {
@@ -101,10 +99,10 @@ export default class Home extends Vue {
         :noise-intensity="1.75"
         :scale="0.15"
         :rotation="30"
-        :isMobile="homeState.isMobile"
+        :isMobile="this.isMobile"
       />
     </client-only>
-    <back-top v-if="!homeState.isMobile" />
+    <back-top v-if="!this.isMobile" />
   </div>
 </template>
 

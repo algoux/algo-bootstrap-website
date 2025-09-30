@@ -4,14 +4,12 @@ import { Prop } from 'vue-property-decorator';
 import macOS from '@client/assets/images/macos.png';
 import windows from '@client/assets/images/windows.png';
 import download from '@client/assets/images/download.png';
-import platformUtil from '@client/utils/platform.util';
 import { ReleasesConfig } from '@client/utils/data.config';
 import { ElMessage } from 'element-plus';
-// import ReleasesConfig from '@/utils/data.config';
 
 @Options({
   components: {
-    ElMessage,
+
   },
 })
 export default class DownloadButton extends Vue {

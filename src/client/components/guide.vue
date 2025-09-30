@@ -19,7 +19,7 @@ export default class Guide extends Vue {
     const texts = [
       this.$refs['split-text-title'],
       this.$refs['split-text-desc'],
-      this.$refs['split-text-link'],
+      // this.$refs['split-text-link'],
       this.$refs['guide-video'],
     ];
 
@@ -62,7 +62,7 @@ export default class Guide extends Vue {
       <p class="split-text" ref="split-text-desc">
         {{ guideProps.description }}
       </p>
-      <a :href="guideProps.guideURL" class="split-text" ref="split-text-link">视频教程 ↗</a>
+      <!-- <a :href="guideProps.guideURL" class="split-text" ref="split-text-link">视频教程 ↗</a> -->
     </div>
     <div class="guide-display" ref="guide-video">
       <div class="guide-display-video">
