@@ -9,29 +9,25 @@ export class DataConfig {
 
   static readonly GITHUB_RELEASES = 'https://github.com/algoux/algo-bootstrap/releases';
 
-  static readonly DOCS_LINK = 'https://docs.of.ab.algoux.cn/?utm_source=algo-bootstrap';
+  static readonly DOCS_LINK = 'https://docs.of.ab.algoux.cn/?utm_source=ab_website';
 
-  static readonly FAQ_LINK = 'https://docs.of.ab.algoux.cn/faq.html';
+  static readonly FAQ_LINK = 'https://docs.of.ab.algoux.cn/faq.html?utm_source=ab_website';
 
-  static readonly SDUTACM_LINK = 'https://acm.sdut.edu.cn/';
+  static readonly SDUTACM_LINK = 'https://acm.sdut.edu.cn/?utm_source=ab_website';
 
-  static readonly OJ_LINK = 'https://oj.sdutacm.cn/onlinejudge3/';
+  static readonly OJ_LINK = 'https://oj.sdutacm.cn/onlinejudge3/?utm_source=ab_website';
 
   static readonly BILIBILI_LINK = 'https://space.bilibili.com/1479542015';
 
-  static readonly OLD_WEBSITE_LINK = 'https://ab.algoux.org/';
+  static readonly OLD_WEBSITE_LINK = 'https://ab.algoux.org/old/?utm_source=ab_website';
 
   static readonly VSCODE_LINK = 'https://code.visualstudio.com/';
 
-  static readonly BLUE_GITHUB_LINK = 'https://github.com/dreamerblue';
+  static readonly ALGOUX_LINK = 'https://algoux.org/?utm_source=ab_website';
 
-  static readonly ATRIOR_GITHUB_LINK = 'https://github.com/ATRIOR-LCL';
+  static readonly PASTE_THEN_AC_LINK = 'https://paste.then.ac/?utm_source=ab_website';
 
-  static readonly ALGOUX_LINK = 'https://algoux.org/';
-
-  static readonly PASTE_THEN_AC_LINK = 'https://paste.then.ac/';
-
-  static readonly RANKLAND_LINK = 'https://rl.algoux.org/';
+  static readonly RANKLAND_LINK = 'https://rl.algoux.cn/?utm_source=ab_website';
 }
 
 export class GuideConfig {

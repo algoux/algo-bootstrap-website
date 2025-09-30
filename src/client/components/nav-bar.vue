@@ -40,7 +40,7 @@ export default class NavBar extends Vue {
         <div class="logo">
           <div class="logo-icon" v-if="!isMobile">
             <client-only>
-              <img src="../assets/logo_mac.png" alt="AlgoBootstrap" />
+              <img src="../assets/logo.png" alt="AlgoBootstrap" />
             </client-only>
           </div>
           <router-link :to="{ name: 'Home' }" class="goHome">Algo Bootstrap</router-link>
