@@ -44,7 +44,7 @@ export default class Guide extends Vue {
         });
       },
       {
-        threshold: 0.5,
+        threshold: 0.2,
       },
     );
 

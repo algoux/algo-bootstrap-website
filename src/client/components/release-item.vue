@@ -28,9 +28,21 @@ export default class ReleaseItem extends Vue {
     }
   }
 
+  // 移动端主流架构配置
+  get mobileMainstreamArch(): string {
+    switch (this.platform) {
+      case 'windows':
+        return 'x64';
+      case 'mac':
+        return 'arm64';
+      default:
+        return 'x64';
+    }
+  }
+
   // 使用默认架构避免SSR不匹配
   get defaultArch(): string {
-    return 'x64'; // 默认使用 x64，在客户端会动态更新
+    return this.mobileMainstreamArch;
   }
 
   get downloadLink(): string {
@@ -74,13 +86,13 @@ export default class ReleaseItem extends Vue {
     }
   }
 
-  // SSR 安全的描述文本
+  // SSR 安全的描述文本 - 移动端显示主流架构
   get staticAsideDesc(): string | null {
     switch (this.platform) {
       case 'windows':
         return `version ${this.version} for x64`;
       case 'mac':
-        return `version ${this.version} for Intel Chip`;
+        return `version ${this.version} for Apple Silicon`;
       default:
         return null;
     }
@@ -92,15 +104,23 @@ export default class ReleaseItem extends Vue {
 
   mounted() {
     // 在客户端更新架构信息
-    this.clientArch = platformUtil.getArchitecture();
+    const detectedArch = platformUtil.getArchitecture();
+    // 如果是移动端访问，使用主流架构而不是检测到的架构
+    this.clientArch = this.isMobileDevice() ? this.mobileMainstreamArch : detectedArch;
     this.isClientMounted = true;
+  }
+
+  // 检测是否为移动设备
+  private isMobileDevice(): boolean {
+    if (typeof navigator === 'undefined') return false;
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   }
 
   get dynamicAsideDesc(): string | null {
     const arch = this.clientArch;
     switch (this.platform) {
       case 'windows':
-        return `version ${this.version} for ${arch == 'arm64' ? 'Arm64' : arch}`;
+        return `version ${this.version} for ${arch == 'arm64' ? 'Arm64' : 'x64'}`;
       case 'mac':
         if (arch == 'arm64') {
           return `version ${this.version} for Apple Silicon`;
@@ -118,7 +138,7 @@ export default class ReleaseItem extends Vue {
 
   private handleDownload(link: string) {
     console.log('Download link:', link);
-    ElMessage('下载开始，请稍后...');
+    ElMessage('下载开始，请稍候...');
     window.open(link, '_parent');
   }
 }

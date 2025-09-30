@@ -28,7 +28,7 @@ import { GetReleasesDTO } from '@common/modules/releases/releases.dto';
 @RenderMethod(RenderMethodKind.SSR)
 export default class Home extends Vue {
   homeState: GetReleasesDTO = {
-    version: '1.0.0-beta.1', // 默认版本，避免空字符串
+    version: '',
     releaseDate: '',
     url: '',
     releasesInfo: {} as any,

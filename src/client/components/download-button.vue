@@ -8,9 +8,7 @@ import { ReleasesConfig } from '@client/utils/data.config';
 import { ElMessage } from 'element-plus';
 
 @Options({
-  components: {
-
-  },
+  components: {},
 })
 export default class DownloadButton extends Vue {
   @Prop({ type: String, required: true }) platform!: string;
@@ -18,15 +16,34 @@ export default class DownloadButton extends Vue {
   @Prop({ type: Boolean, default: false }) isHome: Boolean;
   @Prop({ type: String, required: true }) version!: string;
 
+  // 检测是否为移动设备
+  get isMobileDevice(): boolean {
+    if (typeof navigator === 'undefined') return false;
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
+
   get isSupportedPlatform(): boolean {
+    // 只有在主页时才考虑移动设备检测
+    if (this.isHome && this.isMobileDevice) {
+      return false;
+    }
     return this.platform === 'windows' || this.platform === 'mac';
   }
 
   get isUnsupportedPlatform(): boolean {
+    // 只有在主页时才考虑移动设备，releases页面按正常平台逻辑
+    if (this.isHome && this.isMobileDevice) {
+      return true;
+    }
     return this.platform !== 'windows' && this.platform !== 'mac';
   }
 
   get platformName(): string {
+    // 只有在主页时才显示移动设备名称
+    if (this.isHome && this.isMobileDevice) {
+      return '移动设备';
+    }
+
     // 确保服务端和客户端返回一致的平台名称
     switch (this.platform) {
       case 'mac':
@@ -39,6 +56,11 @@ export default class DownloadButton extends Vue {
   }
 
   get platformImage(): string {
+    // 只有在主页时，移动设备才显示通用下载图标
+    if (this.isHome && this.isMobileDevice) {
+      return download;
+    }
+
     switch (this.platform) {
       case 'windows':
         return windows;
@@ -50,9 +72,13 @@ export default class DownloadButton extends Vue {
   }
 
   private handleDownload() {
+    if (this.isMobileDevice) {
+      this.$router.push({ name: 'Releases' });
+      return;
+    }
     const releasesConfig = new ReleasesConfig(this.version);
     let downloadLink = releasesConfig.downloadSingleSystemLink(this.platform, this.arch);
-    ElMessage('下载开始，请稍后...');
+    ElMessage('下载开始，请稍候...');
     window.open(downloadLink, '_parent');
   }
 }

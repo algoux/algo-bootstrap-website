@@ -45,28 +45,7 @@ export function mainEntry({
     }
   });
 
-  // 添加路由守卫：检测平台并重定向
-  router.beforeEach((to, from, next) => {
-    if (isClient) {
-      if (to.path === '/' && (!from.name || from.path === '/')) {
-        try {
-          const os = getOperatingSystem();
-          const isSupportedPlatform = isMac() || isWindows();
-
-          // 如果不是 Windows 或 macOS，重定向到 releases 页面
-          if (!isSupportedPlatform) {
-            console.log(`检测到平台: ${os}，重定向到 releases 页面`);
-            return next('/releases');
-          }
-        } catch (error) {
-          console.error('平台检测失败:', error);
-        }
-      }
-    }
-
-    // 继续正常的路由导航
-    next();
-  });
+  // 路由守卫已移至服务端中间件处理
 
   router.beforeResolve(async (to, from, next) => {
     const component = to.matched[0].components.default;
