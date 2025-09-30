@@ -147,8 +147,8 @@ export default class HomeDisplay extends Vue {
       <div class="content-main-subtitle">
         <DownloadButton :platform="platform" :is-home="true" :arch="arch" />
         <div class="start-dropdown" @mouseenter="handleStartMouseEnter" @mouseleave="handleStartMouseLeave">
-          <a class="start" :href="getLinks().docs" target="_blank">
-            <svg
+          <div class="start" :href="getLinks().docs" target="_blank" @click="handleStartClick">
+            <!-- <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
@@ -162,9 +162,9 @@ export default class HomeDisplay extends Vue {
             >
               <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5" />
               <rect x="2" y="6" width="14" height="12" rx="2" />
-            </svg>
+            </svg> -->
             快速上手
-            <!-- <svg
+            <svg
               class="start-svg lucide lucide-chevron-down-icon lucide-chevron-down"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -178,9 +178,9 @@ export default class HomeDisplay extends Vue {
               :style="{ transform: isStartOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }"
             >
               <path d="m6 9 6 6 6-6" />
-            </svg> -->
-          </a>
-          <!-- <client-only>
+            </svg>
+          </div>
+          <client-only>
             <div
               class="start-menu"
               :class="{ open: isStartOpen }"
@@ -190,11 +190,11 @@ export default class HomeDisplay extends Vue {
               <a class="start-menu-item" :href="getLinks().docs" target="_blank" @click="handleMenuItemClick"
                 >安装教程</a
               >
-              <a class="start-menu-item" :href="getLinks().faq" target="_blank" @click="handleMenuItemClick"
+              <!-- <a class="start-menu-item" :href="getLinks().faq" target="_blank" @click="handleMenuItemClick"
                 >使用技巧</a
-              >
+              > -->
             </div>
-          </client-only> -->
+          </client-only>
         </div>
       </div>
       <div class="content-main-tools" v-if="!isMobile">
@@ -260,7 +260,7 @@ export default class HomeDisplay extends Vue {
 }
 .start-menu.open {
   opacity: 1;
-  height: calc(var(--font-small-size) * 4 + 20px);
+  height: calc(var(--font-small-size) * 2 + 10px);
   pointer-events: auto;
 }
 .start-menu-item {
