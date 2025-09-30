@@ -9,25 +9,25 @@ export class DataConfig {
 
   static readonly GITHUB_RELEASES = 'https://github.com/algoux/algo-bootstrap/releases';
 
-  static readonly DOCS_LINK = 'https://docs.of.ab.algoux.cn/?utm_source=ab_website';
+  static readonly DOCS_LINK = 'https://docs.of.ab.algoux.cn/?utm_source=ab-website';
 
-  static readonly FAQ_LINK = 'https://docs.of.ab.algoux.cn/faq.html?utm_source=ab_website';
+  static readonly FAQ_LINK = 'https://docs.of.ab.algoux.cn/faq.html?utm_source=ab-website';
 
-  static readonly SDUTACM_LINK = 'https://acm.sdut.edu.cn/?utm_source=ab_website';
+  static readonly SDUTACM_LINK = 'https://acm.sdut.edu.cn/?utm_source=ab-website';
 
-  static readonly OJ_LINK = 'https://oj.sdutacm.cn/onlinejudge3/?utm_source=ab_website';
+  static readonly OJ_LINK = 'https://oj.sdutacm.cn/onlinejudge3/?utm_source=ab-website';
 
   static readonly BILIBILI_LINK = 'https://space.bilibili.com/1479542015';
 
-  static readonly OLD_WEBSITE_LINK = 'https://ab.algoux.org/old/?utm_source=ab_website';
+  static readonly OLD_WEBSITE_LINK = 'https://ab.algoux.org/old/?utm_source=ab-website';
 
   static readonly VSCODE_LINK = 'https://code.visualstudio.com/';
 
-  static readonly ALGOUX_LINK = 'https://algoux.org/?utm_source=ab_website';
+  static readonly ALGOUX_LINK = 'https://algoux.org/?utm_source=ab-website';
 
-  static readonly PASTE_THEN_AC_LINK = 'https://paste.then.ac/?utm_source=ab_website';
+  static readonly PASTE_THEN_AC_LINK = 'https://paste.then.ac/?utm_source=ab-website';
 
-  static readonly RANKLAND_LINK = 'https://rl.algoux.cn/?utm_source=ab_website';
+  static readonly RANKLAND_LINK = 'https://rl.algoux.cn/?utm_source=ab-website';
 }
 
 export class GuideConfig {
