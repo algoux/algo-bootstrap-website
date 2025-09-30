@@ -103,7 +103,7 @@ export default class NavBar extends Vue {
             </svg>
             <span>常见问题</span>
           </a>
-          <router-link class="nav-link" to="/releases">
+          <router-link class="nav-link" :to="{ name: 'Releases' }">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

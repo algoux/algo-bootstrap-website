@@ -1,8 +1,8 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
-import windows from '@client/assets/images/windows_colorful.png';
-import macOS from '@client/assets/images/macos_colorful.png';
+import windowsLogo from '@client/assets/images/windows_colorful.png';
+import macOSLogo from '@client/assets/images/macos_colorful.png';
 import DownloadButton from './download-button.vue';
 import { ReleasesConfig } from '@client/utils/data.config';
 import platformUtil from '@common/utils/platform-ssr.util';
@@ -18,9 +18,9 @@ export default class ReleaseItem extends Vue {
   get platformImage(): string {
     switch (this.platform) {
       case 'windows':
-        return windows;
+        return windowsLogo;
       case 'mac':
-        return macOS;
+        return macOSLogo;
       default:
         return '';
     }
@@ -83,6 +83,14 @@ export default class ReleaseItem extends Vue {
         return null;
     }
   }
+
+  get arch() {
+    return platformUtil.getArchitecture();
+  }
+
+  private handleDownload(link: string) {
+    console.log('Download link:', link);
+  }
 }
 </script>
 
@@ -92,12 +100,12 @@ export default class ReleaseItem extends Vue {
       <img :src="platformImage" alt="" />
     </header>
     <main>
-      <DownloadButton :platform="this.platform" />
+      <DownloadButton :platform="this.platform" :arch="this.arch" />
     </main>
     <aside>{{ asideDesc }}</aside>
     <aside>下载更多架构版本</aside>
     <footer>
-          <div v-for="item in otherLinks" key="item.arch" class="single-button">
+          <div v-for="item in otherLinks" key="item.arch" class="single-button" @click="this.handleDownload(item.link)">
             {{ item.arch }}
           </div>
     </footer>

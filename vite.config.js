@@ -11,15 +11,13 @@ module.exports = defineConfig(({ mode }) => {
 
   return {
     server: {
-      host: '0.0.0.0', // 允许局域网访问
+      host: '0.0.0.0',
       fs: {
-        // The API logic is in outside of the project
         strict: false,
       },
     },
     // If using CDN, you can set base like 'https://yourcdn.com/dist/'
     // base: isProd ? '/dist/' : undefined,
-    base: './',
     define: {
       'process.env': {
         BWCX_RUNTIME_SCOPE: JSON.stringify('client'),

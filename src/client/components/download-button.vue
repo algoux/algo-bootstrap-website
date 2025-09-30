@@ -54,7 +54,7 @@ export default class DownloadButton extends Vue {
       {{ isUnsupportedPlatform && isHome ? '下载可用版本' : '下载 ' + platformName + ' 版本' }}
     </button>
     <span class="download-all-platforms" v-if="isSupportedPlatform && isHome">
-      下载 <router-link class="link" to="/releases">其他平台</router-link> 版本
+      下载 <router-link class="link" :to="{ name: 'Releases' }">其他平台</router-link> 版本
     </span>
     <span class="download-all-platforms" v-if="isUnsupportedPlatform && isHome">仅支持 Windows 和 macOS.</span>
   </div>

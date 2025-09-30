@@ -38,6 +38,8 @@ export default class HomeDisplay extends Vue {
     return process.env.VITE_RELEASES_TIME;
   }
 
+  private closeTimer: number | null = null;
+
   handleStartClick(e: MouseEvent) {
     if (this.isMobile) {
       e.preventDefault();
@@ -47,11 +49,34 @@ export default class HomeDisplay extends Vue {
 
   handleStartMouseEnter() {
     if (!this.isMobile) {
+      if (this.closeTimer) {
+        clearTimeout(this.closeTimer);
+        this.closeTimer = null;
+      }
       this.isStartOpen = true;
     }
   }
 
   handleStartMouseLeave() {
+    if (!this.isMobile) {
+      // 延迟关闭，给用户时间移动到下拉菜单
+      this.closeTimer = window.setTimeout(() => {
+        this.isStartOpen = false;
+        this.closeTimer = null;
+      }, 200);
+    }
+  }
+
+  handleMenuMouseEnter() {
+    if (!this.isMobile) {
+      if (this.closeTimer) {
+        clearTimeout(this.closeTimer);
+        this.closeTimer = null;
+      }
+    }
+  }
+
+  handleMenuMouseLeave() {
     if (!this.isMobile) {
       this.isStartOpen = false;
     }
@@ -78,7 +103,6 @@ export default class HomeDisplay extends Vue {
   };
 
   mounted() {
-    // 使用 props 传入的平台信息
     this.isSupportedPlatform = this.platform === 'mac' || this.platform === 'windows';
 
     const mouse = document.querySelector('.mouse') as HTMLElement;
@@ -101,6 +125,11 @@ export default class HomeDisplay extends Vue {
   beforeUnmount() {
     document.removeEventListener('click', this.handleClickOutside);
     document.removeEventListener('keydown', this.handleEscapeKey);
+
+    if (this.closeTimer) {
+      clearTimeout(this.closeTimer);
+      this.closeTimer = null;
+    }
   }
 }
 </script>
@@ -149,7 +178,12 @@ export default class HomeDisplay extends Vue {
             </svg>
           </a>
           <client-only>
-            <div class="start-menu" :class="{ open: isStartOpen }">
+            <div
+              class="start-menu"
+              :class="{ open: isStartOpen }"
+              @mouseenter="handleMenuMouseEnter"
+              @mouseleave="handleMenuMouseLeave"
+            >
               <a class="start-menu-item" :href="getLinks().docs" target="_blank" @click="handleMenuItemClick"
                 >安装教程</a
               >
@@ -197,7 +231,7 @@ export default class HomeDisplay extends Vue {
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%) translateY(10px);
+  transform: translateX(-50%) translateY(5px);
   width: 100%;
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(15px);
@@ -210,6 +244,16 @@ export default class HomeDisplay extends Vue {
   pointer-events: none;
   transition: height 0.3s, opacity 0.3s;
   z-index: 10;
+}
+
+.start-dropdown::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 10px;
+  z-index: 5;
 }
 .start-menu.open {
   opacity: 1;
