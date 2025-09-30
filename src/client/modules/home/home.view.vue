@@ -40,7 +40,13 @@ export default class Home extends Vue {
   isClientMounted: boolean = false;
 
   private checkIfMobile = () => {
-    this.isMobile = window.innerWidth < 768;
+    // 检查是否在浏览器环境中
+    if (typeof window !== 'undefined') {
+      this.isMobile = window.innerWidth < 768;
+    } else {
+      // 服务端默认为非移动设备
+      this.isMobile = false;
+    }
   };
 
   private handleResize = () => {
@@ -102,7 +108,9 @@ export default class Home extends Vue {
         :isMobile="this.isMobile"
       />
     </client-only>
-    <back-top v-if="!this.isMobile" />
+    <ClientOnly>
+      <back-top v-if="!isMobile" />
+    </ClientOnly>
   </div>
 </template>
 
