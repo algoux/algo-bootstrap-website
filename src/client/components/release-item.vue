@@ -6,16 +6,17 @@ import macOSLogo from '@client/assets/images/macos_colorful.png';
 import DownloadButton from './download-button.vue';
 import { ReleasesConfig } from '@client/utils/data.config';
 import platformUtil from '@common/utils/platform-ssr.util';
+import { ElMessage } from 'element-plus';
 
 @Options({
   components: {
     DownloadButton,
+    ElMessage,
   },
 })
 export default class ReleaseItem extends Vue {
   @Prop({ type: String, required: true }) platform!: string;
   @Prop({ type: String, default: '1.0.0-beta.1' }) version!: string;
-
 
   get platformImage(): string {
     switch (this.platform) {
@@ -35,10 +36,7 @@ export default class ReleaseItem extends Vue {
 
   get downloadLink(): string {
     const version = this.version || '1.0.0-beta.1';
-    const downloadLink = new ReleasesConfig(version).downloadSingleSystemLink(
-      this.platform,
-      this.defaultArch,
-    );
+    const downloadLink = new ReleasesConfig(version).downloadSingleSystemLink(this.platform, this.defaultArch);
     return downloadLink;
   }
 
@@ -56,7 +54,7 @@ export default class ReleaseItem extends Vue {
             arch: 'Arm64',
             name: 'Windows (Arm64)',
             link: new ReleasesConfig(version).downloadSingleSystemLink('windows', 'arm64'),
-          }
+          },
         ];
       case 'mac':
         return [
@@ -106,9 +104,9 @@ export default class ReleaseItem extends Vue {
       case 'windows':
         return `version ${version} for ${arch == 'arm64' ? 'Arm64' : arch}`;
       case 'mac':
-        if(arch == 'arm64') {
+        if (arch == 'arm64') {
           return `version ${version} for Apple Silicon`;
-        }else {
+        } else {
           return `version ${version} for Intel Chip`;
         }
       default:
@@ -122,19 +120,19 @@ export default class ReleaseItem extends Vue {
 
   private handleDownload(link: string) {
     console.log('Download link:', link);
-    const a = document.createElement('a');
-    a.href = link;
-    a.target = '_parent';
-    a.click();
+    ElMessage('下载开始，请稍后...');
+    window.open(link, '_parent');
   }
 }
 </script>
 
 <template>
   <div class="container">
-    <header>
+    <client-only>
+      <header>
       <img :src="platformImage" alt="" />
     </header>
+    </client-only>
     <main>
       <ClientOnly>
         <DownloadButton :platform="this.platform" :arch="this.arch" />
@@ -151,9 +149,9 @@ export default class ReleaseItem extends Vue {
     </ClientOnly>
     <aside>下载更多架构版本</aside>
     <footer>
-          <div v-for="item in otherLinks" key="item.arch" class="single-button" @click="this.handleDownload(item.link)">
-            {{ item.arch }}
-          </div>
+      <div v-for="item in otherLinks" key="item.arch" class="single-button" @click="this.handleDownload(item.link)">
+        {{ item.arch }}
+      </div>
     </footer>
   </div>
 </template>

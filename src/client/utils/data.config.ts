@@ -47,13 +47,14 @@ export class GuideConfig {
   ]
 
   winGuideConfig: GuideRPO[] = [
-    { id: 1,  title: '喵喵喵喵喵', description: "喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵", guideURL: "#", imageURL: shotOneMac},
+    { id: 1,  title: '喵喵喵喵喵', description: "喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵", guideURL: "#", imageURL: shotOneWin},
     { id: 2,  title: '喵喵喵喵喵', description: "喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵", guideURL: "#", imageURL: shotOneWin},
     { id: 3,  title: '喵喵喵喵喵', description: "喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵", guideURL: "#", imageURL: shotOneWin},
   ]
 
   get guideConfigGroups(): GuideRPO[] {
-    if (this.platfrom === 'win') return this.winGuideConfig;
+    console.log(this.platfrom);
+    if (this.platfrom === 'windows') return this.winGuideConfig;
     else return this.macGuideConfig;
   }
 }
@@ -101,5 +102,9 @@ export class ReleasesConfig {
       `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-mac-arm64-${this.version}.dmg`,
       `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-mac-x64-${this.version}.dmg`,
     ];
+  }
+
+  public generateFileName(platform: string, arch: string, version: string): string {
+    return `AlgoBootstrap-${platform}-${arch}-${version}.${platform === 'windows' ? 'exe' : 'dmg'}`;
   }
 }

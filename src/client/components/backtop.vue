@@ -22,22 +22,22 @@ export default class BackTop extends Vue {
     });
   }
 
-    beforeDestroy() {
-        const backtop = this.$refs.backtop as HTMLElement;
-        backtop.removeEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-        });
-        });
-        window.removeEventListener('scroll', () => {
-        if (window.scrollY > 200) {
-            backtop.style.opacity = '1';
-        } else {
-            backtop.style.opacity = '0';
-        }
-        });
-    }
+  beforeDestroy() {
+    const backtop = this.$refs.backtop as HTMLElement;
+    backtop.removeEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    });
+    window.removeEventListener('scroll', () => {
+      if (window.scrollY > 200) {
+        backtop.style.opacity = '1';
+      } else {
+        backtop.style.opacity = '0';
+      }
+    });
+  }
 }
 </script>
 
@@ -52,6 +52,16 @@ export default class BackTop extends Vue {
   position: fixed;
   bottom: 100px;
   right: 100px;
+
+  @media screen and (max-width: 1200px) {
+    bottom: 50px;
+    right: 50px;
+  }
+
+  @media screen and (max-width: 768px) {
+    bottom: 50px;
+    right: 10px;
+  }
   width: 40px;
   height: 40px;
   background: var(--glass-bg-color) !important;

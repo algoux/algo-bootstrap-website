@@ -1,12 +1,19 @@
 <script lang="ts">
-import { Vue } from 'vue-class-component';
+import { Vue, Options } from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 import macOS from '@client/assets/images/macos.png';
 import windows from '@client/assets/images/windows.png';
 import download from '@client/assets/images/download.png';
 import platformUtil from '@client/utils/platform.util';
 import { ReleasesConfig } from '@client/utils/data.config';
+import { ElMessage } from 'element-plus';
+// import ReleasesConfig from '@/utils/data.config';
 
+@Options({
+  components: {
+    ElMessage,
+  },
+})
 export default class DownloadButton extends Vue {
   @Prop({ type: String, default: 'windows' }) platform!: string;
   @Prop({ type: String, default: 'x64' }) arch!: string;
@@ -47,10 +54,8 @@ export default class DownloadButton extends Vue {
   private handleDownload() {
     const releasesConfig = new ReleasesConfig(this.version);
     let downloadLink = releasesConfig.downloadSingleSystemLink(this.platform, this.arch);
-    const a = document.createElement('a');
-    a.href = downloadLink;
-    a.target = '_parent';
-    a.click();
+    ElMessage('下载开始，请稍后...');
+    window.open(downloadLink, '_parent');
   }
 }
 </script>

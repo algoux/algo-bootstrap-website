@@ -67,6 +67,14 @@ module.exports = defineConfig(({ mode }) => {
         build: {
           keepIndexHtml: true,
         },
+        // 改善 SSR 水合
+        features: {
+          clientRouting: true,
+        },
+        // 确保客户端正确挂载
+        clientOptions: {
+          mode: 'spa-hydrate'
+        }
       }),
       vue(),
     ],

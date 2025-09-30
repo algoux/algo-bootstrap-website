@@ -81,6 +81,11 @@ export default class Releases extends Vue {
     @media screen and (max-width: 1200px) {
       flex-direction: column;
       gap: 20px;
+      margin-bottom: 100px;
+    }
+
+    @media screen and (max-width: 768px) {
+      margin-bottom: 50px;
     }
     gap: 0px;
     justify-content: center;

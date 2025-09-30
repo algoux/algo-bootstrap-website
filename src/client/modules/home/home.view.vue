@@ -35,8 +35,8 @@ export default class Home extends Vue {
   };
   isMobile: boolean = false;
   // 默认值，避免SSR水合不匹配
-  platform: string = 'windows'; // 使用最常见的平台作为默认值
-  arch: string = 'x64'; // 使用最常见的架构作为默认值
+  platform: string = 'windows';
+  arch: string = 'x64';
   isClientMounted: boolean = false;
 
   private checkIfMobile = () => {
@@ -90,7 +90,7 @@ export default class Home extends Vue {
       :releasesTime="homeState.releaseDate"
       :version="homeState.version"
     />
-    <GuideContainer />
+    <GuideContainer :platform="platform" />
     <HomeFooter />
     <Beams
       :beam-width="2"

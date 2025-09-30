@@ -142,7 +142,7 @@ export default class NavBar extends Vue {
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item>
-                <a :href="dataConfig.GITHUB_RELEASES" class="dropdown-item"> GitHub </a>
+                <a :href="dataConfig.GITHUB_RELEASES" class="dropdown-item" target="_blank"> GitHub </a>
               </el-dropdown-item>
               <el-dropdown-item>
                 <a class="dropdown-item" :href="dataConfig.DOCS_LINK" target="_blank"> 帮助文档 </a>
