@@ -147,7 +147,7 @@ export default class ReleaseItem extends Vue {
         <aside>{{ staticAsideDesc }}</aside>
       </template>
     </ClientOnly>
-    <aside>下载更多架构版本</aside>
+    <aside style="margin-top: 15px;">更多架构版本：</aside>
     <footer>
       <div v-for="item in otherLinks" key="item.arch" class="single-button" @click="this.handleDownload(item.link)">
         {{ item.arch }}

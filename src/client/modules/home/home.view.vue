@@ -92,16 +92,18 @@ export default class Home extends Vue {
     />
     <GuideContainer :platform="platform" />
     <HomeFooter />
-    <Beams
-      :beam-width="2"
-      :beam-height="15"
-      :beam-number="12"
-      :speed="2"
-      :noise-intensity="1.75"
-      :scale="0.15"
-      :rotation="30"
-      :isMobile="homeState.isMobile"
-    />
+    <client-only>
+      <Beams
+        :beam-width="2"
+        :beam-height="15"
+        :beam-number="12"
+        :speed="2"
+        :noise-intensity="1.75"
+        :scale="0.15"
+        :rotation="30"
+        :isMobile="homeState.isMobile"
+      />
+    </client-only>
     <back-top v-if="!homeState.isMobile" />
   </div>
 </template>

@@ -4,9 +4,11 @@
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, watch, computed, ref } from 'vue';
-import * as THREE from 'three';
-import { degToRad } from 'three/src/math/MathUtils.js';
 import gsap from 'gsap';
+
+// 动态导入 Three.js，只在客户端加载
+let THREE: any = null;
+let degToRad: any = null;
 
 // 只在客户端注册 ScrollTrigger
 let ScrollTrigger: any = null;
@@ -50,25 +52,22 @@ const controlAnimation = () => {
   isAnimationPaused = props.isMobile;
 };
 
-let renderer: THREE.WebGLRenderer | null = null;
-let scene: THREE.Scene | null = null;
-let camera: THREE.PerspectiveCamera | null = null;
-let beamMesh: THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial> | null = null;
-let directionalLight: THREE.DirectionalLight | null = null;
-let ambientLight: THREE.AmbientLight | null = null;
+let renderer: any = null;
+let scene: any = null;
+let camera: any = null;
+let beamMesh: any = null;
+let directionalLight: any = null;
+let ambientLight: any = null;
 let animationId: number | null = null;
 let isAnimationPaused = false;
 
-type UniformValue = THREE.IUniform<unknown> | unknown;
+type UniformValue = any;
 
 interface ExtendMaterialConfig {
   header: string;
   vertexHeader?: string;
   fragmentHeader?: string;
-  material?: THREE.MeshPhysicalMaterialParameters & { fog?: boolean };
-  uniforms?: Record<string, UniformValue>;
-  vertex?: Record<string, string>;
-  fragment?: Record<string, string>;
+  material?: any;
 }
 
 type ShaderWithDefines = THREE.ShaderLibShader & {
@@ -323,7 +322,7 @@ const beamMaterial = computed(() =>
 );
 
 const initThreeJS = () => {
-  if (!containerRef.value) return;
+  if (!containerRef.value || !THREE) return;
 
   cleanup();
 
@@ -469,12 +468,24 @@ watch(
 );
 
 onMounted(async () => {
-  initThreeJS(); // 先初始化 Three.js 场景
-  controlAnimation(); // 然后控制动画状态
-
-  // 确保 ScrollTrigger 已加载后再使用
+  // 确保在浏览器环境中动态加载 Three.js
   if (typeof window !== 'undefined') {
-    // 如果 ScrollTrigger 还未加载，等待加载
+    // 动态加载 Three.js
+    if (!THREE) {
+      const threeModule = await import('three');
+      THREE = threeModule;
+    }
+
+    // 动态加载 degToRad 工具函数
+    if (!degToRad) {
+      const mathUtils = await import('three/src/math/MathUtils.js');
+      degToRad = mathUtils.degToRad;
+    }
+
+    initThreeJS(); // 先初始化 Three.js 场景
+    controlAnimation(); // 然后控制动画状态
+
+    // 确保 ScrollTrigger 已加载后再使用
     if (!ScrollTrigger) {
       const module = await import('gsap/ScrollTrigger');
       ScrollTrigger = module.default;

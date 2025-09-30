@@ -29,6 +29,15 @@ module.exports = defineConfig(({ mode }) => {
       cssCodeSplit: true,
       // 增加文件大小警告限制
       chunkSizeWarningLimit: 800,
+      rollupOptions: {
+        external: (id) => {
+          // 在 SSR 构建时排除 Three.js 相关模块
+          if (process.env.SSR && (id.includes('three') || id.includes('@three'))) {
+            return true;
+          }
+          return false;
+        }
+      }
     },
     // CSS 预处理器配置
     css: {

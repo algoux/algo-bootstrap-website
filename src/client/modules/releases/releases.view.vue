@@ -44,7 +44,7 @@ export default class Releases extends Vue {
     <div class="release-container">
       <ReleaseItem :platform="'windows'" :version="releasesState.version" />
       <ReleaseItem :platform="'mac'" :version="releasesState.version" />
-      <a :href="getHistoricalReleases" class="old-version" target="_blank">历史版本</a>
+      <a :href="getHistoricalReleases" class="old-version" target="_blank">浏览历史版本</a>
     </div>
     <home-footer />
   </div>
