@@ -22,9 +22,9 @@ export default class GuideContainer extends Vue {
 
 <template>
   <div class="about">
-    <header class="about-title">
-      <div class="about-title-font">Feature</div>
-    </header>
+    <!-- <header class="about-title">
+      <div class="about-title-font">特点</div>
+    </header> -->
     <div class="about-guide">
       <Guide
         v-for="item in guideConfigGroups"

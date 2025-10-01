@@ -163,6 +163,7 @@ export default class Guide extends Vue {
       z-index: 10;
       & img {
         width: 100%;
+        max-width: 1000px;
         background-color: transparent;
       }
     }
