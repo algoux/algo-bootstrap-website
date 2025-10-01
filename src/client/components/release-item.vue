@@ -195,6 +195,7 @@ export default class ReleaseItem extends Vue {
   color: var(--font-secondary-color);
   user-select: none;
   transition: color 0.3s ease;
+  font-size: var(--font-small-size);
   &:hover {
     color: var(--font-primary-color);
     cursor: pointer;
@@ -258,7 +259,8 @@ export default class ReleaseItem extends Vue {
       flex-direction: row;
 
       align-items: center;
-      font-size: var(--font-small-size);
+      // font-size: var(--font-small-size);
+      // font-size: var(--font-medium-size);
       & li {
         width: 50%;
         height: fit-content;
