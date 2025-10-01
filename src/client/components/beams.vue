@@ -492,16 +492,22 @@ onMounted(async () => {
       gsap.registerPlugin(ScrollTrigger);
     }
 
-    gsap.to(".beams-container", {
-      scrollTrigger: {
-        trigger: ".beams-container",
-        start: "top top",
-        end: "bottom top",
-        scrub: 1,
+    // 设置滚动时的透明度变化：顶部时不透明度为1，向下滚动时降低到0.1
+    gsap.fromTo(".beams-container",
+      {
+        opacity: 1, // 初始状态：完全不透明
       },
-      opacity: .1,
-      duration: 1,
-    });
+      {
+        opacity: 0.1, // 结束状态：几乎透明
+        scrollTrigger: {
+          trigger: "body", // 以整个页面作为触发器
+          start: "top top", // 从页面顶部开始
+          end: "bottom top", // 到页面底部结束
+          scrub: true, // 跟随滚动
+          invalidateOnRefresh: true, // 刷新时重新计算
+        }
+      }
+    );
   }
 });
 
@@ -517,6 +523,8 @@ onUnmounted(() => {
   top: 0;
   width: 100%;
   height: 100%;
+  opacity: 1; /* 初始透明度为完全不透明 */
+  z-index: -1; /* 确保在其他内容后面 */
 }
 </style>
 

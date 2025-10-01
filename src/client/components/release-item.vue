@@ -177,7 +177,6 @@ export default class ReleaseItem extends Vue {
 <style scoped lang="less">
 .single-button {
   width: 30%;
-
   @media screen and (max-width: 1200px) {
     max-width: 150px;
     width: 40%;

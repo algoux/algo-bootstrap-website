@@ -53,11 +53,11 @@ footer {
   height: auto;
   margin-bottom: 50px;
   user-select: none;
+  margin-top: 60px;
 
   @media screen and (max-width: 768px) {
     height: auto;
     padding: 40px 0;
-    margin-top: 50px;
   }
   display: flex;
   flex-direction: column;

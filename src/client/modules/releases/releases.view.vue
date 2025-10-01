@@ -42,7 +42,6 @@ export default class Releases extends Vue {
   }
 
   async mounted() {
-    // 客户端也加载数据，确保数据同步
     try {
       const response = await axios.get('https://cdn.algoux.cn/algo-bootstrap/version.json?t=' + Date.now());
       this.releasesState = response.data;
@@ -76,7 +75,7 @@ export default class Releases extends Vue {
     height: auto;
     gap: 40px;
   }
-  padding-top: 90px;
+  padding-top: 120px;
   background-color: var(--bg-color);
   display: flex;
   flex-direction: column;
@@ -95,11 +94,12 @@ export default class Releases extends Vue {
     display: flex;
     @media screen and (max-width: 1200px) {
       flex-direction: column;
-      gap: 20px;
+      gap: 50px;
       margin-bottom: 100px;
     }
 
     @media screen and (max-width: 768px) {
+      gap: 50px;
       margin-bottom: 50px;
     }
     gap: 0px;

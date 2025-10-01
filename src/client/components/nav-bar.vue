@@ -15,6 +15,7 @@ import { DataConfig } from '@client/utils/data.config';
 })
 export default class NavBar extends Vue {
   isMobile = false;
+  mobileMenuOpen = false;
   get dataConfig() {
     return DataConfig;
   }
@@ -29,6 +30,17 @@ export default class NavBar extends Vue {
 
   checkMobile() {
     this.isMobile = window.innerWidth < 900;
+    if (!this.isMobile) {
+      this.mobileMenuOpen = false;
+    }
+  }
+
+  toggleMobileMenu() {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+  }
+
+  closeMobileMenu() {
+    this.mobileMenuOpen = false;
   }
 }
 </script>
@@ -37,13 +49,13 @@ export default class NavBar extends Vue {
   <client-only>
     <header class="content-header">
       <div class="content-header-navbar">
-        <div class="logo">
+        <div class="logo" @click="this.$router.push({ name: 'Home' })">
           <div class="logo-icon" v-if="!isMobile">
             <client-only>
               <img src="../assets/logo.png" alt="AlgoBootstrap" />
             </client-only>
           </div>
-          <router-link :to="{ name: 'Home' }" class="goHome">Algo Bootstrap</router-link>
+          <span :to="{ name: 'Home' }" class="goHome">Algo Bootstrap</span>
         </div>
         <div class="nav" v-if="!isMobile">
           <a class="nav-link" :href="dataConfig.GITHUB_REPO" target="_blank">
@@ -123,7 +135,7 @@ export default class NavBar extends Vue {
             <span>下载</span>
           </router-link>
         </div>
-        <el-dropdown v-else class="dropdown-style">
+        <button v-else class="mobile-menu-button" @click="toggleMobileMenu" :class="{ 'menu-open': mobileMenuOpen }">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -134,106 +146,194 @@ export default class NavBar extends Vue {
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
+            class="menu-icon"
           >
             <path d="M3 5h18" />
             <path d="M3 12h18" />
             <path d="M3 19h18" />
           </svg>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>
-                <a :href="dataConfig.GITHUB_RELEASES" class="dropdown-item" target="_blank"> GitHub </a>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <a class="dropdown-item" :href="dataConfig.DOCS_LINK" target="_blank"> 帮助文档 </a>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <a class="dropdown-item" :href="dataConfig.FAQ_LINK" target="_blank"> 常见问题 </a>
-              </el-dropdown-item>
-              <el-dropdown-item divided>
-                <router-link class="dropdown-item" :to="{ name: 'Releases' }"> 下载 </router-link>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
+        </button>
+      </div>
+
+      <div v-if="isMobile && mobileMenuOpen" class="mobile-dropdown-overlay" @click="closeMobileMenu">
+        <div class="mobile-dropdown-menu" @click.stop>
+          <div class="mobile-menu-header">
+            <span class="mobile-menu-title">菜单</span>
+            <button class="mobile-menu-close" @click="closeMobileMenu">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M15 5L5 15M5 5l10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+          <div class="mobile-menu-items">
+            <a :href="dataConfig.GITHUB_REPO" class="mobile-menu-item" target="_blank" @click="closeMobileMenu">
+              <svg class="mobile-menu-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+                <path d="M9 18c-4.51 2-5-2-7-2"/>
+              </svg>
+              <span>GitHub</span>
+            </a>
+            <a :href="dataConfig.DOCS_LINK" class="mobile-menu-item" target="_blank" @click="closeMobileMenu">
+              <svg class="mobile-menu-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>
+                <path d="M8 11h8"/>
+                <path d="M8 7h6"/>
+              </svg>
+              <span>帮助文档</span>
+            </a>
+            <a :href="dataConfig.FAQ_LINK" class="mobile-menu-item" target="_blank" @click="closeMobileMenu">
+              <svg class="mobile-menu-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                <path d="M12 17h.01"/>
+              </svg>
+              <span>常见问题</span>
+            </a>
+            <router-link :to="{ name: 'Releases' }" class="mobile-menu-item" @click="closeMobileMenu">
+              <svg class="mobile-menu-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 8v8"/>
+                <path d="m8 12 4 4 4-4"/>
+              </svg>
+              <span>下载</span>
+            </router-link>
+          </div>
+        </div>
       </div>
     </header>
   </client-only>
 </template>
 
 <style scoped lang="less">
-.dropdown-item {
-  text-decoration: none;
-  color: var(--bg-color);
-  display: block;
-  width: 100%;
-  height: 100%;
+.mobile-menu-button {
+  background: none;
+  border: none;
+  color: var(--font-primary-color);
+  font-size: var(--font-small-size);
+  position: absolute;
+  right: 5%;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
 
   &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  &.menu-open {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .menu-icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.mobile-dropdown-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.mobile-dropdown-menu {
+  position: absolute;
+  top: 70px;
+  left: 0;
+  right: 0;
+  background: var(--nav-bg-color);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  animation: slideDown 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.mobile-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-menu-title {
+  color: var(--font-primary-color);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.mobile-menu-close {
+  background: none;
+  border: none;
+  color: var(--font-secondary-color);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
     color: var(--font-primary-color);
   }
 }
 
-.dropdown-style {
-  font-size: var(--font-small-size);
+.mobile-menu-items {
+  padding: 8px 0;
+  z-index: 1000;
+}
+
+.mobile-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
   color: var(--font-primary-color);
-  flex-basis: 20%;
-  position: absolute;
-  right: 5%;
+  text-decoration: none;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
 
-  &:focus {
-    outline: none;
-    border: none;
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
   }
 
-  :deep(.el-dropdown-link) {
-    outline: none;
-    border: none;
-
-    &:focus {
-      outline: none !important;
-      border: none !important;
-      box-shadow: none !important;
-    }
-
-    &:focus-visible {
-      outline: none !important;
-      border: none !important;
-      box-shadow: none !important;
-    }
+  .mobile-menu-icon {
+    margin-right: 12px;
+    opacity: 0.8;
   }
 
-  :deep(.el-dropdown) {
-    outline: none;
-    &:focus {
-      outline: none !important;
-      box-shadow: none !important;
-    }
-
-    &:focus-visible {
-      outline: none !important;
-      box-shadow: none !important;
-    }
+  span {
+    font-weight: 500;
   }
+}
 
-  :deep(.el-dropdown-item) {
-    background-color: transparent !important;
-    background: transparent !important;
-    color: var(--font-secondary-color) !important;
-
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.1) !important;
-      background: rgba(255, 255, 255, 0.1) !important;
-      color: var(--font-primary-color) !important;
-    }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
+  to {
+    opacity: 1;
+  }
+}
 
-  :deep(.el-dropdown-menu) {
-    background-color: rgba(25, 25, 25, 0.8) !important;
-    backdrop-filter: blur(15px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    border-radius: 12px !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -279,11 +379,13 @@ export default class NavBar extends Vue {
     }
 
     & .logo {
-      flex-basis: 40%;
+      // flex-basis: 40%;
+      width: fit-content;
       height: 100%;
       display: flex;
       justify-content: left;
-      padding-left: 50px;
+      padding-left: 40px;
+      cursor: pointer;
       @media screen and (max-width: 900px) {
         flex-basis: 100%;
         justify-content: center;
@@ -327,6 +429,7 @@ export default class NavBar extends Vue {
         margin-left: 10px;
         font-size: calc(var(--font-small-size) * 1.5);
         white-space: nowrap;
+        user-select: none;
         color: var(--font-primary-color);
 
         transition: color 0.5s ease;
@@ -339,13 +442,13 @@ export default class NavBar extends Vue {
       }
     }
     & .nav {
-      flex-basis: 40%;
+      flex-basis: 30%;
       height: 100%;
       display: flex;
       justify-content: end;
       align-items: center;
-      gap: 20px;
-      padding-right: 50px;
+      gap: 10px;
+      padding-right: 40px;
       color: #ffffff;
       mix-blend-mode: difference;
 

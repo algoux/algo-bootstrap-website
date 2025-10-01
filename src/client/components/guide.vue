@@ -26,27 +26,22 @@ export default class Guide extends Vue {
     const videoContainer = this.$refs['guide-video'] as HTMLElement;
     const video = videoContainer?.querySelector('video') as HTMLVideoElement | null;
 
-    const textObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            texts.forEach((text) => {
-              text.classList.add('text-show');
-            });
-            if (video && video.paused) {
-              video.play();
-            }
-          } else {
-            if (video && !video.paused) {
-              video.pause();
-            }
+    const textObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          texts.forEach((text) => {
+            text.classList.add('text-show');
+          });
+          if (video && video.paused) {
+            video.play();
           }
-        });
-      },
-      {
-        threshold: 0.2,
-      },
-    );
+        } else {
+          if (video && !video.paused) {
+            video.pause();
+          }
+        }
+      });
+    });
 
     textObserver.observe(guide);
   }
@@ -86,7 +81,7 @@ export default class Guide extends Vue {
   }
 
   @media screen and (max-width: 768px) {
-    width: 80%;
+    width: 90%;
   }
   height: auto;
   display: flex;

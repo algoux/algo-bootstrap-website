@@ -16,10 +16,12 @@ export default class DownloadButton extends Vue {
   @Prop({ type: Boolean, default: false }) isHome: Boolean;
   @Prop({ type: String, required: true }) version!: string;
 
-  // 检测是否为移动设备
+  // 检测是否为移动设备 - 使用传入的平台信息而不是直接检测 userAgent
+  // 避免 SSR 水合不匹配问题
   get isMobileDevice(): boolean {
-    if (typeof navigator === 'undefined') return false;
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    // 基于传入的平台信息判断，而不是 navigator.userAgent
+    // 只有 windows 和 mac 被认为是桌面平台
+    return this.platform !== 'windows' && this.platform !== 'mac';
   }
 
   get isSupportedPlatform(): boolean {
@@ -95,7 +97,7 @@ export default class DownloadButton extends Vue {
     <span class="download-all-platforms" v-if="isSupportedPlatform && isHome">
       下载 <router-link class="link" :to="{ name: 'Releases' }">其他平台</router-link> 版本
     </span>
-    <span class="download-all-platforms" v-if="isUnsupportedPlatform && isHome">仅支持 Windows 和 macOS.</span>
+    <span class="download-all-platforms" v-if="isUnsupportedPlatform && isHome">仅支持 Windows 和 macOS</span>
   </div>
 </template>
 

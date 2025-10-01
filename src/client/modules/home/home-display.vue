@@ -2,7 +2,6 @@
 import { Vue, Options } from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 import DownloadButton from '@client/components/download-button.vue';
-import { isMac, isWindows } from '@client/utils';
 import { DataConfig } from '@client/utils/data.config';
 
 @Options({
@@ -377,13 +376,10 @@ export default class HomeDisplay extends Vue {
   position: relative;
   width: 70%;
   height: 100vh;
-  @media screen and (max-height: 800px) {
-    height: 150vh;
-  }
   @media screen and (max-width: 768px) {
     width: 100%;
     height: auto;
-    padding-top: 100px;
+    padding-top: 250px;
     padding-bottom: 100px;
   }
   z-index: 10;
