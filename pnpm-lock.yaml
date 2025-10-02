@@ -83,6 +83,9 @@ dependencies:
   pm2:
     specifier: ^5.1.2
     version: 5.3.0
+  reflect-metadata:
+    specifier: ^0.2.2
+    version: 0.2.2
   statuses:
     specifier: ^2.0.1
     version: 2.0.1
@@ -105,7 +108,7 @@ dependencies:
     specifier: ^8.0.0-rc.1
     version: 8.0.0-rc.1(vue@3.2.31)
   vue-property-decorator:
-    specifier: ^10.0.0-rc.3
+    specifier: 10.0.0-rc.3
     version: 10.0.0-rc.3(vue-class-component@8.0.0-rc.1)(vue@3.2.31)
   vue-router:
     specifier: ^4.0.14
@@ -5168,6 +5171,10 @@ packages:
 
   /reflect-metadata@0.1.13:
     resolution: {integrity: sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==}
+    dev: false
+
+  /reflect-metadata@0.2.2:
+    resolution: {integrity: sha512-urBwgfrvVP/eAyXx4hluJivBKzuEbSQs9rKWCrCkbSxNv8mxPcUZKeuoF3Uy4mJl3Lwprp6yy5/39VWigZ4K6Q==}
     dev: false
 
   /regenerator-runtime@0.14.1:

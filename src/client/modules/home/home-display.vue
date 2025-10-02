@@ -17,11 +17,11 @@ export default class HomeDisplay extends Vue {
   @Prop({ type: String, required: true }) readonly platform!: string;
   @Prop({ type: String, required: true }) readonly arch!: string;
   @Prop({ type: Boolean, default: false }) readonly isMobile!: boolean;
-  @Prop({ type: Boolean, default: false }) readonly isClientMounted!: boolean;
   @Prop({ type: String, required: true }) readonly version!: string;
   @Prop({ type: String, required: true }) readonly releasesTime!: string;
-  isSupportedPlatform = false;
+  @Prop({ type: Boolean, required: true }) readonly isSupportedPlatform!: boolean;
   isStartOpen = false;
+  closeTimer: number | null = null;
 
   private getLinks() {
     return {
@@ -36,15 +36,6 @@ export default class HomeDisplay extends Vue {
     };
   }
 
-  get getVersion() {
-    return this.version;
-  }
-
-  get getReleasesTime() {
-    return this.releasesTime;
-  }
-
-  private closeTimer: number | null = null;
 
   handleStartClick(e: MouseEvent) {
     if (this.isMobile) {
@@ -65,7 +56,6 @@ export default class HomeDisplay extends Vue {
 
   handleStartMouseLeave() {
     if (!this.isMobile) {
-      // 延迟关闭，给用户时间移动到下拉菜单
       this.closeTimer = window.setTimeout(() => {
         this.isStartOpen = false;
         this.closeTimer = null;
@@ -109,11 +99,7 @@ export default class HomeDisplay extends Vue {
   };
 
   mounted() {
-    this.isSupportedPlatform = this.platform === 'mac' || this.platform === 'windows';
-
     const mouse = document.querySelector('.mouse') as HTMLElement;
-    // document.addEventListener('click', this.handleClickOutside);
-    // document.addEventListener('keydown', this.handleEscapeKey);
     if (mouse) {
       mouse.classList.add('mouse-anim');
     } else {
@@ -127,16 +113,6 @@ export default class HomeDisplay extends Vue {
       }
     });
   }
-
-  // beforeUnmount() {
-  //   document.removeEventListener('click', this.handleClickOutside);
-  //   document.removeEventListener('keydown', this.handleEscapeKey);
-
-  //   if (this.closeTimer) {
-  //     clearTimeout(this.closeTimer);
-  //     this.closeTimer = null;
-  //   }
-  // }
 }
 </script>
 
@@ -187,7 +163,7 @@ export default class HomeDisplay extends Vue {
         </div>
       </div>
       <div class="content-main-tools" v-if="!isMobile">
-        <p v-if="isSupportedPlatform">版本 {{ version }}，发布于 {{ releasesTime }}</p>
+        <p>版本 {{ version }}，发布于 {{ releasesTime }}</p>
         <p>访问 <a :href="getLinks().algoUX" target="_blank">algoUX</a>，探索更多编程与算竞工具链产品</p>
         <p>访问 <a :href="getLinks().oldWebsite" class="old-web" target="_blank">旧版网站</a></p>
       </div>

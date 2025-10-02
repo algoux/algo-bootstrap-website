@@ -1,4 +1,6 @@
+// 确保样式在SSR时也能正确加载
 import './index.less';
+import 'element-plus/dist/index.css';
 import { ClientOnly } from 'vite-ssr';
 import { createHead, Head } from '@vueuse/head';
 import type { HookParams } from 'vite-ssr/vue/types';
@@ -7,8 +9,6 @@ import { BwcxClientRouterPlugin } from 'bwcx-client-vue3';
 import { clientRoutesMap } from '@common/router/client-routes';
 import { ApiClientPlugin } from './plugins/api-client.plugin';
 import type { ApiType, ApiClientType } from './api';
-import { getOperatingSystem, isMac, isWindows } from '../common/utils/platform-ssr.util';
-import 'element-plus/dist/index.css'
 
 Vue.registerHooks(['setup', 'beforeRouteEnter', 'beforeRouteUpdate', 'beforeRouteLeave', 'asyncData']);
 

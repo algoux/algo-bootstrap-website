@@ -3,7 +3,9 @@ export class GetReleasesQueryDTO {
 }
 export class GetReleasesDTO {
   version: string;
-  url: string;
   releaseDate: string;
-  releasesInfo: Record<GetReleasesQueryDTO['releasesType'], { url: string; md5: string }>;
+  'win32-x64': string;
+  'darwin-x64': string;
+  'darwin-arm64': string;
+  'win32-arm64': string;
 }

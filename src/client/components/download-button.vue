@@ -85,9 +85,7 @@ export default class DownloadButton extends Vue {
 <template>
   <div class="btn-container">
     <button class="download btn" @click="handleDownload">
-      <client-only>
         <img :src="platformImage" alt="" />
-      </client-only>
       {{ isUnsupportedPlatform && isHome ? '下载可用版本' : '下载 ' + platformName + ' 版本' }}
     </button>
     <span class="download-all-platforms" v-if="isSupportedPlatform && isHome">

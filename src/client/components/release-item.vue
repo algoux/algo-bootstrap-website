@@ -5,7 +5,6 @@ import windowsLogo from '@client/assets/images/windows_colorful.png';
 import macOSLogo from '@client/assets/images/macos_colorful.png';
 import DownloadButton from './download-button.vue';
 import { ReleasesConfig } from '@client/utils/data.config';
-import platformUtil from '@common/utils/platform-ssr.util';
 import { ElMessage } from 'element-plus';
 
 @Options({
@@ -16,6 +15,7 @@ import { ElMessage } from 'element-plus';
 export default class ReleaseItem extends Vue {
   @Prop({ type: String, required: true }) platform!: string;
   @Prop({ type: String, required: true }) version!: string;
+  @Prop({ type: String, required: true }) arch!: string;
 
   get platformImage(): string {
     switch (this.platform) {
@@ -28,28 +28,8 @@ export default class ReleaseItem extends Vue {
     }
   }
 
-  // 移动端主流架构配置
-  get mobileMainstreamArch(): string {
-    switch (this.platform) {
-      case 'windows':
-        return 'x64';
-      case 'mac':
-        return 'arm64';
-      default:
-        return 'x64';
-    }
-  }
-
-  // 使用默认架构避免SSR不匹配
-  get defaultArch(): string {
-    return this.mobileMainstreamArch;
-  }
-
   get downloadLink(): string {
-    const downloadLink = new ReleasesConfig(this.version).downloadSingleSystemLink(
-      this.platform,
-      this.defaultArch,
-    );
+    const downloadLink = new ReleasesConfig(this.version).downloadSingleSystemLink(this.platform, this.arch);
     return downloadLink;
   }
 
@@ -86,7 +66,6 @@ export default class ReleaseItem extends Vue {
     }
   }
 
-  // SSR 安全的描述文本 - 移动端显示主流架构
   get staticAsideDesc(): string | null {
     switch (this.platform) {
       case 'windows':
@@ -98,26 +77,10 @@ export default class ReleaseItem extends Vue {
     }
   }
 
-  // 客户端动态架构检测
-  clientArch: string = 'x64';
-  isClientMounted: boolean = false;
-
-  mounted() {
-    // 在客户端更新架构信息
-    const detectedArch = platformUtil.getArchitecture();
-    // 如果是移动端访问，使用主流架构而不是检测到的架构
-    this.clientArch = this.isMobileDevice() ? this.mobileMainstreamArch : detectedArch;
-    this.isClientMounted = true;
-  }
-
-  // 检测是否为移动设备
-  private isMobileDevice(): boolean {
-    if (typeof navigator === 'undefined') return false;
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  }
+  mounted() {}
 
   get dynamicAsideDesc(): string | null {
-    const arch = this.clientArch;
+    const arch = this.arch;
     switch (this.platform) {
       case 'windows':
         return `version ${this.version} for ${arch == 'arm64' ? 'Arm64' : 'x64'}`;
@@ -132,10 +95,6 @@ export default class ReleaseItem extends Vue {
     }
   }
 
-  get arch() {
-    return this.clientArch;
-  }
-
   private handleDownload(link: string) {
     console.log('Download link:', link);
     ElMessage('下载开始，请稍候...');
@@ -146,16 +105,14 @@ export default class ReleaseItem extends Vue {
 
 <template>
   <div class="container">
-    <client-only>
-      <header>
+    <header>
       <img :src="platformImage" alt="" />
     </header>
-    </client-only>
     <main>
       <ClientOnly>
         <DownloadButton :platform="this.platform" :arch="this.arch" :version="this.version" />
         <template #fallback>
-          <DownloadButton :platform="this.platform" :arch="defaultArch" :version="this.version" />
+          <DownloadButton :platform="this.platform" :arch="this.arch" :version="this.version" />
         </template>
       </ClientOnly>
     </main>
@@ -165,7 +122,7 @@ export default class ReleaseItem extends Vue {
         <aside>{{ staticAsideDesc }}</aside>
       </template>
     </ClientOnly>
-    <aside style="margin-top: 15px;">更多架构版本：</aside>
+    <aside style="margin-top: 15px">更多架构版本：</aside>
     <footer>
       <div v-for="item in otherLinks" key="item.arch" class="single-button" @click="this.handleDownload(item.link)">
         {{ item.arch }}
@@ -212,10 +169,14 @@ export default class ReleaseItem extends Vue {
   gap: 20px;
   & header {
     width: 100%;
-    height: fit-content;
+    height: 100px;
+    @media screen and (max-width: 768px) {
+      width: calc(var(--font-large-size) * 4);
+    }
 
     & img {
       width: 100px;
+      height: 100px;
       @media screen and (max-width: 768px) {
         width: calc(var(--font-large-size) * 4);
       }

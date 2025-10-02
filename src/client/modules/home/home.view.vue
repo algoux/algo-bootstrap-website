@@ -3,16 +3,16 @@ import { Vue, Options } from 'vue-class-component';
 import { View } from 'bwcx-client-vue3';
 import NavBar from '@client/components/nav-bar.vue';
 import DownloadButton from '@client/components/download-button.vue';
-import { getPlatformInfo } from '@common/utils/platform-ssr.util';
 import GuideContainer from './guide-container.vue';
 import HomeFooter from '@client/components/home-footer.vue';
 import BackTop from '@client/components/backtop.vue';
 import { RenderMethod, RenderMethodKind } from 'bwcx-client-vue3';
 import HomeDisplay from './home-display.vue';
-import axios from 'axios';
-import { GetReleasesDTO } from '@common/modules/releases/releases.dto';
-import { markRaw } from 'vue';
+import { GetPlatformInfoDTO } from '@common/modules/platform/platform.dto';
 import Download from '@client/components/svgs/download.vue';
+import { AsyncDataOptions } from '@client/typings';
+import beams from '@client/components/beams.vue';
+import { Prop, Inject } from 'vue-property-decorator';
 
 @View('/')
 @Options({
@@ -24,137 +24,20 @@ import Download from '@client/components/svgs/download.vue';
     BackTop,
     HomeFooter,
     Download,
+    beams,
   },
 })
 @RenderMethod(RenderMethodKind.SSR)
 export default class Home extends Vue {
-  homeState: GetReleasesDTO = {
-    version: '',
-    releaseDate: '',
-    url: '',
-    releasesInfo: {} as any,
-  };
-  isMobile: boolean = false;
-  // 默认值，避免SSR水合不匹配
-  platform: string = 'windows';
-  arch: string = 'x64';
-  isClientMounted: boolean = false;
-
-  // 动态加载 Beams 组件
-  BeamsComponent: any = null;
-  isBeamsLoaded: boolean = false;
-  areAllResourcesLoaded: boolean = false;
-
-  private checkIfMobile = () => {
-    if (typeof window !== 'undefined') {
-      // 首先检测是否为真正的移动设备
-      const userAgent = navigator.userAgent.toLowerCase();
-      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-      // 检测真实的移动设备 User Agent
-      const mobileKeywords = [
-        'android', 'iphone', 'ipad', 'ipod', 'blackberry',
-        'webos', 'opera mini', 'mobile'
-      ];
-
-      // 排除桌面 Windows Phone（已过时）
-      const isMobileUserAgent = mobileKeywords.some(keyword =>
-        userAgent.includes(keyword)
-      );
-
-      // 只有真正的移动设备才被认为是移动端
-      this.isMobile = isMobileUserAgent && isTouchDevice;
-    } else {
-      // 服务端默认为非移动设备
-      this.isMobile = false;
-    }
-  };
-  private handleResize = () => {
-    this.checkIfMobile();
-  };
-
-  get getPlatform() {
-    return getPlatformInfo();
-  }
+  @Inject()
+  @Prop()
+  homeState!: GetPlatformInfoDTO;
+  @Prop()
+  @Inject()
+  isMobile!: boolean;
 
   mounted() {
-    this.checkIfMobile();
     window.scrollTo(0, 0);
-    window.addEventListener('resize', this.handleResize);
-
-    // 客户端平台检测
-    if (this.isMobile) {
-      // 移动设备：设置为通用平台，避免错误检测
-      this.platform = 'Unknown';
-      this.arch = 'Unknown';
-    } else {
-      // 桌面设备：使用专用的平台检测工具
-      const platformInfo = getPlatformInfo();
-      this.platform = platformInfo.os !== 'Unknown' ? platformInfo.os : 'windows';
-      this.arch = platformInfo.architecture !== 'Unknown' ? platformInfo.architecture : 'x64';
-    }
-    this.isClientMounted = true;
-
-    // 等待所有资源加载完成后再加载 Beams 组件
-    this.waitForResourcesAndLoadBeams();
-  }
-
-  async waitForResourcesAndLoadBeams() {
-    // 等待 DOM 完全加载
-    await this.$nextTick();
-
-    // 等待版本数据加载完成
-    while (!this.homeState.version) {
-      await new Promise((resolve) => setTimeout(resolve, 100));
-    }
-
-    // 等待图片和其他资源加载完成
-    if (document.readyState === 'complete') {
-      this.loadBeamsComponent();
-    } else {
-      window.addEventListener('load', () => {
-        // 额外延迟一点时间确保所有资源都已加载
-        setTimeout(() => {
-          this.loadBeamsComponent();
-        }, 500);
-      });
-    }
-  }
-
-  async loadBeamsComponent() {
-    try {
-      // 动态导入 Beams 组件
-      const BeamsModule = await import('@client/components/beams.vue');
-      // 使用 markRaw 避免 Vue 将组件转为响应式对象
-      this.BeamsComponent = markRaw(BeamsModule.default);
-
-      // 动态注册组件
-      this.$options.components = this.$options.components || {};
-      this.$options.components.DynamicBeams = markRaw(BeamsModule.default);
-
-      this.isBeamsLoaded = true;
-      this.areAllResourcesLoaded = true;
-      console.log('Beams component loaded successfully');
-    } catch (error) {
-      console.error('Failed to load Beams component:', error);
-    }
-  }
-
-  beforeDestroy() {
-    window.removeEventListener('resize', this.handleResize);
-  }
-  async created() {
-    this.loadVersionData();
-  }
-
-  async loadVersionData() {
-    try {
-      const response = await axios.get('https://cdn.algoux.cn/algo-bootstrap/version.json?t=' + Date.now());
-      this.homeState = response.data;
-    } catch (error) {
-      console.error('Failed to load home view data:', error);
-      this.homeState = this.homeState;
-    }
   }
 }
 </script>
@@ -162,16 +45,15 @@ export default class Home extends Vue {
 <template>
   <div class="home">
     <HomeDisplay
-      :platform="platform"
-      :arch="arch"
+      :platform="homeState.os"
+      :arch="homeState.architecture"
       :isMobile="isMobile"
-      :isClientMounted="isClientMounted"
-      :releasesTime="homeState.releaseDate"
-      :version="homeState.version"
+      :releasesTime="homeState.releases.releaseDate"
+      :version="homeState.releases.version"
     />
-    <GuideContainer :platform="platform" />
+    <GuideContainer :platform="homeState.os" />
     <client-only>
-      <transition name="beams" appear>
+      <!-- <transition name="beams" appear>
         <component
           v-if="isBeamsLoaded && BeamsComponent"
           :is="BeamsComponent"
@@ -184,21 +66,20 @@ export default class Home extends Vue {
           :rotation="30"
           :isMobile="this.isMobile"
         />
-      </transition>
+      </transition> -->
+      <beams />
     </client-only>
-    <client-only>
-      <div
-        class="to-download-button"
-        @click="
-          this.$router.push({
-            name: 'Releases',
-          })
-        "
-      >
-        <Download />
-        前往下载
-      </div>
-    </client-only>
+    <div
+      class="to-download-button"
+      @click="
+        this.$router.push({
+          name: 'Releases',
+        })
+      "
+    >
+      <Download />
+      前往下载
+    </div>
     <ClientOnly>
       <back-top v-if="!isMobile" />
     </ClientOnly>

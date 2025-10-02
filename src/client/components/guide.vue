@@ -61,9 +61,7 @@ export default class Guide extends Vue {
     </div>
     <div class="guide-display" ref="guide-video">
       <div class="guide-display-video">
-        <client-only>
           <img :src="guideProps.imageURL" />
-        </client-only>
       </div>
     </div>
   </div>

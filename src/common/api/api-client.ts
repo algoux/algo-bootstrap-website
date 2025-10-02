@@ -6,6 +6,8 @@
 
 import { AllowedRequestMethod, IBwcxApiRequestAdaptorArgs, AbstractResponseParser } from 'bwcx-api-client';
 import { configure as configureUrlcat } from 'urlcat-fork';
+import { GetPlatformInfoDTO, GetUserAgentDTO, GetOSDTO, GetArchitectureDTO } from '../modules/platform/platform.dto';
+import { GetReleasesDTO } from '../modules/releases/releases.dto';
 
 const urlcat = configureUrlcat({ arrayFormat: 'repeat' });
 
@@ -21,10 +23,152 @@ export class ApiClient<T = undefined> {
     this._rp = responseParser;
   }
 
+  /**
+   * 获取平台信息
+   *
+   * @param {null} req The request data (compatible with ReqDTO).
+   * @param {T} opts Extra request options.
+   * @returns {GetPlatformInfoDTO} The response data (RespDTO).
+   */
+  public async getPlatformInfo(req?: null, opts?: T): Promise<GetPlatformInfoDTO> {
+    return this._r(this._rArgs.a(req, opts)).then((resp) => this._rp.pat(GetPlatformInfoDTO, resp));
+  }
 
+  /**
+   * 获取 ua 字符串
+   *
+   * @param {null} req The request data (compatible with ReqDTO).
+   * @param {T} opts Extra request options.
+   * @returns {GetUserAgentDTO} The response data (RespDTO).
+   */
+  public async getUserAgent(req?: null, opts?: T): Promise<GetUserAgentDTO> {
+    return this._r(this._rArgs.b(req, opts)).then((resp) => this._rp.pat(GetUserAgentDTO, resp));
+  }
+
+  /**
+   * 获取操作系统
+   *
+   * @param {null} req The request data (compatible with ReqDTO).
+   * @param {T} opts Extra request options.
+   * @returns {GetOSDTO} The response data (RespDTO).
+   */
+  public async getOS(req?: null, opts?: T): Promise<GetOSDTO> {
+    return this._r(this._rArgs.c(req, opts)).then((resp) => this._rp.pat(GetOSDTO, resp));
+  }
+
+  /**
+   * 获取系统架构
+   *
+   * @param {null} req The request data (compatible with ReqDTO).
+   * @param {T} opts Extra request options.
+   * @returns {GetArchitectureDTO} The response data (RespDTO).
+   */
+  public async getArchitecture(req?: null, opts?: T): Promise<GetArchitectureDTO> {
+    return this._r(this._rArgs.d(req, opts)).then((resp) => this._rp.pat(GetArchitectureDTO, resp));
+  }
+
+  /**
+   * 获取发布信息
+   *
+   * @param {null} req The request data (compatible with ReqDTO).
+   * @param {T} opts Extra request options.
+   * @returns {GetReleasesDTO} The response data (RespDTO).
+   */
+  public async getReleases(req?: null, opts?: T): Promise<GetReleasesDTO> {
+    return this._r(this._rArgs.e(req, opts)).then((resp) => this._rp.pat(GetReleasesDTO, resp));
+  }
 
   private _rArgs = {
-
+    a: (req: null, opts?: any) => {
+      return {
+        method: 'GET' as AllowedRequestMethod,
+        url: this._uf('/api/getPlatformInfo', {
+          param: {},
+          query: {},
+        }),
+        data: {},
+        extraOpts: opts,
+        metadata: {
+          name: 'getPlatformInfo',
+          method: 'GET',
+          path: '/api/getPlatformInfo',
+          req: null as null,
+          resp: GetPlatformInfoDTO,
+        },
+      };
+    },
+    b: (req: null, opts?: any) => {
+      return {
+        method: 'GET' as AllowedRequestMethod,
+        url: this._uf('/api/getUserAgent', {
+          param: {},
+          query: {},
+        }),
+        data: {},
+        extraOpts: opts,
+        metadata: {
+          name: 'getUserAgent',
+          method: 'GET',
+          path: '/api/getUserAgent',
+          req: null as null,
+          resp: GetUserAgentDTO,
+        },
+      };
+    },
+    c: (req: null, opts?: any) => {
+      return {
+        method: 'GET' as AllowedRequestMethod,
+        url: this._uf('/api/getOS', {
+          param: {},
+          query: {},
+        }),
+        data: {},
+        extraOpts: opts,
+        metadata: {
+          name: 'getOS',
+          method: 'GET',
+          path: '/api/getOS',
+          req: null as null,
+          resp: GetOSDTO,
+        },
+      };
+    },
+    d: (req: null, opts?: any) => {
+      return {
+        method: 'GET' as AllowedRequestMethod,
+        url: this._uf('/api/getArchitecture', {
+          param: {},
+          query: {},
+        }),
+        data: {},
+        extraOpts: opts,
+        metadata: {
+          name: 'getArchitecture',
+          method: 'GET',
+          path: '/api/getArchitecture',
+          req: null as null,
+          resp: GetArchitectureDTO,
+        },
+      };
+    },
+    e: (req: null, opts?: any) => {
+      return {
+        method: 'GET' as AllowedRequestMethod,
+        url: this._uf('/api/getReleases', {
+          param: {},
+          query: {},
+        }),
+        data: {},
+        extraOpts: opts,
+        metadata: {
+          name: 'getReleases',
+          method: 'GET',
+          path: '/api/getReleases',
+          req: null as null,
+          resp: GetReleasesDTO,
+        },
+      };
+    },
   }
 
   private _uf(url: string, extra: { param?: object; query?: object } = {}): string {

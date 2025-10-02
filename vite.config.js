@@ -25,8 +25,8 @@ module.exports = defineConfig(({ mode }) => {
     },
     build: {
       sourcemap: true,
-      // 解决 @charset 警告
-      cssCodeSplit: true,
+      // 对于SSR，我们需要内联CSS而不是分离
+      cssCodeSplit: false, // 修改为false以确保CSS内联
       // 增加文件大小警告限制
       chunkSizeWarningLimit: 800,
       rollupOptions: {
@@ -36,6 +36,10 @@ module.exports = defineConfig(({ mode }) => {
             return true;
           }
           return false;
+        },
+        output: {
+          // 确保 CSS 在 SSR 时正确处理
+          manualChunks: undefined,
         }
       }
     },
@@ -70,9 +74,13 @@ module.exports = defineConfig(({ mode }) => {
         features: {
           clientRouting: true,
         },
-        // 确保客户端正确挂载
+        // 确保客户端正确挂载和CSS内联
         clientOptions: {
           mode: 'spa-hydrate'
+        },
+        // SSR 配置，确保 CSS 正确内联
+        ssr: {
+          inlineCss: true, // 强制内联CSS
         }
       }),
       vue(),

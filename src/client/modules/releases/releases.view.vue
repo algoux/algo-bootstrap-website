@@ -5,8 +5,10 @@ import ReleaseItem from '@client/components/release-item.vue';
 import HomeFooter from '@client/components/home-footer.vue';
 import { DataConfig } from '@client/utils/data.config';
 import { RenderMethod, RenderMethodKind } from 'bwcx-client-vue3';
-import axios from 'axios';
 import { GetReleasesDTO } from '@common/modules/releases/releases.dto';
+import { Prop } from 'vue-property-decorator';
+import { AsyncDataOptions } from '@client/typings';
+
 @View('/releases')
 @Options({
   components: {
@@ -16,38 +18,23 @@ import { GetReleasesDTO } from '@common/modules/releases/releases.dto';
 })
 @RenderMethod(RenderMethodKind.SSR)
 export default class Releases extends Vue {
-  releasesState: GetReleasesDTO = {
-    version: '',
-    url: '',
-    releaseDate: '',
-    releasesInfo: {} as any,
-  };
+  @Prop() releasesState!: GetReleasesDTO;
+  @Prop() arch!: string;
 
   get getHistoricalReleases() {
     return DataConfig.GITHUB_RELEASES;
   }
 
-  async asyncData() {
-    try {
-      const response = await axios.get('https://cdn.algoux.cn/algo-bootstrap/version.json?t=' + Date.now());
-      return {
-        releasesState: response.data,
-      };
-    } catch (error) {
-      console.error('Failed to load release data in asyncData:', error);
-      return {
-        releasesState: this.releasesState,
-      };
-    }
+  mounted() {
+    window.scrollTo(0, 0);
   }
 
-  async mounted() {
+  async asyncData({ apiClient }: AsyncDataOptions) {
     try {
-      window.scrollTo(0, 0);
-      const response = await axios.get('https://cdn.algoux.cn/algo-bootstrap/version.json?t=' + Date.now());
-      this.releasesState = response.data;
+      const res = await apiClient.getPlatformInfo();
+      return { releasesState: res.releases, arch: res.architecture };
     } catch (error) {
-      console.error('Failed to load release data in mounted:', error);
+      console.error('Failed to fetch releases data:', error);
     }
   }
 }
@@ -57,8 +44,8 @@ export default class Releases extends Vue {
   <div class="release">
     <header class="release-header">下载 Algo Bootstrap</header>
     <div class="release-container">
-      <ReleaseItem :platform="'windows'" :version="releasesState.version" />
-      <ReleaseItem :platform="'mac'" :version="releasesState.version" />
+      <ReleaseItem :platform="'windows'" :version="releasesState.version" :arch="this.arch" />
+      <ReleaseItem :platform="'mac'" :version="releasesState.version" :arch="this.arch" />
       <a :href="getHistoricalReleases" class="old-version" target="_blank">浏览历史版本</a>
     </div>
     <home-footer />

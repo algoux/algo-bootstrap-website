@@ -9,6 +9,7 @@ import Question from './svgs/question.vue';
 import Download from './svgs/download.vue';
 import Hamburger from './svgs/hamburger.vue';
 import MenuLines from './svgs/menu-lines.vue';
+import { Inject } from 'vue-property-decorator';
 
 @Options({
   components: {
@@ -26,25 +27,15 @@ import MenuLines from './svgs/menu-lines.vue';
   },
 })
 export default class NavBar extends Vue {
-  isMobile = false;
+  // 使用 SSR 安全的初始值，避免水合不匹配
+  // isMobile = false;
   mobileMenuOpen = false;
+  // isClient = false;
+
+  @Inject() isMobile!: boolean;
+  
   get dataConfig() {
     return DataConfig;
-  }
-  mounted() {
-    this.checkMobile();
-    window.addEventListener('resize', this.checkMobile);
-  }
-
-  beforeDestroy() {
-    window.removeEventListener('resize', this.checkMobile);
-  }
-
-  checkMobile() {
-    this.isMobile = window.innerWidth <= 768;
-    if (!this.isMobile) {
-      this.mobileMenuOpen = false;
-    }
   }
 
   toggleMobileMenu() {
@@ -125,18 +116,15 @@ export default class NavBar extends Vue {
 </script>
 
 <template>
-  <client-only>
-    <header class="content-header">
-      <div class="content-header-navbar">
-        <div class="logo" @click="this.$router.push({ name: 'Home' })">
-          <div class="logo-icon" v-if="!isMobile">
-            <client-only>
-              <img src="../assets/logo.png" alt="AlgoBootstrap" />
-            </client-only>
-          </div>
-          <span :to="{ name: 'Home' }" class="goHome">Algo Bootstrap</span>
+  <header class="content-header">
+    <div class="content-header-navbar">
+      <div class="logo" @click="this.$router.push({ name: 'Home' })">
+        <div class="logo-icon" v-show="!isMobile">
+          <img src="../assets/logo.png" alt="AlgoBootstrap" />
         </div>
-        <div class="nav" v-if="!isMobile">
+        <span :to="{ name: 'Home' }" class="goHome">Algo Bootstrap</span>
+      </div>
+        <div class="nav" v-show="!isMobile">
           <a class="nav-link" :href="dataConfig.GITHUB_REPO" target="_blank">
             <GitHub />
             <span>GitHub</span>
@@ -154,13 +142,13 @@ export default class NavBar extends Vue {
             <span>下载</span>
           </router-link>
         </div>
-        <button v-else class="mobile-menu-button" @click="toggleMobileMenu" :class="{ 'menu-open': mobileMenuOpen }">
+        <button v-show="isMobile" class="mobile-menu-button" @click="toggleMobileMenu" :class="{ 'menu-open': mobileMenuOpen }">
           <Hamburger :class="{ hidden: mobileMenuOpen }" />
           <MenuLines :class="{ hidden: !mobileMenuOpen }" />
         </button>
       </div>
 
-      <div v-if="isMobile && mobileMenuOpen" class="mobile-dropdown-menu">
+      <div v-show="isMobile && mobileMenuOpen" class="mobile-dropdown-menu">
         <div class="mobile-menu-items">
           <a :href="dataConfig.GITHUB_REPO" class="mobile-menu-item" target="_blank" @click="closeMobileMenu">
             <GitHub />
@@ -181,7 +169,6 @@ export default class NavBar extends Vue {
         </div>
       </div>
     </header>
-  </client-only>
 </template>
 
 <style scoped lang="less">

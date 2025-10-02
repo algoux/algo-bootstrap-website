@@ -15,7 +15,8 @@
     "build": "pnpm run build:client && pnpm run build:server",
     "start": "cross-env NODE_ENV=production node --unhandled-rejections=warn app/server/index.js",
     "deploy": "cross-env NODE_ENV=production pm2 pm2.config.js",
-    "deploy:foreground": "cross-env NODE_ENV=production pm2-runtime pm2.config.js"
+    "deploy:foreground": "cross-env NODE_ENV=production pm2-runtime pm2.config.js",
+    "preview": "npm run deploy:foreground"
   },
   "keywords": [
     "bwcx",
@@ -60,6 +61,7 @@
     "module-alias": "^2.2.2",
     "node-fetch": "^2.7.0",
     "pm2": "^5.1.2",
+    "reflect-metadata": "^0.2.2",
     "statuses": "^2.0.1",
     "three": "^0.179.1",
     "urlcat-fork": "^2.0.5",
@@ -67,7 +69,7 @@
     "vite-ssr": "^0.16.0",
     "vue": "^3.2.31",
     "vue-class-component": "^8.0.0-rc.1",
-    "vue-property-decorator": "^10.0.0-rc.3",
+    "vue-property-decorator": "10.0.0-rc.3",
     "vue-router": "^4.0.14"
   },
   "devDependencies": {
