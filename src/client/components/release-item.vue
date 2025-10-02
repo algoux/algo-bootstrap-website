@@ -169,14 +169,14 @@ export default class ReleaseItem extends Vue {
   gap: 20px;
   & header {
     width: 100%;
-    height: 100px;
-    @media screen and (max-width: 768px) {
-      width: calc(var(--font-large-size) * 4);
-    }
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
 
     & img {
       width: 100px;
-      height: 100px;
+      height: auto;
       @media screen and (max-width: 768px) {
         width: calc(var(--font-large-size) * 4);
       }
