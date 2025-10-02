@@ -315,6 +315,7 @@ export default class HomeDisplay extends Vue {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-top: 120px;
 
   &-main {
     flex-basis: 100%;

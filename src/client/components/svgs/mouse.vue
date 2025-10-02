@@ -27,7 +27,7 @@ export default class Mouse extends Vue {
 <style lang="less" scoped>
 .mouse {
   position: absolute;
-  bottom: 10%;
+  bottom: 5%;
   opacity: 0;
   width: calc(var(--font-small-size) * 1.5);
   transform: scale(1);
