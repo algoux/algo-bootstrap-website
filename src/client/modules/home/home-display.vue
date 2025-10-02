@@ -3,10 +3,14 @@ import { Vue, Options } from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 import DownloadButton from '@client/components/download-button.vue';
 import { DataConfig } from '@client/utils/data.config';
+import Triangle from '@client/components/svgs/triangle.vue';
+import Mouse from '@client/components/svgs/mouse.vue';
 
 @Options({
   components: {
     DownloadButton,
+    Triangle,
+    Mouse,
   },
 })
 export default class HomeDisplay extends Vue {
@@ -163,21 +167,7 @@ export default class HomeDisplay extends Vue {
               <rect x="2" y="6" width="14" height="12" rx="2" />
             </svg> -->
             快速上手
-            <svg
-              class="start-svg lucide lucide-chevron-down-icon lucide-chevron-down"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              :style="{ transform: isStartOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }"
-            >
-              <path d="m6 9 6 6 6-6" />
-            </svg>
+            <Triangle :isOpen="isStartOpen" />
           </div>
           <client-only>
             <div
@@ -202,22 +192,7 @@ export default class HomeDisplay extends Vue {
         <p>访问 <a :href="getLinks().oldWebsite" class="old-web" target="_blank">旧版网站</a></p>
       </div>
     </main>
-    <svg
-      class="mouse"
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="var(--font-primary-color)"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      v-if="!isMobile"
-    >
-      <rect x="5" y="2" width="14" height="20" rx="7" />
-      <path d="M12 6v4" />
-    </svg>
+    <Mouse v-if="!isMobile" />
   </div>
 </template>
 
@@ -292,15 +267,6 @@ export default class HomeDisplay extends Vue {
   }
 }
 
-.mouse {
-  position: absolute;
-  bottom: 10%;
-  opacity: 0;
-  width: calc(var(--font-small-size) * 1.5);
-  transform: scale(1);
-  transition: all 0.3s ease;
-}
-
 .mouse-anim {
   animation: mouse 1.5s infinite;
   @keyframes mouse {
@@ -358,17 +324,6 @@ export default class HomeDisplay extends Vue {
     &:hover {
       color: var(--font-primary-color);
     }
-  }
-
-  & .start-svg {
-    width: calc(var(--font-small-size) * 1.5);
-    height: calc(var(--font-small-size) * 1.5);
-    min-width: 0;
-    min-height: 0;
-    max-width: 100%;
-    max-height: 100%;
-    display: inline-block;
-    vertical-align: middle;
   }
 }
 

@@ -19,8 +19,6 @@ if (typeof window !== 'undefined') {
   });
 }
 
-
-
 interface BeamsProps {
   beamWidth?: number;
   beamHeight?: number;
@@ -42,7 +40,7 @@ const props = withDefaults(defineProps<BeamsProps>(), {
   noiseIntensity: 1.75,
   scale: 0.2,
   rotation: 30,
-  isMobile: false
+  isMobile: false,
 });
 
 const containerRef = ref<HTMLDivElement | null>(null);
@@ -69,7 +67,7 @@ interface ExtendMaterialConfig {
   fragmentHeader?: string;
   material?: any;
 }
-
+// @ts-ignore
 type ShaderWithDefines = THREE.ShaderLibShader & {
   defines?: Record<string, string | number | boolean>;
 };
@@ -158,21 +156,25 @@ float cnoise(vec3 P){
   return 2.2 * n_xyz;
 }
 `;
-
+// @ts-ignore
 function extendMaterial<T extends THREE.Material = THREE.Material>(
+  // @ts-ignore
   BaseMaterial: new (params?: THREE.MaterialParameters) => T,
-  cfg: ExtendMaterialConfig
+  cfg: ExtendMaterialConfig,
+  // @ts-ignore
 ): THREE.ShaderMaterial {
   const physical = THREE.ShaderLib.physical as ShaderWithDefines;
   const { vertexShader: baseVert, fragmentShader: baseFrag, uniforms: baseUniforms } = physical;
   const baseDefines = physical.defines ?? {};
-
+  // @ts-ignore
   const uniforms: Record<string, THREE.IUniform> = THREE.UniformsUtils.clone(baseUniforms);
 
   const defaults = new BaseMaterial(cfg.material || {}) as T & {
+    // @ts-ignore
     color?: THREE.Color;
     roughness?: number;
     metalness?: number;
+    // @ts-ignore
     envMap?: THREE.Texture;
     envMapIntensity?: number;
   };
@@ -183,19 +185,29 @@ function extendMaterial<T extends THREE.Material = THREE.Material>(
   if ('envMap' in defaults) uniforms.envMap.value = defaults.envMap;
   if ('envMapIntensity' in defaults) uniforms.envMapIntensity.value = defaults.envMapIntensity;
 
+  // @ts-ignore
   Object.entries(cfg.uniforms ?? {}).forEach(([key, u]) => {
     uniforms[key] =
       u !== null && typeof u === 'object' && 'value' in u
-        ? (u as THREE.IUniform<unknown>)
-  : (() => { const uniform: THREE.IUniform<unknown> = { value: u }; return uniform; })();
+        ? // @ts-ignore
+          (u as THREE.IUniform<unknown>)
+        : (() => {
+            // @ts-ignore
+
+            const uniform: THREE.IUniform<unknown> = { value: u };
+            return uniform;
+          })();
   });
 
   let vert = `${cfg.header}\n${cfg.vertexHeader ?? ''}\n${baseVert}`;
   let frag = `${cfg.header}\n${cfg.fragmentHeader ?? ''}\n${baseFrag}`;
+  // @ts-ignore
 
   for (const [inc, code] of Object.entries(cfg.vertex ?? {})) {
     vert = vert.replace(inc, `${inc}\n${code}`);
   }
+  // @ts-ignore
+
   for (const [inc, code] of Object.entries(cfg.fragment ?? {})) {
     frag = frag.replace(inc, `${inc}\n${code}`);
   }
@@ -206,7 +218,7 @@ function extendMaterial<T extends THREE.Material = THREE.Material>(
     vertexShader: vert,
     fragmentShader: frag,
     lights: true,
-    fog: !!cfg.material?.fog
+    fog: !!cfg.material?.fog,
   });
 
   return mat;
@@ -217,7 +229,8 @@ function createStackedPlanesBufferGeometry(
   width: number,
   height: number,
   spacing: number,
-  heightSegments: number
+  heightSegments: number,
+  // @ts-ignore
 ): THREE.BufferGeometry {
   const geometry = new THREE.BufferGeometry();
   const numVertices = n * (heightSegments + 1) * 2;
@@ -247,12 +260,12 @@ function createStackedPlanesBufferGeometry(
       uvs.set([uvXOffset, uvY + uvYOffset, uvXOffset + 1, uvY + uvYOffset], uvOffset);
 
       if (j < heightSegments) {
-  const a = vertexOffset;
-  const b = vertexOffset + 1;
-  const c = vertexOffset + 2;
-  const d = vertexOffset + 3;
-  indices.set([a, b, c, c, b, d], indexOffset);
-  indexOffset += 6;
+        const a = vertexOffset;
+        const b = vertexOffset + 1;
+        const c = vertexOffset + 2;
+        const d = vertexOffset + 3;
+        indices.set([a, b, c, c, b, d], indexOffset);
+        indexOffset += 6;
       }
       vertexOffset += 2;
       uvOffset += 4;
@@ -298,14 +311,15 @@ const beamMaterial = computed(() =>
     return normalize(cross(tangentZ, tangentX));
   }`,
     fragmentHeader: '',
+    // @ts-ignore
     vertex: {
       '#include <begin_vertex>': `transformed.z += getPos(transformed.xyz);`,
-      '#include <beginnormal_vertex>': `objectNormal = getNormal(position.xyz);`
+      '#include <beginnormal_vertex>': `objectNormal = getNormal(position.xyz);`,
     },
     fragment: {
       '#include <dithering_fragment>': `
     float randomNoise = noise(gl_FragCoord.xy);
-    gl_FragColor.rgb -= randomNoise / 15. * uNoiseIntensity;`
+    gl_FragColor.rgb -= randomNoise / 15. * uNoiseIntensity;`,
     },
     material: { fog: true },
     uniforms: {
@@ -316,9 +330,9 @@ const beamMaterial = computed(() =>
       uSpeed: { shared: true, mixed: true, linked: true, value: props.speed },
       envMapIntensity: 10,
       uNoiseIntensity: props.noiseIntensity,
-      uScale: props.scale
-    }
-  })
+      uScale: props.scale,
+    },
+  }),
 );
 
 const initThreeJS = () => {
@@ -349,6 +363,7 @@ const initThreeJS = () => {
 
   directionalLight = new THREE.DirectionalLight(new THREE.Color(props.lightColor), 1);
   directionalLight.position.set(0, 3, 10);
+  // @ts-ignore
   const shadowCamera = directionalLight.shadow.camera as THREE.OrthographicCamera;
   shadowCamera.top = 24;
   shadowCamera.bottom = -24;
@@ -450,12 +465,12 @@ watch(
     props.speed,
     props.noiseIntensity,
     props.scale,
-    props.rotation
+    props.rotation,
   ],
   () => {
     initThreeJS();
   },
-  { deep: true }
+  { deep: true },
 );
 
 // 监听 isMobile 变化
@@ -464,7 +479,7 @@ watch(
   () => {
     controlAnimation();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 onMounted(async () => {
@@ -493,20 +508,21 @@ onMounted(async () => {
     }
 
     // 设置滚动时的透明度变化：顶部时不透明度为1，向下滚动时降低到0.1
-    gsap.fromTo(".beams-container",
+    gsap.fromTo(
+      '.beams-container',
       {
         opacity: 1, // 初始状态：完全不透明
       },
       {
         opacity: 0.1, // 结束状态：几乎透明
         scrollTrigger: {
-          trigger: "body", // 以整个页面作为触发器
-          start: "top top", // 从页面顶部开始
-          end: "bottom top", // 到页面底部结束
+          trigger: 'body', // 以整个页面作为触发器
+          start: 'top top', // 从页面顶部开始
+          end: 'bottom top', // 到页面底部结束
           scrub: true, // 跟随滚动
           invalidateOnRefresh: true, // 刷新时重新计算
-        }
-      }
+        },
+      },
     );
   }
 });
@@ -527,4 +543,3 @@ onUnmounted(() => {
   z-index: -1; /* 确保在其他内容后面 */
 }
 </style>
-

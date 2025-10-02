@@ -12,6 +12,7 @@ import HomeDisplay from './home-display.vue';
 import axios from 'axios';
 import { GetReleasesDTO } from '@common/modules/releases/releases.dto';
 import { markRaw } from 'vue';
+import Download from '@client/components/svgs/download.vue';
 
 @View('/')
 @Options({
@@ -22,6 +23,7 @@ import { markRaw } from 'vue';
     GuideContainer,
     BackTop,
     HomeFooter,
+    Download,
   },
 })
 @RenderMethod(RenderMethodKind.SSR)
@@ -129,7 +131,7 @@ export default class Home extends Vue {
       this.homeState = response.data;
     } catch (error) {
       console.error('Failed to load home view data:', error);
-      this.homeState = this.homeState; // 使用默认值
+      this.homeState = this.homeState;
     }
   }
 }
@@ -147,7 +149,6 @@ export default class Home extends Vue {
     />
     <GuideContainer :platform="platform" />
     <client-only>
-      <!-- 动态加载的 Beams 组件，带过渡效果 -->
       <transition name="beams" appear>
         <component
           v-if="isBeamsLoaded && BeamsComponent"
@@ -172,21 +173,7 @@ export default class Home extends Vue {
           })
         "
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <circle cx="12" cy="12" r="10" />
-          <path d="M12 8v8" />
-          <path d="m8 12 4 4 4-4" />
-        </svg>
+        <Download />
         前往下载
       </div>
     </client-only>

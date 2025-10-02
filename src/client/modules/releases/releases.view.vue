@@ -17,7 +17,7 @@ import { GetReleasesDTO } from '@common/modules/releases/releases.dto';
 @RenderMethod(RenderMethodKind.SSR)
 export default class Releases extends Vue {
   releasesState: GetReleasesDTO = {
-    version: '', // 默认版本，避免空字符串
+    version: '',
     url: '',
     releaseDate: '',
     releasesInfo: {} as any,
@@ -36,13 +36,14 @@ export default class Releases extends Vue {
     } catch (error) {
       console.error('Failed to load release data in asyncData:', error);
       return {
-        releasesState: this.releasesState, // 使用默认值
+        releasesState: this.releasesState,
       };
     }
   }
 
   async mounted() {
     try {
+      window.scrollTo(0, 0);
       const response = await axios.get('https://cdn.algoux.cn/algo-bootstrap/version.json?t=' + Date.now());
       this.releasesState = response.data;
     } catch (error) {
@@ -94,7 +95,7 @@ export default class Releases extends Vue {
 
     @media screen and (max-width: 768px) {
       flex-direction: column;
-      gap: 50px;
+      gap: 150px;
       margin-bottom: 50px;
     }
     gap: 0px;

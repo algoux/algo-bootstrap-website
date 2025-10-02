@@ -3,6 +3,12 @@ import { Vue, Options } from 'vue-class-component';
 import { ElDropdown, ElDropdownMenu, ElDropdownItem, ElIcon } from 'element-plus';
 import { ArrowDown } from '@element-plus/icons-vue';
 import { DataConfig } from '@client/utils/data.config';
+import GitHub from './svgs/github.vue';
+import Doc from './svgs/doc.vue';
+import Question from './svgs/question.vue';
+import Download from './svgs/download.vue';
+import Hamburger from './svgs/hamburger.vue';
+import MenuLines from './svgs/menu-lines.vue';
 
 @Options({
   components: {
@@ -11,6 +17,12 @@ import { DataConfig } from '@client/utils/data.config';
     ElDropdownItem,
     ArrowDown,
     ElIcon,
+    GitHub,
+    Doc,
+    Question,
+    Download,
+    Hamburger,
+    MenuLines,
   },
 })
 export default class NavBar extends Vue {
@@ -59,142 +71,45 @@ export default class NavBar extends Vue {
         </div>
         <div class="nav" v-if="!isMobile">
           <a class="nav-link" :href="dataConfig.GITHUB_REPO" target="_blank">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-github-icon lucide-github"
-            >
-              <path
-                d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
-              />
-              <path d="M9 18c-4.51 2-5-2-7-2" />
-            </svg>
+            <GitHub />
             <span>GitHub</span>
           </a>
           <a class="nav-link" :href="dataConfig.DOCS_LINK" target="_blank">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-book-text-icon lucide-book-text"
-            >
-              <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" />
-              <path d="M8 11h8" />
-              <path d="M8 7h6" />
-            </svg>
+            <Doc />
             帮助文档
           </a>
           <a class="nav-link" :href="dataConfig.FAQ_LINK" target="_blank">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-              <path d="M12 17h.01" />
-            </svg>
+            <Question />
             <span>常见问题</span>
           </a>
           <router-link class="nav-link" :to="{ name: 'Releases' }">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-circle-arrow-down-icon lucide-circle-arrow-down"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 8v8" />
-              <path d="m8 12 4 4 4-4" />
-            </svg>
+            <Download />
             <span>下载</span>
           </router-link>
         </div>
         <button v-else class="mobile-menu-button" @click="toggleMobileMenu" :class="{ 'menu-open': mobileMenuOpen }">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="menu-icon"
-          >
-            <path d="M3 5h18" />
-            <path d="M3 12h18" />
-            <path d="M3 19h18" />
-          </svg>
+          <Hamburger :class="{ hidden: mobileMenuOpen }" />
+          <MenuLines :class="{ hidden: !mobileMenuOpen }" />
         </button>
       </div>
 
       <div v-if="isMobile && mobileMenuOpen" class="mobile-dropdown-overlay" @click="closeMobileMenu">
         <div class="mobile-dropdown-menu" @click.stop>
-          <div class="mobile-menu-header">
-            <span class="mobile-menu-title">菜单</span>
-            <button class="mobile-menu-close" @click="closeMobileMenu">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M15 5L5 15M5 5l10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-            </button>
-          </div>
           <div class="mobile-menu-items">
             <a :href="dataConfig.GITHUB_REPO" class="mobile-menu-item" target="_blank" @click="closeMobileMenu">
-              <svg class="mobile-menu-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
-                <path d="M9 18c-4.51 2-5-2-7-2"/>
-              </svg>
+              <GitHub />
               <span>GitHub</span>
             </a>
             <a :href="dataConfig.DOCS_LINK" class="mobile-menu-item" target="_blank" @click="closeMobileMenu">
-              <svg class="mobile-menu-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>
-                <path d="M8 11h8"/>
-                <path d="M8 7h6"/>
-              </svg>
+              <Doc />
               <span>帮助文档</span>
             </a>
             <a :href="dataConfig.FAQ_LINK" class="mobile-menu-item" target="_blank" @click="closeMobileMenu">
-              <svg class="mobile-menu-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-                <path d="M12 17h.01"/>
-              </svg>
+              <Question />
               <span>常见问题</span>
             </a>
             <router-link :to="{ name: 'Releases' }" class="mobile-menu-item" @click="closeMobileMenu">
-              <svg class="mobile-menu-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M12 8v8"/>
-                <path d="m8 12 4 4 4-4"/>
-              </svg>
+              <Download />
               <span>下载</span>
             </router-link>
           </div>
@@ -216,35 +131,56 @@ export default class NavBar extends Vue {
   padding: 8px;
   border-radius: 4px;
   transition: all 0.2s ease;
+  position: relative;
+  z-index: 700; /* 确保按钮在遮罩层之上 */
 
-  &:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
+  /* 移除菜单打开时的背景色 */
   &.menu-open {
-    background: rgba(255, 255, 255, 0.15);
+    background: none;
   }
 
   .menu-icon {
     width: 24px;
     height: 24px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s ease;
+    opacity: 1;
+
+    &.hidden {
+      opacity: 0 !important;
+      transform: translate(-50%, -50%) rotate(90deg) !important;
+      pointer-events: none;
+    }
+
+    &.hamburger-icon:not(.hidden) {
+      opacity: 1;
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    &.close-icon:not(.hidden) {
+      opacity: 1;
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
   }
 }
 
 .mobile-dropdown-overlay {
   position: fixed;
-  top: 0;
+  top: 70px; /* 从导航栏下方开始，不覆盖导航栏 */
   left: 0;
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+  z-index: 600;
   animation: fadeIn 0.2s ease;
 }
 
 .mobile-dropdown-menu {
   position: absolute;
-  top: 70px;
+  top: 0;
   left: 0;
   right: 0;
   background: var(--nav-bg-color);
@@ -254,37 +190,8 @@ export default class NavBar extends Vue {
   backdrop-filter: blur(10px);
 }
 
-.mobile-menu-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.mobile-menu-title {
-  color: var(--font-primary-color);
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.mobile-menu-close {
-  background: none;
-  border: none;
-  color: var(--font-secondary-color);
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--font-primary-color);
-  }
-}
-
 .mobile-menu-items {
-  padding: 8px 0;
+  padding: 20px 0;
   z-index: 1000;
 }
 
@@ -349,7 +256,7 @@ export default class NavBar extends Vue {
   align-items: center;
   position: fixed;
   top: 20px;
-  z-index: 20;
+  z-index: 1000;
 
   &-navbar {
     width: 80vw;
