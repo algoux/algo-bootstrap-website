@@ -33,7 +33,7 @@ export default class OurApp extends App {
     '!./common/api/**',
   ];
 
-  protected hostname = process.env.HOST || '0.0.0.0';
+  protected hostname = process.env.HOST || '127.0.0.1';
 
   protected port = parseInt(process.env.PORT) || 3000;
 
