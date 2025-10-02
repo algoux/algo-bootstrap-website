@@ -47,7 +47,8 @@ const containerRef = ref<HTMLDivElement | null>(null);
 
 // 控制动画播放/暂停
 const controlAnimation = () => {
-  isAnimationPaused = props.isMobile;
+  // 移动端也正常播放动画
+  isAnimationPaused = false;
 };
 
 let renderer: any = null;
@@ -397,16 +398,7 @@ const initThreeJS = () => {
   const animate = () => {
     animationId = requestAnimationFrame(animate);
 
-    // 如果动画被暂停（移动端），只渲染静态画面，不更新时间
-    if (isAnimationPaused) {
-      // 移动端：只渲染，不更新动画
-      if (renderer && scene && camera) {
-        renderer.render(scene, camera);
-      }
-      return;
-    }
-
-    // 桌面端：更新动画并渲染
+    // 更新动画并渲染
     if (beamMesh?.material) {
       beamMesh.material.uniforms.time.value += 0.1 * 0.016;
     }
@@ -473,14 +465,7 @@ watch(
   { deep: true },
 );
 
-// 监听 isMobile 变化
-watch(
-  () => props.isMobile,
-  () => {
-    controlAnimation();
-  },
-  { immediate: true },
-);
+
 
 onMounted(async () => {
   // 确保在浏览器环境中动态加载 Three.js
@@ -497,8 +482,7 @@ onMounted(async () => {
       degToRad = mathUtils.degToRad;
     }
 
-    initThreeJS(); // 先初始化 Three.js 场景
-    controlAnimation(); // 然后控制动画状态
+    initThreeJS(); // 初始化 Three.js 场景
 
     // 确保 ScrollTrigger 已加载后再使用
     if (!ScrollTrigger) {

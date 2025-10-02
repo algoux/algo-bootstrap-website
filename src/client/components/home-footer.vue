@@ -72,6 +72,7 @@ footer {
     height: auto;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 
     &-item {
       font-size: var(--font-small-size);
@@ -80,8 +81,7 @@ footer {
       color: var(--font-secondary-color);
       display: flex;
       align-items: center;
-      justify-content: center;
-      border-radius: 50px;
+      justify-content: left;
       text-decoration: none;
       gap: 5px;
       font-weight: 600;

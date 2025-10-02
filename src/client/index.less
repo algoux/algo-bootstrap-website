@@ -1,14 +1,16 @@
+@glass-bg-color: rgba(101, 101, 101, 0.5);
+@glass-border-color: rgb(146, 146, 146);
 :root {
   --bg-color: #191919;
   --nav-bg-color: #303133;
   --font-primary-color: #ffffff;
   --font-secondary-color: #ababab;
   --border-color: #d4d7de;
-  --glass-bg-color: rgba(255, 255, 255, 0.1);
-  --glass-border-color: rgba(255, 255, 255, 0.4);
-  --font-large-size: 20px;
-  --font-medium-size: 15px;
-  --font-small-size: 10px;
+  --glass-bg-color: @glass-bg-color;
+  --glass-border-color: @glass-border-color;
+  --font-large-size: 19px;
+  --font-medium-size: 20px;
+  --font-small-size: 15px;
 }
 
 @media screen and (min-width: 768px) {
@@ -18,8 +20,8 @@
     --font-primary-color: #ffffff;
     --font-secondary-color: #ababab;
     --border-color: #d4d7de;
-    --glass-bg-color: rgba(255, 255, 255, 0.1);
-    --glass-border-color: rgba(255, 255, 255, 0.4);
+    --glass-bg-color: @glass-bg-color;
+    --glass-border-color: @glass-border-color;
     --font-large-size: 35px;
     --font-medium-size: 20px;
     --font-small-size: 15px;
@@ -33,8 +35,8 @@
     --font-primary-color: #ffffff;
     --font-secondary-color: #ababab;
     --border-color: #d4d7de;
-    --glass-bg-color: rgba(255, 255, 255, 0.1);
-    --glass-border-color: rgba(255, 255, 255, 0.4);
+    --glass-bg-color: @glass-bg-color;
+    --glass-border-color: @glass-border-color;
     --font-large-size: 55px;
     --font-medium-size: 25px;
     --font-small-size: 16px;
@@ -48,8 +50,8 @@
     --font-primary-color: #ffffff;
     --font-secondary-color: #ababab;
     --border-color: #d4d7de;
-    --glass-bg-color: rgba(255, 255, 255, 0.1);
-    --glass-border-color: rgba(255, 255, 255, 0.4);
+    --glass-bg-color: @glass-bg-color;
+    --glass-border-color: @glass-border-color;
     --font-large-size: 65px;
     --font-medium-size: 35px;
     --font-small-size: 20px;
@@ -69,9 +71,6 @@ body {
   overflow-x: hidden;
   color: var(--font-secondary-color);
   background-color: var(--bg-color);
-  white-space: normal; /* 默认允许换行 */
-  word-break: keep-all; /* 保持整个单词，不随意拆开 */
-  overflow-wrap: break-word; /* 必要时才换行 */
 }
 
 #app {

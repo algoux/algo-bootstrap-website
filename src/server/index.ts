@@ -100,7 +100,7 @@ export default class OurApp extends App {
   }
 
   protected async afterStart() {
-    console.log(`🚀 A bwcx app is listening on http://${this.hostname || '0.0.0.0'}:${this.port}`);
+    console.log(`🚀 A bwcx app is listening on http://${this.hostname || '127.0.0.1'}:${this.port}`);
     if (!isProd) {
       // generate api client
       const apiClientGenerator = new ApiClientGenerator(

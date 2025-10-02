@@ -108,6 +108,7 @@ export default class Guide extends Vue {
       width: fit-content;
       height: fit-content;
       align-items: center;
+      text-align: left;
       font-weight: 600;
       max-width: 100%;
       font-size: calc(var(--font-medium-size) * 1.5);
@@ -145,7 +146,6 @@ export default class Guide extends Vue {
       padding: 10px 0px;
       border-radius: 5px;
     }
-    // box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
     position: relative;
     .hide(0.5s);
     display: flex;
@@ -160,6 +160,9 @@ export default class Guide extends Vue {
         width: 100%;
         max-width: 1000px;
         background-color: transparent;
+        @media screen and (max-width: 768px) {
+          transform: scale(1.1);
+        }
       }
     }
   }

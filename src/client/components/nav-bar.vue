@@ -48,11 +48,78 @@ export default class NavBar extends Vue {
   }
 
   toggleMobileMenu() {
-    this.mobileMenuOpen = !this.mobileMenuOpen;
+    if (this.mobileMenuOpen) {
+      this.closeMobileMenu();
+    } else {
+      this.openMobileMenu();
+    }
+  }
+
+  openMobileMenu() {
+    this.mobileMenuOpen = true;
+    this.$nextTick(() => {
+      this.animateMenuOpen();
+    });
   }
 
   closeMobileMenu() {
-    this.mobileMenuOpen = false;
+    this.animateMenuClose(() => {
+      this.mobileMenuOpen = false;
+    });
+  }
+
+  animateMenuOpen() {
+    const menu = document.querySelector('.mobile-dropdown-menu') as HTMLElement;
+    if (!menu) return;
+
+    // 获取内容的实际高度
+    menu.style.height = 'auto';
+    const targetHeight = menu.scrollHeight;
+
+    // 设置初始状态
+    menu.style.height = '0px';
+    menu.style.overflow = 'hidden';
+
+    // 强制重绘
+    menu.offsetHeight;
+
+    // 开始动画
+    menu.style.transition = 'height 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+    menu.style.height = targetHeight + 'px';
+
+    // 动画结束后恢复自动高度
+    setTimeout(() => {
+      menu.style.height = 'auto';
+      menu.style.overflow = 'visible';
+    }, 300);
+  }
+
+  animateMenuClose(callback: () => void) {
+    const menu = document.querySelector('.mobile-dropdown-menu') as HTMLElement;
+    if (!menu) {
+      callback();
+      return;
+    }
+
+    // 设置当前高度
+    const currentHeight = menu.scrollHeight;
+    menu.style.height = currentHeight + 'px';
+    menu.style.overflow = 'hidden';
+
+    // 强制重绘
+    menu.offsetHeight;
+
+    // 开始收缩动画
+    menu.style.transition = 'height 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+    menu.style.height = '0px';
+
+    // 动画结束后执行回调
+    setTimeout(() => {
+      callback();
+      menu.style.height = '';
+      menu.style.overflow = '';
+      menu.style.transition = '';
+    }, 300);
   }
 }
 </script>
@@ -93,26 +160,24 @@ export default class NavBar extends Vue {
         </button>
       </div>
 
-      <div v-if="isMobile && mobileMenuOpen" class="mobile-dropdown-overlay" @click="closeMobileMenu">
-        <div class="mobile-dropdown-menu" @click.stop>
-          <div class="mobile-menu-items">
-            <a :href="dataConfig.GITHUB_REPO" class="mobile-menu-item" target="_blank" @click="closeMobileMenu">
-              <GitHub />
-              <span>GitHub</span>
-            </a>
-            <a :href="dataConfig.DOCS_LINK" class="mobile-menu-item" target="_blank" @click="closeMobileMenu">
-              <Doc />
-              <span>帮助文档</span>
-            </a>
-            <a :href="dataConfig.FAQ_LINK" class="mobile-menu-item" target="_blank" @click="closeMobileMenu">
-              <Question />
-              <span>常见问题</span>
-            </a>
-            <router-link :to="{ name: 'Releases' }" class="mobile-menu-item" @click="closeMobileMenu">
-              <Download />
-              <span>下载</span>
-            </router-link>
-          </div>
+      <div v-if="isMobile && mobileMenuOpen" class="mobile-dropdown-menu">
+        <div class="mobile-menu-items">
+          <a :href="dataConfig.GITHUB_REPO" class="mobile-menu-item" target="_blank" @click="closeMobileMenu">
+            <GitHub />
+            <span>GitHub</span>
+          </a>
+          <a :href="dataConfig.DOCS_LINK" class="mobile-menu-item" target="_blank" @click="closeMobileMenu">
+            <Doc />
+            <span>帮助文档</span>
+          </a>
+          <a :href="dataConfig.FAQ_LINK" class="mobile-menu-item" target="_blank" @click="closeMobileMenu">
+            <Question />
+            <span>常见问题</span>
+          </a>
+          <router-link :to="{ name: 'Releases' }" class="mobile-menu-item" @click="closeMobileMenu">
+            <Download />
+            <span>下载</span>
+          </router-link>
         </div>
       </div>
     </header>
@@ -132,9 +197,8 @@ export default class NavBar extends Vue {
   border-radius: 4px;
   transition: all 0.2s ease;
   position: relative;
-  z-index: 700; /* 确保按钮在遮罩层之上 */
+  z-index: 1002;
 
-  /* 移除菜单打开时的背景色 */
   &.menu-open {
     background: none;
   }
@@ -167,32 +231,19 @@ export default class NavBar extends Vue {
   }
 }
 
-.mobile-dropdown-overlay {
-  position: fixed;
-  top: 70px; /* 从导航栏下方开始，不覆盖导航栏 */
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 600;
-  animation: fadeIn 0.2s ease;
-}
-
 .mobile-dropdown-menu {
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: 70px;
   left: 0;
   right: 0;
-  background: var(--nav-bg-color);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  animation: slideDown 0.3s ease;
+  background: rgba(51, 51, 51, 0.9);
   backdrop-filter: blur(10px);
+  z-index: 999;
+  height: 0;
+  overflow: hidden;
 }
-
 .mobile-menu-items {
   padding: 20px 0;
-  z-index: 1000;
 }
 
 .mobile-menu-item {
@@ -208,6 +259,10 @@ export default class NavBar extends Vue {
   width: 100%;
   text-align: left;
   cursor: pointer;
+
+  & svg {
+    margin-right: 5px;
+  }
 
   &:hover {
     background: rgba(255, 255, 255, 0.08);
@@ -230,17 +285,6 @@ export default class NavBar extends Vue {
   }
   to {
     opacity: 1;
-  }
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -268,15 +312,16 @@ export default class NavBar extends Vue {
       border-radius: 0;
       outline: none;
     }
-    background-color: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
-    outline: 1px solid rgba(255, 255, 255, 0.4);
+    background-color: var(--glass-bg-color);
+    backdrop-filter: blur(20px);
+    outline: 1px solid var(--glass-border-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
     overflow: hidden;
     transition: color 0.5s ease;
     font-size: var(--font-medium-size);
+    position: relative;
 
     &:hover {
       color: var(--font-primary-color);
@@ -348,12 +393,13 @@ export default class NavBar extends Vue {
       }
     }
     & .nav {
-      flex-basis: 30%;
+      width: fit-content;
+      // flex-basis: 30%;
       height: 100%;
       display: flex;
       justify-content: end;
       align-items: center;
-      gap: 10px;
+      gap: 20px;
       padding-right: 40px;
       color: #ffffff;
       mix-blend-mode: difference;
@@ -367,13 +413,14 @@ export default class NavBar extends Vue {
         align-items: center;
         transition: color 0.5s ease;
         font-size: var(--font-small-size);
-        color: var(--font-secondary-color);
+        color: var(--font-primary-color);
 
         & svg {
           width: 20px;
           height: 20px;
           margin-right: 5px;
           transition: stroke 0.5s ease;
+          stroke: var(--font-primary-color);
         }
 
         &:hover {

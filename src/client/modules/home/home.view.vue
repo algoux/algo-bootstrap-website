@@ -46,10 +46,24 @@ export default class Home extends Vue {
   areAllResourcesLoaded: boolean = false;
 
   private checkIfMobile = () => {
-    const platformInfo = getPlatformInfo();
     if (typeof window !== 'undefined') {
-      const isDesktopPlatform = platformInfo.os === 'mac' || platformInfo.os === 'windows';
-      this.isMobile = !isDesktopPlatform;
+      // 首先检测是否为真正的移动设备
+      const userAgent = navigator.userAgent.toLowerCase();
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+      // 检测真实的移动设备 User Agent
+      const mobileKeywords = [
+        'android', 'iphone', 'ipad', 'ipod', 'blackberry',
+        'webos', 'opera mini', 'mobile'
+      ];
+
+      // 排除桌面 Windows Phone（已过时）
+      const isMobileUserAgent = mobileKeywords.some(keyword =>
+        userAgent.includes(keyword)
+      );
+
+      // 只有真正的移动设备才被认为是移动端
+      this.isMobile = isMobileUserAgent && isTouchDevice;
     } else {
       // 服务端默认为非移动设备
       this.isMobile = false;
@@ -68,9 +82,16 @@ export default class Home extends Vue {
     window.addEventListener('resize', this.handleResize);
 
     // 客户端平台检测
-    const platformInfo = getPlatformInfo();
-    this.platform = platformInfo.os !== 'Unknown' ? platformInfo.os : 'windows';
-    this.arch = platformInfo.architecture !== 'Unknown' ? platformInfo.architecture : 'x64';
+    if (this.isMobile) {
+      // 移动设备：设置为通用平台，避免错误检测
+      this.platform = 'Unknown';
+      this.arch = 'Unknown';
+    } else {
+      // 桌面设备：使用专用的平台检测工具
+      const platformInfo = getPlatformInfo();
+      this.platform = platformInfo.os !== 'Unknown' ? platformInfo.os : 'windows';
+      this.arch = platformInfo.architecture !== 'Unknown' ? platformInfo.architecture : 'x64';
+    }
     this.isClientMounted = true;
 
     // 等待所有资源加载完成后再加载 Beams 组件

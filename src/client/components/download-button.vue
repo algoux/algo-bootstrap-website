@@ -111,6 +111,7 @@ export default class DownloadButton extends Vue {
   color: var(--font-secondary-color);
   font-size: var(--font-small-size);
   transform: translateY(38px);
+  white-space: nowrap;
 
   @media screen and (max-width: 768px) {
     transform: translateY(150%);
