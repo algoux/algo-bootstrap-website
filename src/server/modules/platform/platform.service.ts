@@ -29,42 +29,46 @@ export default class PlatformService {
 
   /**
    * 从 User-Agent 字符串中检测架构
+   * Mac 默认 ARM64，Windows 基于 UA 判断
    */
   public getArchitectureFromUA(userAgent: string): 'x64' | 'arm64' | 'Unknown' {
+    if (!userAgent) return 'Unknown';
     const ua = userAgent.toLowerCase();
 
-    // ARM64 检测
+    // === Mac 架构检测 ===
+    if (ua.includes('mac') || ua.includes('darwin')) {
+      // Mac 默认假设为 ARM64 (Apple Silicon)
+      return 'arm64';
+    }
+
+    // === Windows 架构检测 ===
+    if (ua.includes('windows') || ua.includes('win32') || ua.includes('win64')) {
+      // ARM64 Windows 检测
+      if (ua.includes('arm64') || ua.includes('aarch64')) {
+        return 'arm64';
+      }
+
+      // x64 Windows 检测
+      if (ua.includes('win64') || ua.includes('x64') || ua.includes('wow64') || ua.includes('amd64') || ua.includes('x86_64')) {
+        return 'x64';
+      }
+
+      // Windows 默认假设为 x64
+      return 'x64';
+    }
+
+    // === 通用架构检测 ===
     if (ua.includes('arm64') || ua.includes('aarch64')) {
       return 'arm64';
     }
 
-    // Apple Silicon Mac 检测 (基于 Safari 版本和特征)
-    if (ua.includes('mac') && ua.includes('safari')) {
-      // Safari 14.0+ 更可能是 Apple Silicon (启发式)
-      const safariMatch = ua.match(/version\/([\d.]+).*safari/);
-      if (safariMatch) {
-        const version = parseFloat(safariMatch[1]);
-        if (version >= 14.0) {
-          // 进一步检查是否有 Apple Silicon 的迹象
-          if (ua.includes('applewebkit/605.1.15') || ua.includes('version/14')) {
-            return 'arm64';
-          }
-        }
-      }
-    }
-
-    // x64 检测
-    if (ua.includes('x64') || ua.includes('x86_64') || ua.includes('amd64') || ua.includes('wow64')) {
-      return 'x64';
-    }
-
-    // 默认假设 x64 (大多数桌面系统)
-    if (ua.includes('windows') || ua.includes('mac')) {
+    if (ua.includes('x64') || ua.includes('x86_64') || ua.includes('amd64')) {
       return 'x64';
     }
 
     return 'Unknown';
   }
+
 
   public async getReleases(): Promise<GetReleasesDTO | null> {
     try {
