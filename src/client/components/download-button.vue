@@ -16,11 +16,7 @@ export default class DownloadButton extends Vue {
   @Prop({ type: Boolean, default: false }) isHome: Boolean;
   @Prop({ type: String, required: true }) version!: string;
 
-  // 检测是否为移动设备 - 使用传入的平台信息而不是直接检测 userAgent
-  // 避免 SSR 水合不匹配问题
   get isMobileDevice(): boolean {
-    // 基于传入的平台信息判断，而不是 navigator.userAgent
-    // 只有 windows 和 mac 被认为是桌面平台
     return this.platform !== 'windows' && this.platform !== 'mac';
   }
 

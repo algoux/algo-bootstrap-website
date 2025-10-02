@@ -53,7 +53,7 @@ footer {
   height: auto;
   margin-bottom: 50px;
   user-select: none;
-  margin-top: 60px;
+  margin-top: 200px;
 
   @media screen and (max-width: 768px) {
     height: auto;
@@ -75,7 +75,6 @@ footer {
 
     &-item {
       font-size: var(--font-small-size);
-      // width: 150px;
       height: fit-content;
       padding: 5px 10px;
       color: var(--font-secondary-color);

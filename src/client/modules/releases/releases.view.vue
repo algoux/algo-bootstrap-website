@@ -32,12 +32,12 @@ export default class Releases extends Vue {
       const response = await axios.get('https://cdn.algoux.cn/algo-bootstrap/version.json?t=' + Date.now());
       return {
         releasesState: response.data,
-      }
+      };
     } catch (error) {
       console.error('Failed to load release data in asyncData:', error);
       return {
         releasesState: this.releasesState, // 使用默认值
-      }
+      };
     }
   }
 
@@ -68,14 +68,13 @@ export default class Releases extends Vue {
 @import url('../../index.less');
 .release {
   width: 100%;
-  height: 100vh;
+  height: auto;
   gap: 70px;
   position: relative;
   @media screen and (max-width: 1200px) {
-    height: auto;
     gap: 40px;
   }
-  padding-top: 120px;
+  padding-top: 150px;
   background-color: var(--bg-color);
   display: flex;
   flex-direction: column;
@@ -92,13 +91,9 @@ export default class Releases extends Vue {
     width: 100%;
     height: auto;
     display: flex;
-    @media screen and (max-width: 1200px) {
-      flex-direction: column;
-      gap: 50px;
-      margin-bottom: 100px;
-    }
 
     @media screen and (max-width: 768px) {
+      flex-direction: column;
       gap: 50px;
       margin-bottom: 50px;
     }

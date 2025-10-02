@@ -29,7 +29,7 @@ export default class NavBar extends Vue {
   }
 
   checkMobile() {
-    this.isMobile = window.innerWidth < 900;
+    this.isMobile = window.innerWidth <= 768;
     if (!this.isMobile) {
       this.mobileMenuOpen = false;
     }
@@ -339,7 +339,7 @@ export default class NavBar extends Vue {
 
 .content-header {
   height: 70px;
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 768px) {
     position: fixed;
     top: 0;
   }
@@ -356,7 +356,7 @@ export default class NavBar extends Vue {
     height: 100%;
     border-radius: 100px;
 
-    @media screen and (max-width: 1000px) {
+    @media screen and (max-width: 768px) {
       width: 100vw;
       border-radius: 0;
       outline: none;
@@ -379,14 +379,13 @@ export default class NavBar extends Vue {
     }
 
     & .logo {
-      // flex-basis: 40%;
       width: fit-content;
       height: 100%;
       display: flex;
       justify-content: left;
       padding-left: 40px;
       cursor: pointer;
-      @media screen and (max-width: 900px) {
+      @media screen and (max-width: 768px) {
         flex-basis: 100%;
         justify-content: center;
         padding-left: 0;

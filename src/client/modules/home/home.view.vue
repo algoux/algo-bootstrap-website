@@ -52,7 +52,8 @@ export default class Home extends Vue {
       // 服务端默认为非移动设备
       this.isMobile = false;
     }
-  };  private handleResize = () => {
+  };
+  private handleResize = () => {
     this.checkIfMobile();
   };
 
@@ -80,7 +81,7 @@ export default class Home extends Vue {
 
     // 等待版本数据加载完成
     while (!this.homeState.version) {
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
     // 等待图片和其他资源加载完成
@@ -171,6 +172,21 @@ export default class Home extends Vue {
           })
         "
       >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 8v8" />
+          <path d="m8 12 4 4 4-4" />
+        </svg>
         前往下载
       </div>
     </client-only>
@@ -183,18 +199,30 @@ export default class Home extends Vue {
 
 <style scoped lang="less">
 .to-download-button {
-  width: fit-content;
-  height: fit-content;
-  padding: 5px 20px;
-  font-size: var(--font-small-size);
-  background-color: var(--glass-bg-color);
-  border: 2px solid var(--glass-border-color);
+  padding: 10px 15px;
+  @media screen and (min-width: 768px) {
+    padding: 15px 20px;
+  }
+  @media screen and (min-width: 1700px) {
+    padding: 20px 25px;
+  }
+  border: none;
+  outline: none;
   border-radius: 100px;
-  cursor: pointer;
+  font-size: var(--font-small-size);
+  font-weight: 600;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 100px;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  outline: 1px solid rgba(255, 255, 255, 0.4);
   color: var(--font-secondary-color);
-  z-index: 10;
-  transition: color 0.3s ease;
-  margin: 50px;
+  transition: color 0.5s ease;
+  cursor: pointer;
   &:hover {
     color: var(--font-primary-color);
   }
@@ -229,11 +257,13 @@ export default class Home extends Vue {
 }
 
 /* 动态组件过渡效果 */
-.beams-enter-active, .beams-leave-active {
+.beams-enter-active,
+.beams-leave-active {
   transition: opacity 0.8s ease-in-out;
 }
 
-.beams-enter-from, .beams-leave-to {
+.beams-enter-from,
+.beams-leave-to {
   opacity: 0;
 }
 </style>
