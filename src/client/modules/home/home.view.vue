@@ -79,6 +79,7 @@ export default class Home extends Vue {
 
   mounted() {
     this.checkIfMobile();
+    window.scrollTo(0, 0);
     window.addEventListener('resize', this.handleResize);
 
     // 客户端平台检测
