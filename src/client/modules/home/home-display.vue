@@ -309,15 +309,11 @@ export default class HomeDisplay extends Vue {
   height: 100vh;
   @media screen and (max-width: 768px) {
     width: 100%;
-    justify-content: center;
-    // padding-top: 180px;
-    // padding-bottom: 100px;
   }
   z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
   justify-content: center;
 
   &-main {
@@ -327,7 +323,6 @@ export default class HomeDisplay extends Vue {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 30px;
 
     &-title {
       width: 100%;

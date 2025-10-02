@@ -24,26 +24,6 @@ import { Prop, Provide } from 'vue-property-decorator';
 })
 @RenderMethod(RenderMethodKind.SSR)
 export default class App extends Vue {
-  @Prop()
-  @Provide({ reactive: true })
-  homeState!: GetPlatformInfoDTO;
-
-  @Prop()
-  @Provide({ reactive: true })
-  isMobile!: boolean;
-
-  created() {
-    console.log('App created with homeState:', this.homeState);
-    console.log('App created with isMobile:', this.isMobile);
-  }
-
-  async asyncData({ apiClient }: AsyncDataOptions) {
-    const res = await apiClient.getPlatformInfo();
-    const isMobile = res.os !== 'windows' && res.os !== 'mac';
-    console.log('res', res);
-    console.log('isMobile:', isMobile);
-    return { homeState: res.releases, isMobile: isMobile };
-  }
 }
 </script>
 

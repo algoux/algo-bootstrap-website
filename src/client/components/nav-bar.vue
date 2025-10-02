@@ -27,13 +27,8 @@ import { Inject } from 'vue-property-decorator';
   },
 })
 export default class NavBar extends Vue {
-  // 使用 SSR 安全的初始值，避免水合不匹配
-  // isMobile = false;
   mobileMenuOpen = false;
-  // isClient = false;
 
-  @Inject() isMobile!: boolean;
-  
   get dataConfig() {
     return DataConfig;
   }
@@ -119,60 +114,63 @@ export default class NavBar extends Vue {
   <header class="content-header">
     <div class="content-header-navbar">
       <div class="logo" @click="this.$router.push({ name: 'Home' })">
-        <div class="logo-icon" v-show="!isMobile">
+        <div class="logo-icon">
           <img src="../assets/logo.png" alt="AlgoBootstrap" />
         </div>
         <span :to="{ name: 'Home' }" class="goHome">Algo Bootstrap</span>
       </div>
-        <div class="nav" v-show="!isMobile">
-          <a class="nav-link" :href="dataConfig.GITHUB_REPO" target="_blank">
-            <GitHub />
-            <span>GitHub</span>
-          </a>
-          <a class="nav-link" :href="dataConfig.DOCS_LINK" target="_blank">
-            <Doc />
-            帮助文档
-          </a>
-          <a class="nav-link" :href="dataConfig.FAQ_LINK" target="_blank">
-            <Question />
-            <span>常见问题</span>
-          </a>
-          <router-link class="nav-link" :to="{ name: 'Releases' }">
-            <Download />
-            <span>下载</span>
-          </router-link>
-        </div>
-        <button v-show="isMobile" class="mobile-menu-button" @click="toggleMobileMenu" :class="{ 'menu-open': mobileMenuOpen }">
-          <Hamburger :class="{ hidden: mobileMenuOpen }" />
-          <MenuLines :class="{ hidden: !mobileMenuOpen }" />
-        </button>
+      <div class="nav">
+        <a class="nav-link" :href="dataConfig.GITHUB_REPO" target="_blank">
+          <GitHub />
+          <span>GitHub</span>
+        </a>
+        <a class="nav-link" :href="dataConfig.DOCS_LINK" target="_blank">
+          <Doc />
+          帮助文档
+        </a>
+        <a class="nav-link" :href="dataConfig.FAQ_LINK" target="_blank">
+          <Question />
+          <span>常见问题</span>
+        </a>
+        <router-link class="nav-link" :to="{ name: 'Releases' }">
+          <Download />
+          <span>下载</span>
+        </router-link>
       </div>
+      <button class="mobile-menu-button" @click="toggleMobileMenu" :class="{ 'menu-open': mobileMenuOpen }">
+        <Hamburger :class="{ hidden: mobileMenuOpen }" />
+        <MenuLines :class="{ hidden: !mobileMenuOpen }" />
+      </button>
+    </div>
 
-      <div v-show="isMobile && mobileMenuOpen" class="mobile-dropdown-menu">
-        <div class="mobile-menu-items">
-          <a :href="dataConfig.GITHUB_REPO" class="mobile-menu-item" target="_blank" @click="closeMobileMenu">
-            <GitHub />
-            <span>GitHub</span>
-          </a>
-          <a :href="dataConfig.DOCS_LINK" class="mobile-menu-item" target="_blank" @click="closeMobileMenu">
-            <Doc />
-            <span>帮助文档</span>
-          </a>
-          <a :href="dataConfig.FAQ_LINK" class="mobile-menu-item" target="_blank" @click="closeMobileMenu">
-            <Question />
-            <span>常见问题</span>
-          </a>
-          <router-link :to="{ name: 'Releases' }" class="mobile-menu-item" @click="closeMobileMenu">
-            <Download />
-            <span>下载</span>
-          </router-link>
-        </div>
+    <div v-show="mobileMenuOpen" class="mobile-dropdown-menu">
+      <div class="mobile-menu-items">
+        <a :href="dataConfig.GITHUB_REPO" class="mobile-menu-item" target="_blank" @click="closeMobileMenu">
+          <GitHub />
+          <span>GitHub</span>
+        </a>
+        <a :href="dataConfig.DOCS_LINK" class="mobile-menu-item" target="_blank" @click="closeMobileMenu">
+          <Doc />
+          <span>帮助文档</span>
+        </a>
+        <a :href="dataConfig.FAQ_LINK" class="mobile-menu-item" target="_blank" @click="closeMobileMenu">
+          <Question />
+          <span>常见问题</span>
+        </a>
+        <router-link :to="{ name: 'Releases' }" class="mobile-menu-item" @click="closeMobileMenu">
+          <Download />
+          <span>下载</span>
+        </router-link>
       </div>
-    </header>
+    </div>
+  </header>
 </template>
 
 <style scoped lang="less">
 .mobile-menu-button {
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
   background: none;
   border: none;
   color: var(--font-primary-color);
@@ -219,6 +217,9 @@ export default class NavBar extends Vue {
 }
 
 .mobile-dropdown-menu {
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
   position: fixed;
   top: 70px;
   left: 0;
@@ -337,6 +338,9 @@ export default class NavBar extends Vue {
         display: flex;
         justify-content: center;
         align-items: center;
+        @media screen and (max-width: 768px) {
+          display: none;
+        }
         &::after {
           content: '';
           position: absolute;
@@ -380,6 +384,9 @@ export default class NavBar extends Vue {
       }
     }
     & .nav {
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
       width: fit-content;
       // flex-basis: 30%;
       height: 100%;

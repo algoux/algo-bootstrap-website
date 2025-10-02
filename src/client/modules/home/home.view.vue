@@ -29,15 +29,23 @@ import { Prop, Inject } from 'vue-property-decorator';
 })
 @RenderMethod(RenderMethodKind.SSR)
 export default class Home extends Vue {
-  @Inject()
   @Prop()
   homeState!: GetPlatformInfoDTO;
+
   @Prop()
-  @Inject()
   isMobile!: boolean;
 
   mounted() {
     window.scrollTo(0, 0);
+  }
+
+  async asyncData({ apiClient }: AsyncDataOptions) {
+    try {
+      const res = await apiClient.getPlatformInfo();
+      return { homeState: res, isMobile: res.os !== 'windows' && res.os !== 'mac' };
+    } catch (error) {
+      console.error('Failed to fetch platform info:', error);
+    }
   }
 }
 </script>
