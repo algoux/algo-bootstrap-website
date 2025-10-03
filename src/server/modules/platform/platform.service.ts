@@ -1,6 +1,7 @@
 import { Service, InjectCtx, RequestContext } from 'bwcx-ljsm';
 import fetch from 'node-fetch';
 import { GetReleasesDTO } from '@common/modules/releases/releases.dto';
+import uap from 'ua-parser-js';
 
 @Service()
 export default class PlatformService {

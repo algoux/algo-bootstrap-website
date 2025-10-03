@@ -25,18 +25,23 @@ export default class Releases extends Vue {
     return DataConfig.GITHUB_RELEASES;
   }
 
+  created() {
+    console.log('arch', this.arch);
+    console.log('releases', this.releasesState)
+  }
+
   mounted() {
     window.scrollTo(0, 0);
   }
 
   async asyncData({ apiClient }: AsyncDataOptions) {
-    try {
       const res = await apiClient.getPlatformInfo();
-      return { releasesState: res.releases, arch: res.architecture };
-    } catch (error) {
-      console.error('Failed to fetch releases data:', error);
+      console.log('res', res);
+      return {
+        releasesState: res.releases,
+        arch: res.architecture
+      };
     }
-  }
 }
 </script>
 
@@ -44,8 +49,8 @@ export default class Releases extends Vue {
   <div class="release">
     <header class="release-header">下载 Algo Bootstrap</header>
     <div class="release-container">
-      <ReleaseItem :platform="'windows'" :version="releasesState.version" :arch="this.arch" />
-      <ReleaseItem :platform="'mac'" :version="releasesState.version" :arch="this.arch" />
+      <ReleaseItem :platform="'windows'" :version="releasesState.version" :arch="arch" />
+      <ReleaseItem :platform="'mac'" :version="releasesState.version" :arch="arch" />
       <a :href="getHistoricalReleases" class="old-version" target="_blank">浏览历史版本</a>
     </div>
     <home-footer />
