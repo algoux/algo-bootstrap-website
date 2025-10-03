@@ -13,15 +13,13 @@ export default class PlatformService {
    * 从 User-Agent 字符串中检测操作系统
    */
   public getOperatingSystemFromUA(userAgent: string): 'windows' | 'mac' | 'Unknown' {
-    const ua = userAgent.toLowerCase();
-
-    // macOS
-    if (ua.includes('mac') || ua.includes('darwin')) {
+    const ua = uap.UAParser(userAgent);
+    const osName = ua.os.name.toLowerCase() || '';
+    if (osName.includes('mac')) {
       return 'mac';
     }
 
-    // Windows
-    if (ua.includes('windows') || ua.includes('win32') || ua.includes('win64')) {
+    if (osName.includes('windows')) {
       return 'windows';
     }
 
@@ -33,38 +31,21 @@ export default class PlatformService {
    * Mac 默认 ARM64，Windows 基于 UA 判断
    */
   public getArchitectureFromUA(userAgent: string): 'x64' | 'arm64' | 'Unknown' {
-    if (!userAgent) return 'Unknown';
-    const ua = userAgent.toLowerCase();
+    const ua = uap.UAParser(userAgent);
+    const osName = ua.os.name.toLowerCase() || '';
+    const cpuArch = (ua.cpu.architecture || '').toLowerCase();
 
-    // === Mac 架构检测 ===
-    if (ua.includes('mac') || ua.includes('darwin')) {
-      // Mac 默认假设为 ARM64 (Apple Silicon)
+    if (osName.includes('mac')) {
       return 'arm64';
     }
 
-    // === Windows 架构检测 ===
-    if (ua.includes('windows') || ua.includes('win32') || ua.includes('win64')) {
-      // ARM64 Windows 检测
-      if (ua.includes('arm64') || ua.includes('aarch64')) {
-        return 'arm64';
-      }
-
-      // x64 Windows 检测
-      if (ua.includes('win64') || ua.includes('x64') || ua.includes('wow64') || ua.includes('amd64') || ua.includes('x86_64')) {
+    if (osName.includes('windows')) {
+      if (cpuArch === 'amd64' || cpuArch === 'x86_64' || cpuArch === 'x64') {
         return 'x64';
       }
-
-      // Windows 默认假设为 x64
-      return 'x64';
-    }
-
-    // === 通用架构检测 ===
-    if (ua.includes('arm64') || ua.includes('aarch64')) {
-      return 'arm64';
-    }
-
-    if (ua.includes('x64') || ua.includes('x86_64') || ua.includes('amd64')) {
-      return 'x64';
+      if (cpuArch === 'arm' || cpuArch === 'arm64') {
+        return 'arm64';
+      }
     }
 
     return 'Unknown';

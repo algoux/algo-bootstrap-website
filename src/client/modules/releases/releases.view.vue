@@ -19,15 +19,9 @@ import { AsyncDataOptions } from '@client/typings';
 @RenderMethod(RenderMethodKind.SSR)
 export default class Releases extends Vue {
   @Prop() releasesState!: GetReleasesDTO;
-  @Prop() arch!: string;
 
   get getHistoricalReleases() {
     return DataConfig.GITHUB_RELEASES;
-  }
-
-  created() {
-    console.log('arch', this.arch);
-    console.log('releases', this.releasesState)
   }
 
   mounted() {
@@ -35,11 +29,9 @@ export default class Releases extends Vue {
   }
 
   async asyncData({ apiClient }: AsyncDataOptions) {
-      const res = await apiClient.getPlatformInfo();
-      console.log('res', res);
+      const res = await apiClient.getReleases();
       return {
-        releasesState: res.releases,
-        arch: res.architecture
+        releasesState: res,
       };
     }
 }
@@ -49,8 +41,8 @@ export default class Releases extends Vue {
   <div class="release">
     <header class="release-header">下载 Algo Bootstrap</header>
     <div class="release-container">
-      <ReleaseItem :platform="'windows'" :version="releasesState.version" :arch="arch" />
-      <ReleaseItem :platform="'mac'" :version="releasesState.version" :arch="arch" />
+      <ReleaseItem :platform="'windows'" :version="releasesState.version" :arch="'x64'" />
+      <ReleaseItem :platform="'mac'" :version="releasesState.version" :arch="'arm64'" />
       <a :href="getHistoricalReleases" class="old-version" target="_blank">浏览历史版本</a>
     </div>
     <home-footer />

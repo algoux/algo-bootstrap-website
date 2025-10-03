@@ -19,7 +19,7 @@ export default class HomeDisplay extends Vue {
   @Prop({ type: Boolean, default: false }) readonly isMobile!: boolean;
   @Prop({ type: String, required: true }) readonly version!: string;
   @Prop({ type: String, required: true }) readonly releasesTime!: string;
-  @Prop({ type: Boolean, required: true }) readonly isSupportedPlatform!: boolean;
+
   isStartOpen = false;
   closeTimer: number | null = null;
 
@@ -35,7 +35,6 @@ export default class HomeDisplay extends Vue {
       algoUX: DataConfig.ALGOUX_LINK,
     };
   }
-
 
   handleStartClick(e: MouseEvent) {
     if (this.isMobile) {
@@ -102,16 +101,14 @@ export default class HomeDisplay extends Vue {
     const mouse = document.querySelector('.mouse') as HTMLElement;
     if (mouse) {
       mouse.classList.add('mouse-anim');
-    } else {
-      console.log('mouse not found');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 10) {
+          mouse.classList.remove('mouse-anim');
+        } else {
+          mouse.classList.add('mouse-anim');
+        }
+      });
     }
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 10) {
-        mouse.classList.remove('mouse-anim');
-      } else {
-        mouse.classList.add('mouse-anim');
-      }
-    });
   }
 }
 </script>
@@ -283,6 +280,10 @@ export default class HomeDisplay extends Vue {
     }
     border: none;
     outline: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
     border-radius: 100px;
     font-size: var(--font-small-size);
     font-weight: 600;
@@ -308,6 +309,7 @@ export default class HomeDisplay extends Vue {
   width: 70%;
   height: 100vh;
   @media screen and (max-width: 768px) {
+    padding-top: 0;
     width: 100%;
   }
   z-index: 10;

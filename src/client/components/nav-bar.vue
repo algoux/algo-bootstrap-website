@@ -33,6 +33,8 @@ export default class NavBar extends Vue {
     return DataConfig;
   }
 
+  // 不再需要全局点击监听器，使用遮罩层处理
+
   toggleMobileMenu() {
     if (this.mobileMenuOpen) {
       this.closeMobileMenu();
@@ -48,6 +50,8 @@ export default class NavBar extends Vue {
     });
   }
 
+  // 移除了全局点击处理，现在使用遮罩层
+
   closeMobileMenu() {
     this.animateMenuClose(() => {
       this.mobileMenuOpen = false;
@@ -58,22 +62,17 @@ export default class NavBar extends Vue {
     const menu = document.querySelector('.mobile-dropdown-menu') as HTMLElement;
     if (!menu) return;
 
-    // 获取内容的实际高度
     menu.style.height = 'auto';
     const targetHeight = menu.scrollHeight;
 
-    // 设置初始状态
     menu.style.height = '0px';
     menu.style.overflow = 'hidden';
 
-    // 强制重绘
     menu.offsetHeight;
 
-    // 开始动画
     menu.style.transition = 'height 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
     menu.style.height = targetHeight + 'px';
 
-    // 动画结束后恢复自动高度
     setTimeout(() => {
       menu.style.height = 'auto';
       menu.style.overflow = 'visible';
@@ -87,19 +86,15 @@ export default class NavBar extends Vue {
       return;
     }
 
-    // 设置当前高度
     const currentHeight = menu.scrollHeight;
     menu.style.height = currentHeight + 'px';
     menu.style.overflow = 'hidden';
 
-    // 强制重绘
     menu.offsetHeight;
 
-    // 开始收缩动画
     menu.style.transition = 'height 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
     menu.style.height = '0px';
 
-    // 动画结束后执行回调
     setTimeout(() => {
       callback();
       menu.style.height = '';
@@ -137,13 +132,16 @@ export default class NavBar extends Vue {
           <span>下载</span>
         </router-link>
       </div>
-      <button class="mobile-menu-button" @click="toggleMobileMenu" :class="{ 'menu-open': mobileMenuOpen }">
+      <button class="mobile-menu-button" @click.stop="toggleMobileMenu" :class="{ 'menu-open': mobileMenuOpen }">
         <Hamburger :class="{ hidden: mobileMenuOpen }" />
         <MenuLines :class="{ hidden: !mobileMenuOpen }" />
       </button>
     </div>
 
-    <div v-show="mobileMenuOpen" class="mobile-dropdown-menu">
+    <!-- 透明遮罩层，用于捕获外部点击 -->
+    <div v-show="mobileMenuOpen" class="mobile-menu-overlay" @click="closeMobileMenu"></div>
+
+    <div v-show="mobileMenuOpen" class="mobile-dropdown-menu" @click.stop>
       <div class="mobile-menu-items">
         <a :href="dataConfig.GITHUB_REPO" class="mobile-menu-item" target="_blank" @click="closeMobileMenu">
           <GitHub />
@@ -168,7 +166,7 @@ export default class NavBar extends Vue {
 
 <style scoped lang="less">
 .mobile-menu-button {
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 769px) {
     display: none;
   }
   background: none;
@@ -183,6 +181,23 @@ export default class NavBar extends Vue {
   transition: all 0.2s ease;
   position: relative;
   z-index: 1002;
+
+  /* 移除蓝色点击效果和焦点样式 */
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  &:active {
+    background: none;
+    transform: none;
+  }
 
   &.menu-open {
     background: none;
@@ -216,8 +231,36 @@ export default class NavBar extends Vue {
   }
 }
 
+/* 透明遮罩层样式 */
+.mobile-menu-overlay {
+  @media screen and (min-width: 769px) {
+    display: none;
+  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  z-index: 998;
+  cursor: pointer;
+
+  /* 移除蓝色点击效果 */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  outline: none;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    background: transparent;
+  }
+}
+
 .mobile-dropdown-menu {
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 769px) {
     display: none;
   }
   position: fixed;
@@ -248,6 +291,12 @@ export default class NavBar extends Vue {
   text-align: left;
   cursor: pointer;
 
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+
   & svg {
     margin-right: 5px;
   }
@@ -255,6 +304,15 @@ export default class NavBar extends Vue {
   &:hover {
     background: rgba(255, 255, 255, 0.08);
     color: #ffffff;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  &:active {
+    background: rgba(255, 255, 255, 0.08);
   }
 
   .mobile-menu-icon {
@@ -331,6 +389,11 @@ export default class NavBar extends Vue {
         padding-left: 0;
       }
       align-items: center;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
       &-icon {
         height: calc(var(--font-medium-size) * 1.6);
         aspect-ratio: 1;
@@ -338,7 +401,7 @@ export default class NavBar extends Vue {
         display: flex;
         justify-content: center;
         align-items: center;
-        @media screen and (max-width: 768px) {
+        @media screen and (max-width: 769px) {
           display: none;
         }
         &::after {
@@ -384,7 +447,7 @@ export default class NavBar extends Vue {
       }
     }
     & .nav {
-      @media screen and (max-width: 768px) {
+      @media screen and (max-width: 769px) {
         display: none;
       }
       width: fit-content;

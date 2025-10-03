@@ -138,9 +138,7 @@ export default class PageRendererDev implements IPageRenderer {
   }
 
   private resolve(p: string) {
-    if (typeof p === 'string') {
       return path.resolve(this.server.config.root, p);
-    }
   }
 
   private async getIndexTemplate(url: string) {

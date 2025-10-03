@@ -67,6 +67,7 @@
     "ua-parser-js": "^2.0.5",
     "urlcat-fork": "^2.0.5",
     "vite": "~2.7.13",
+    "vite-plugin-ssr": "^0.4.142",
     "vite-ssr": "^0.16.0",
     "vue": "^3.2.31",
     "vue-class-component": "^8.0.0-rc.1",

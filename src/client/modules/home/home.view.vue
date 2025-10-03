@@ -106,6 +106,10 @@ export default class Home extends Vue {
   }
   border: none;
   outline: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
   border-radius: 100px;
   font-size: var(--font-small-size);
   font-weight: 600;
