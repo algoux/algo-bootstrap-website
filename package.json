@@ -71,6 +71,7 @@
     "vite-ssr": "^0.16.0",
     "vue": "^3.2.31",
     "vue-class-component": "^8.0.0-rc.1",
+    "vue-gtag-next": "^1.14.0",
     "vue-property-decorator": "10.0.0-rc.3",
     "vue-router": "^4.0.14"
   },

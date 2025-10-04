@@ -6,6 +6,7 @@ import windows from '@client/assets/images/windows.png';
 import download from '@client/assets/images/download.png';
 import { ReleasesConfig } from '@client/utils/data.config';
 import { ElMessage } from 'element-plus';
+import { logEvent } from '@client/utils/ga';
 
 @Options({
   components: {},
@@ -78,6 +79,7 @@ export default class DownloadButton extends Vue {
     let downloadLink = releasesConfig.downloadSingleSystemLink(this.platform, this.arch);
     ElMessage('下载开始，请稍候...');
     window.open(downloadLink, '_parent');
+    logEvent(`下载 ${this.platform} ${this.version}`, { category: 'engagement', label: `${this.platform}-${this.arch}` });
   }
 }
 </script>

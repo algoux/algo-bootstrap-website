@@ -6,6 +6,7 @@ import macOSLogo from '@client/assets/images/macos_colorful.png';
 import DownloadButton from './download-button.vue';
 import { ReleasesConfig } from '@client/utils/data.config';
 import { ElMessage } from 'element-plus';
+import { logEvent } from '@client/utils/ga';
 
 @Options({
   components: {
@@ -99,6 +100,7 @@ export default class ReleaseItem extends Vue {
     console.log('Download link:', link);
     ElMessage('下载开始，请稍候...');
     window.open(link, '_parent');
+    logEvent(`下载 ${this.platform} ${this.version}`, { category: 'engagement', label: `${this.platform}-${this.arch}` });
   }
 }
 </script>

@@ -9,6 +9,7 @@ import { BwcxClientRouterPlugin } from 'bwcx-client-vue3';
 import { clientRoutesMap } from '@common/router/client-routes';
 import { ApiClientPlugin } from './plugins/api-client.plugin';
 import type { ApiType, ApiClientType } from './api';
+import VueGtag from 'vue-gtag-next';
 
 Vue.registerHooks(['setup', 'beforeRouteEnter', 'beforeRouteUpdate', 'beforeRouteLeave', 'asyncData']);
 
@@ -22,6 +23,11 @@ export function mainEntry({
 }: HookParams & { api: ApiType; apiClient: ApiClientType }) {
   const head = createHead();
   app.use(head);
+  app.use(VueGtag, {
+    property: { id: 'G-C845P3TXT8' },
+    appName: 'algo-bootstrap-website',
+    pageTrackerScreenviewEnabled: true,
+  }, router);
   app.use(BwcxClientRouterPlugin, {
     routesMap: clientRoutesMap,
   });

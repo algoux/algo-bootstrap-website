@@ -9,7 +9,6 @@ import Question from './svgs/question.vue';
 import Download from './svgs/download.vue';
 import Hamburger from './svgs/hamburger.vue';
 import MenuLines from './svgs/menu-lines.vue';
-import { Inject } from 'vue-property-decorator';
 
 @Options({
   components: {
@@ -112,7 +111,7 @@ export default class NavBar extends Vue {
         <div class="logo-icon">
           <img src="../assets/logo.png" alt="AlgoBootstrap" />
         </div>
-        <span :to="{ name: 'Home' }" class="goHome">Algo Bootstrap</span>
+        <span  class="goHome">Algo Bootstrap</span>
       </div>
       <div class="nav">
         <a class="nav-link" :href="dataConfig.GITHUB_REPO" target="_blank">

@@ -13,9 +13,6 @@
 import { Vue, Options } from 'vue-class-component';
 import NavBar from './components/nav-bar.vue';
 import { RenderMethod, RenderMethodKind } from 'bwcx-client-vue';
-import { GetPlatformInfoDTO } from '@common/modules/platform/platform.dto';
-import { AsyncDataOptions } from './typings';
-import { Prop, Provide } from 'vue-property-decorator';
 
 @Options({
   components: {
