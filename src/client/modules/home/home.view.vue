@@ -13,6 +13,9 @@ import Download from '@client/components/svgs/download.vue';
 import { AsyncDataOptions } from '@client/typings';
 import beams from '@client/components/beams.vue';
 import { Prop, Inject } from 'vue-property-decorator';
+import { Provide } from 'vue-property-decorator';
+import { ElDialog, ElButton } from 'element-plus';
+import MacUndetectedDialog from '@client/components/mac-undetected-dialog.vue';
 
 @View('/')
 @Options({
@@ -25,15 +28,37 @@ import { Prop, Inject } from 'vue-property-decorator';
     HomeFooter,
     Download,
     beams,
+    ElDialog,
+    ElButton,
+    MacUndetectedDialog
   },
 })
 @RenderMethod(RenderMethodKind.SSR)
 export default class Home extends Vue {
   @Prop()
+  @Provide()
   homeState!: GetPlatformInfoDTO;
 
   @Prop()
   isMobile!: boolean;
+
+  @Prop()
+  @Provide()
+  isUnDetectedMac!: boolean;
+
+  @Provide({ reactive: true})
+  isOpenMacPlatformSelectWindow: boolean = false;
+
+  @Provide()
+  openMacPlatformSelectWindow() {
+    this.isOpenMacPlatformSelectWindow = true;
+    console.log(`now is ${this.isOpenMacPlatformSelectWindow}`)
+  }
+
+  @Provide()
+  closeMacPlatformSelectWindow() {
+    this.isOpenMacPlatformSelectWindow = false;
+  }
 
   mounted() {
     window.scrollTo(0, 0);
@@ -42,7 +67,12 @@ export default class Home extends Vue {
   async asyncData({ apiClient }: AsyncDataOptions) {
     try {
       const res = await apiClient.getPlatformInfo();
-      return { homeState: res, isMobile: res.os !== 'windows' && res.os !== 'mac' };
+      console.log(res);
+      return {
+        homeState: res,
+        isMobile: res.os !== 'windows' && res.os !== 'mac',
+        isUnDetectedMac: res.architecture === 'Unknown' && res.os === 'mac',
+      };
     } catch (error) {
       console.error('Failed to fetch platform info:', error);
     }
@@ -92,6 +122,7 @@ export default class Home extends Vue {
       <back-top v-if="!isMobile" />
     </ClientOnly>
     <HomeFooter />
+    <MacUndetectedDialog />
   </div>
 </template>
 

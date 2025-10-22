@@ -5,24 +5,28 @@ import macOS from '@client/assets/images/macos.png';
 import windows from '@client/assets/images/windows.png';
 import download from '@client/assets/images/download.png';
 import { ReleasesConfig } from '@client/utils/data.config';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElDialog } from 'element-plus';
 import { logEvent } from '@client/utils/ga';
+import { Inject } from 'vue-property-decorator';
 
 @Options({
-  components: {},
+  components: {
+    ElDialog,
+  },
 })
 export default class DownloadButton extends Vue {
   @Prop({ type: String, required: true }) platform!: string;
   @Prop({ type: String, required: true }) arch!: string;
   @Prop({ type: Boolean, default: false }) isHome: Boolean;
   @Prop({ type: String, required: true }) version!: string;
+  @Inject() isUnDetectedMac: boolean;
+  @Inject() openMacPlatformSelectWindow: () => void;
 
   get isMobileDevice(): boolean {
     return this.platform !== 'windows' && this.platform !== 'mac';
   }
 
   get isSupportedPlatform(): boolean {
-    // 只有在主页时才考虑移动设备检测
     if (this.isHome && this.isMobileDevice) {
       return false;
     }
@@ -30,7 +34,6 @@ export default class DownloadButton extends Vue {
   }
 
   get isUnsupportedPlatform(): boolean {
-    // 只有在主页时才考虑移动设备，releases页面按正常平台逻辑
     if (this.isHome && this.isMobileDevice) {
       return true;
     }
@@ -38,12 +41,10 @@ export default class DownloadButton extends Vue {
   }
 
   get platformName(): string {
-    // 只有在主页时才显示移动设备名称
     if (this.isHome && this.isMobileDevice) {
       return '移动设备';
     }
 
-    // 确保服务端和客户端返回一致的平台名称
     switch (this.platform) {
       case 'mac':
         return 'macOS';
@@ -55,7 +56,6 @@ export default class DownloadButton extends Vue {
   }
 
   get platformImage(): string {
-    // 只有在主页时，移动设备才显示通用下载图标
     if (this.isHome && this.isMobileDevice) {
       return download;
     }
@@ -75,11 +75,20 @@ export default class DownloadButton extends Vue {
       this.$router.push({ name: 'Releases' });
       return;
     }
-    const releasesConfig = new ReleasesConfig(this.version);
-    let downloadLink = releasesConfig.downloadSingleSystemLink(this.platform, this.arch);
-    ElMessage('下载开始，请稍候...');
-    window.open(downloadLink, '_parent');
-    logEvent(`下载 ${this.platform} ${this.version}`, { category: 'engagement', label: `${this.platform}-${this.arch}` });
+    console.log(`isUnDetectedMac: ${this.isUnDetectedMac}`);
+    if (!this.isUnDetectedMac) {
+      const releasesConfig = new ReleasesConfig(this.version);
+      let downloadLink = releasesConfig.downloadSingleSystemLink(this.platform, this.arch);
+      ElMessage('下载开始，请稍候...');
+      window.open(downloadLink, '_parent');
+      logEvent(`下载 ${this.platform} ${this.version}`, {
+        category: 'engagement',
+        label: `${this.platform}-${this.arch}`,
+      });
+    } else {
+      this.openMacPlatformSelectWindow();
+    }
+    // this.openMacPlatformSelectWindow()
   }
 }
 </script>

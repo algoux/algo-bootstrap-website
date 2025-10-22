@@ -32,25 +32,29 @@ export default class PlatformService {
    */
   public getArchitectureFromUA(userAgent: string): 'x64' | 'arm64' | 'Unknown' {
     const ua = uap.UAParser(userAgent);
-    const osName = ua.os.name.toLowerCase() || '';
+    console.log('Parsed UA:', ua);
     const cpuArch = (ua.cpu.architecture || '').toLowerCase();
+    const vendor = (ua.device.vendor || '').toLowerCase();
+    console.log('Detected CPU Architecture from UA:', cpuArch);
 
-    if (osName.includes('mac')) {
+    if (cpuArch === 'amd64' || cpuArch === 'x86_64' || cpuArch === 'x64') {
+      return 'x64';
+    }
+
+    if (cpuArch === 'arm' || cpuArch === 'arm64') {
       return 'arm64';
     }
 
-    if (osName.includes('windows')) {
-      if (cpuArch === 'amd64' || cpuArch === 'x86_64' || cpuArch === 'x64') {
-        return 'x64';
-      }
-      if (cpuArch === 'arm' || cpuArch === 'arm64') {
-        return 'arm64';
-      }
+    if (vendor === 'apple') {
+      return 'arm64';
+    }
+
+    if (vendor === 'intel') {
+      return 'x64';
     }
 
     return 'Unknown';
   }
-
 
   public async getReleases(): Promise<GetReleasesDTO | null> {
     try {
