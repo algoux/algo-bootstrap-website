@@ -45,14 +45,6 @@ export default class PlatformService {
       return 'arm64';
     }
 
-    if (vendor === 'apple') {
-      return 'arm64';
-    }
-
-    if (vendor === 'intel') {
-      return 'x64';
-    }
-
     return 'Unknown';
   }
 
