@@ -35,6 +35,8 @@ export default class HomeDisplay extends Vue {
       oldWebsite: DataConfig.OLD_WEBSITE_LINK,
       vscode: DataConfig.VSCODE_LINK,
       algoUX: DataConfig.ALGOUX_LINK,
+      installVedioLink: DataConfig.INSTALL_VEDIO_LINK,
+      usageVedioLink: DataConfig.USAGE_VEDIO_LINK,
     };
   }
 
@@ -157,12 +159,12 @@ export default class HomeDisplay extends Vue {
               @mouseenter="handleMenuMouseEnter"
               @mouseleave="handleMenuMouseLeave"
             >
-              <a class="start-menu-item" :href="getLinks().docs" target="_blank" @click="handleMenuItemClick"
+              <a class="start-menu-item" :href="getLinks().installVedioLink" target="_blank" @click="handleMenuItemClick"
                 >安装教程</a
               >
-              <!-- <a class="start-menu-item" :href="getLinks().faq" target="_blank" @click="handleMenuItemClick"
+              <a class="start-menu-item" :href="getLinks().usageVedioLink" target="_blank" @click="handleMenuItemClick"
                 >使用技巧</a
-              > -->
+              >
             </div>
           </client-only>
         </div>
@@ -215,7 +217,7 @@ export default class HomeDisplay extends Vue {
 }
 .start-menu.open {
   opacity: 1;
-  height: calc(var(--font-small-size) * 2 + 10px);
+  height: calc(var(--font-small-size) * 4 + 20px);
   pointer-events: auto;
 }
 .start-menu-item {

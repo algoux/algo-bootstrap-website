@@ -32,6 +32,10 @@ export class DataConfig {
   static readonly PASTE_THEN_AC_LINK = 'https://paste.then.ac/?utm_source=ab-website';
 
   static readonly RANKLAND_LINK = 'https://rl.algoux.cn/?utm_source=ab-website';
+
+  static readonly INSTALL_VEDIO_LINK = 'https://www.bilibili.com/video/BV1pksnzrEbr/';
+
+  static readonly USAGE_VEDIO_LINK = 'https://www.bilibili.com/video/BV16PsnzqEki/';
 }
 
 export class GuideConfig {

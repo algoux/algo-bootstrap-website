@@ -52,10 +52,10 @@ export default class ArchUndetectedDialog extends Vue {
     <template #header>
       <h1 class="title">选择适合你的 Algo Bootstrap 版本</h1>
       <div class="dialog-container">
-        <ElButton @click="handleClickToDownload('x64')" class="my-el-button" type="info" round
+        <ElButton @click="handleClickToDownload('x64')" class="my-el-button" round type="primary"
           >下载 Intel 芯片版本</ElButton
         >
-        <ElButton @click="handleClickToDownload('arm64')" class="my-el-button" type="info" round
+        <ElButton @click="handleClickToDownload('arm64')" class="my-el-button" round type="primary"
           >下载 Apple 芯片版本</ElButton
         >
       </div>
