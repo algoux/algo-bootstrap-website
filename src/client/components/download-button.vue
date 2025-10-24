@@ -8,6 +8,7 @@ import { ReleasesConfig } from '@client/utils/data.config';
 import { ElMessage, ElDialog } from 'element-plus';
 import { logEvent } from '@client/utils/ga';
 import { Inject } from 'vue-property-decorator';
+import { GetArchitecture } from '@common/modules/platform/platform.dto';
 
 @Options({
   components: {
@@ -16,7 +17,7 @@ import { Inject } from 'vue-property-decorator';
 })
 export default class DownloadButton extends Vue {
   @Prop({ type: String, required: true }) platform!: string;
-  @Prop({ type: String, required: true }) arch!: string;
+  @Prop({ required: true }) arch!: GetArchitecture;
   @Prop({ type: Boolean, default: false }) isHome: Boolean;
   @Prop({ type: String, required: true }) version!: string;
   @Inject() isUnDetectedMac: boolean;
@@ -70,7 +71,16 @@ export default class DownloadButton extends Vue {
     }
   }
 
+  created() {
+    console.log('DownloadButton created, arch prop:', this.arch);
+  }
+
+  mounted() {
+    console.log('DownloadButton mounted, arch prop:', this.arch);
+  }
+
   private handleDownload() {
+    console.log('Download clicked, current arch:', this.arch);
     if (this.isMobileDevice) {
       this.$router.push({ name: 'Releases' });
       return;
@@ -78,17 +88,22 @@ export default class DownloadButton extends Vue {
     console.log(`isUnDetectedMac: ${this.isUnDetectedMac}`);
     if (!this.isUnDetectedMac) {
       const releasesConfig = new ReleasesConfig(this.version);
-      let downloadLink = releasesConfig.downloadSingleSystemLink(this.platform, this.arch);
-      ElMessage('下载开始，请稍候...');
-      window.open(downloadLink, '_parent');
-      logEvent(`下载 ${this.platform} ${this.version}`, {
-        category: 'engagement',
-        label: `${this.platform}-${this.arch}`,
-      });
+      console.log(`Platform: ${this.platform}, Arch: ${this.arch}, isMobileDevice: ${this.isMobileDevice}`);
+      try {
+        let downloadLink = releasesConfig.downloadSingleSystemLink(this.platform, this.arch);
+        ElMessage('下载开始，请稍候...');
+        window.open(downloadLink, '_parent');
+        logEvent(`下载 ${this.platform} ${this.version}`, {
+          category: 'engagement',
+          label: `${this.platform}-${this.arch}`,
+        });
+      } catch (error) {
+        console.error('Download error:', error);
+        ElMessage.error('下载链接生成失败，请稍后重试或前往发布页面下载。');
+      }
     } else {
       this.openMacPlatformSelectWindow();
     }
-    // this.openMacPlatformSelectWindow()
   }
 }
 </script>

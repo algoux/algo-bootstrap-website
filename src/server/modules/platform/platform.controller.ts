@@ -4,7 +4,7 @@ import { ApiController } from '@server/decorators';
 import { Contract } from 'bwcx-ljsm';
 import PlatformService from './platform.service';
 import { Api } from 'bwcx-api';
-import { GetPlatformInfoDTO, GetOSDTO, GetUserAgentDTO, GetArchitectureDTO } from '@common/modules/platform/platform.dto';
+import { GetPlatformInfoDTO, GetOSDTO, GetUserAgentDTO } from '@common/modules/platform/platform.dto';
 
 @ApiController()
 export default class PlatformController {
@@ -23,7 +23,6 @@ export default class PlatformController {
     const releases = await this.platformService.getReleases();
     return {
       os: this.platformService.getOperatingSystemFromUA(ua),
-      architecture: this.platformService.getArchitectureFromUA(ua),
       releases,
     };
   }
@@ -43,14 +42,6 @@ export default class PlatformController {
   public getOS(@UserAgent() ua: string): { os: 'windows' | 'mac' | 'Unknown' } {
     return {
       os: this.platformService.getOperatingSystemFromUA(ua),
-    };
-  }
-  @Api.Summary('获取系统架构')
-  @Get('/getArchitecture')
-  @Contract(null, GetArchitectureDTO)
-  public getArchitecture(@UserAgent() ua: string): { architecture: 'x64' | 'arm64' | 'Unknown' } {
-    return {
-      architecture: this.platformService.getArchitectureFromUA(ua),
     };
   }
 }

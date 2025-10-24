@@ -5,6 +5,8 @@ import DownloadButton from '@client/components/download-button.vue';
 import { DataConfig } from '@client/utils/data.config';
 import Triangle from '@client/components/svgs/triangle.vue';
 import Mouse from '@client/components/svgs/mouse.vue';
+import { GetArchitecture } from '@common/modules/platform/platform.dto';
+import { Inject } from 'vue-property-decorator';
 
 @Options({
   components: {
@@ -15,10 +17,10 @@ import Mouse from '@client/components/svgs/mouse.vue';
 })
 export default class HomeDisplay extends Vue {
   @Prop({ type: String, required: true }) readonly platform!: string;
-  @Prop({ type: String, required: true }) readonly arch!: string;
   @Prop({ type: Boolean, default: false }) readonly isMobile!: boolean;
   @Prop({ type: String, required: true }) readonly version!: string;
   @Prop({ type: String, required: true }) readonly releasesTime!: string;
+  @Inject() arch!: GetArchitecture;
 
   isStartOpen = false;
   closeTimer: number | null = null;
@@ -97,8 +99,9 @@ export default class HomeDisplay extends Vue {
     this.isStartOpen = false;
   };
 
-  mounted() {
+  async mounted() {
     const mouse = document.querySelector('.mouse') as HTMLElement;
+    console.log(`HomeDisplay mounted, arch prop: ${this.arch}`);
     if (mouse) {
       mouse.classList.add('mouse-anim');
       window.addEventListener('scroll', () => {
@@ -121,7 +124,12 @@ export default class HomeDisplay extends Vue {
         <h2>一键配置现代的 C++、Python 和 VS Code 编程环境</h2>
       </header>
       <div class="content-main-subtitle">
-        <DownloadButton :platform="platform" :is-home="true" :arch="arch" :version="version" />
+        <DownloadButton
+          :platform="platform"
+          :is-home="true"
+          :arch="arch"
+          :version="version"
+        />
         <div class="start-dropdown" @mouseenter="handleStartMouseEnter" @mouseleave="handleStartMouseLeave">
           <div class="start" :href="getLinks().docs" target="_blank" @click="handleStartClick">
             <!-- <svg

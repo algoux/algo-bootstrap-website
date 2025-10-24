@@ -12,10 +12,13 @@ import { GetPlatformInfoDTO } from '@common/modules/platform/platform.dto';
 import Download from '@client/components/svgs/download.vue';
 import { AsyncDataOptions } from '@client/typings';
 import beams from '@client/components/beams.vue';
-import { Prop, Inject } from 'vue-property-decorator';
+import { Prop } from 'vue-property-decorator';
 import { Provide } from 'vue-property-decorator';
 import { ElDialog, ElButton } from 'element-plus';
 import MacUndetectedDialog from '@client/components/mac-undetected-dialog.vue';
+import { UAParser } from 'ua-parser-js';
+import { GetArchitecture } from '@common/modules/platform/platform.dto';
+import { parseArch } from '@client/utils/parseArch';
 
 @View('/')
 @Options({
@@ -30,7 +33,7 @@ import MacUndetectedDialog from '@client/components/mac-undetected-dialog.vue';
     beams,
     ElDialog,
     ElButton,
-    MacUndetectedDialog
+    MacUndetectedDialog,
   },
 })
 @RenderMethod(RenderMethodKind.SSR)
@@ -42,17 +45,16 @@ export default class Home extends Vue {
   @Prop()
   isMobile!: boolean;
 
-  @Prop()
-  @Provide()
-  isUnDetectedMac!: boolean;
+  @Provide({ reactive: true })
+  isUnDetectedMac: boolean = false;
 
-  @Provide({ reactive: true})
+  @Provide({ reactive: true })
   isOpenMacPlatformSelectWindow: boolean = false;
 
   @Provide()
   openMacPlatformSelectWindow() {
     this.isOpenMacPlatformSelectWindow = true;
-    console.log(`now is ${this.isOpenMacPlatformSelectWindow}`)
+    console.log(`now is ${this.isOpenMacPlatformSelectWindow}`);
   }
 
   @Provide()
@@ -60,8 +62,30 @@ export default class Home extends Vue {
     this.isOpenMacPlatformSelectWindow = false;
   }
 
-  mounted() {
+  @Provide({ reactive: true })
+  arch: GetArchitecture = null;
+
+  async getArchitecture(): Promise<GetArchitecture> {
+    const parser = new UAParser();
+    let architecture = parser.getResult().cpu.architecture;
+    if (architecture === undefined) {
+      if ((navigator as any).userAgentData) {
+        const uaData = await (navigator as any).userAgentData.getHighEntropyValues(['architecture']);
+        architecture = uaData.architecture;
+      }
+    }
+    console.log('Detected architecture:', architecture);
+    console.log('Parsed architecture:', parseArch(architecture));
+    return parseArch(architecture);
+  }
+
+  async mounted() {
     window.scrollTo(0, 0);
+    this.arch = await this.getArchitecture();
+    if (!this.arch && this.homeState.os === 'mac') {
+      this.isUnDetectedMac = true;
+    }
+    console.log('Architecture set in HomeView mounted:', this.arch);
   }
 
   async asyncData({ apiClient }: AsyncDataOptions) {
@@ -71,7 +95,6 @@ export default class Home extends Vue {
       return {
         homeState: res,
         isMobile: res.os !== 'windows' && res.os !== 'mac',
-        isUnDetectedMac: res.architecture === 'Unknown' && res.os === 'mac',
       };
     } catch (error) {
       console.error('Failed to fetch platform info:', error);
@@ -84,7 +107,6 @@ export default class Home extends Vue {
   <div class="home">
     <HomeDisplay
       :platform="homeState.os"
-      :arch="homeState.architecture"
       :isMobile="isMobile"
       :releasesTime="homeState.releases.releaseDate"
       :version="homeState.releases.version"

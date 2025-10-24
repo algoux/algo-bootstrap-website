@@ -6,7 +6,7 @@
 
 import { AllowedRequestMethod, IBwcxApiRequestAdaptorArgs, AbstractResponseParser } from 'bwcx-api-client';
 import { configure as configureUrlcat } from 'urlcat-fork';
-import { GetPlatformInfoDTO, GetUserAgentDTO, GetOSDTO, GetArchitectureDTO } from '../modules/platform/platform.dto';
+import { GetPlatformInfoDTO, GetUserAgentDTO, GetOSDTO } from '../modules/platform/platform.dto';
 import { GetReleasesDTO } from '../modules/releases/releases.dto';
 
 const urlcat = configureUrlcat({ arrayFormat: 'repeat' });
@@ -57,17 +57,6 @@ export class ApiClient<T = undefined> {
   }
 
   /**
-   * 获取系统架构
-   *
-   * @param {null} req The request data (compatible with ReqDTO).
-   * @param {T} opts Extra request options.
-   * @returns {GetArchitectureDTO} The response data (RespDTO).
-   */
-  public async getArchitecture(req?: null, opts?: T): Promise<GetArchitectureDTO> {
-    return this._r(this._rArgs.d(req, opts)).then((resp) => this._rp.pat(GetArchitectureDTO, resp));
-  }
-
-  /**
    * 获取发布信息
    *
    * @param {null} req The request data (compatible with ReqDTO).
@@ -75,7 +64,7 @@ export class ApiClient<T = undefined> {
    * @returns {GetReleasesDTO} The response data (RespDTO).
    */
   public async getReleases(req?: null, opts?: T): Promise<GetReleasesDTO> {
-    return this._r(this._rArgs.e(req, opts)).then((resp) => this._rp.pat(GetReleasesDTO, resp));
+    return this._r(this._rArgs.d(req, opts)).then((resp) => this._rp.pat(GetReleasesDTO, resp));
   }
 
   private _rArgs = {
@@ -134,24 +123,6 @@ export class ApiClient<T = undefined> {
       };
     },
     d: (req: null, opts?: any) => {
-      return {
-        method: 'GET' as AllowedRequestMethod,
-        url: this._uf('/api/getArchitecture', {
-          param: {},
-          query: {},
-        }),
-        data: {},
-        extraOpts: opts,
-        metadata: {
-          name: 'getArchitecture',
-          method: 'GET',
-          path: '/api/getArchitecture',
-          req: null as null,
-          resp: GetArchitectureDTO,
-        },
-      };
-    },
-    e: (req: null, opts?: any) => {
       return {
         method: 'GET' as AllowedRequestMethod,
         url: this._uf('/api/getReleases', {

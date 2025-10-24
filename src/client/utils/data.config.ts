@@ -37,20 +37,56 @@ export class DataConfig {
 export class GuideConfig {
   platfrom!: string;
   constructor(p: string) {
-    this.platfrom = p
+    this.platfrom = p;
   }
 
   macGuideConfig: GuideRPO[] = [
-    { id: 1,  title: '轻松上手，配置难题全搞定', description: "Algo Bootstrap 替你将复杂的配置自动完成。只需轻点鼠标，即可拥有整套编程环境。", guideURL: "#", imageURL: shotOneMac},
-    { id: 2,  title: '开箱即用的调试支持', description: "无需参考教程，即使是单步调试，照样信手拈来。", guideURL: "#", imageURL: shotTwoMac},
-    { id: 3,  title: '为初学者量身打造的辅助提示', description: "内置强大的代码风格和错误检查功能，助你编程一臂之力。", guideURL: "#", imageURL: shotThreeMac}
-  ]
+    {
+      id: 1,
+      title: '轻松上手，配置难题全搞定',
+      description: 'Algo Bootstrap 替你将复杂的配置自动完成。只需轻点鼠标，即可拥有整套编程环境。',
+      guideURL: '#',
+      imageURL: shotOneMac,
+    },
+    {
+      id: 2,
+      title: '开箱即用的调试支持',
+      description: '无需参考教程，即使是单步调试，照样信手拈来。',
+      guideURL: '#',
+      imageURL: shotTwoMac,
+    },
+    {
+      id: 3,
+      title: '为初学者量身打造的辅助提示',
+      description: '内置强大的代码风格和错误检查功能，助你编程一臂之力。',
+      guideURL: '#',
+      imageURL: shotThreeMac,
+    },
+  ];
 
   winGuideConfig: GuideRPO[] = [
-    { id: 1,  title: '轻松上手，配置难题全搞定', description: "Algo Bootstrap 替你将复杂的配置自动完成。只需轻点鼠标，即可拥有整套编程环境。", guideURL: "#", imageURL: shotOneWin},
-    { id: 2,  title: '开箱即用的调试支持', description: "无需参考教程，即使是单步调试，照样信手拈来。", guideURL: "#", imageURL: shotTwoWin},
-    { id: 3,  title: '为初学者量身打造的辅助提示', description: "内置强大的代码风格和错误检查功能，助你编程一臂之力。", guideURL: "#", imageURL: shotThreeWin},
-  ]
+    {
+      id: 1,
+      title: '轻松上手，配置难题全搞定',
+      description: 'Algo Bootstrap 替你将复杂的配置自动完成。只需轻点鼠标，即可拥有整套编程环境。',
+      guideURL: '#',
+      imageURL: shotOneWin,
+    },
+    {
+      id: 2,
+      title: '开箱即用的调试支持',
+      description: '无需参考教程，即使是单步调试，照样信手拈来。',
+      guideURL: '#',
+      imageURL: shotTwoWin,
+    },
+    {
+      id: 3,
+      title: '为初学者量身打造的辅助提示',
+      description: '内置强大的代码风格和错误检查功能，助你编程一臂之力。',
+      guideURL: '#',
+      imageURL: shotThreeWin,
+    },
+  ];
 
   get guideConfigGroups(): GuideRPO[] {
     console.log(this.platfrom);
@@ -80,18 +116,16 @@ export class ReleasesConfig {
   }
 
   public downloadSingleSystemLink(platform: string, arch: string): string {
-    if (platform === 'windows') {
-      if (arch === 'x64') {
-        return `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-windows-x64-${this.version}.exe`;
-      } else {
-        return `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-windows-arm64-${this.version}.exe`;
-      }
+    if (platform === 'windows' && arch === 'x64') {
+      return `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-windows-x64-${this.version}.exe`;
+    } else if (platform === 'windows' && arch === 'arm64') {
+      return `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-windows-arm64-${this.version}.exe`;
+    } else if (platform === 'mac' && arch === 'x64') {
+      return `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-mac-x64-${this.version}.dmg`;
+    } else if (platform === 'mac' && arch === 'arm64') {
+      return `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-mac-arm64-${this.version}.dmg`;
     } else {
-      if (arch === 'x64') {
-        return `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-mac-x64-${this.version}.dmg`;
-      } else {
-        return `https://cdn.algoux.cn/algo-bootstrap/release/${this.version}/AlgoBootstrap-mac-arm64-${this.version}.dmg`;
-      }
+      throw new Error('Unsupported platform or architecture');
     }
   }
 
