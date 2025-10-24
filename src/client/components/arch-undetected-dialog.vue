@@ -12,7 +12,7 @@ import { logEvent } from '@client/utils/ga';
     ElButton,
   },
 })
-export default class MacUndetectedDialog extends Vue {
+export default class ArchUndetectedDialog extends Vue {
   @Inject()
   isOpenMacPlatformSelectWindow: boolean;
 
@@ -24,13 +24,16 @@ export default class MacUndetectedDialog extends Vue {
 
   handleClickToDownload(arch: string) {
     const releasesConfig = new ReleasesConfig(this.homeState.releases.version);
-    const downloadLink = releasesConfig.downloadSingleSystemLink('mac', arch);
+    const downloadLink = releasesConfig.downloadSingleSystemLink(
+      this.homeState.os === 'windows' ? 'windows' : 'mac',
+      arch,
+    );
     this.closeMacPlatformSelectWindow();
     ElMessage('下载开始，请稍候...');
     window.open(downloadLink, '_parent');
-    logEvent(`下载 mac ${this.homeState.releases.version}`, {
+    logEvent(`下载 ${this.homeState.os} ${this.homeState.releases.version}`, {
       category: 'engagement',
-      label: `mac-${arch}`,
+      label: `${this.homeState.os}-${arch}`,
     });
   }
 }
@@ -60,7 +63,7 @@ export default class MacUndetectedDialog extends Vue {
     <template #footer>
       <div class="dialog-footer">
         <p class="dialog-footer-header">如何确定芯片类型？</p>
-        <div class="dialog-footer-guide">
+        <div class="dialog-footer-guide" v-if="homeState.os === 'mac'">
           <div class="dialog-footer-section">
             <p>在左上角，打开 <span>Apple菜单</span><br />选择"<span>关于本机</span>"</p>
             <div class="image-container">
@@ -73,6 +76,20 @@ export default class MacUndetectedDialog extends Vue {
             </p>
             <div class="image-container">
               <img src="../assets/images/guide-about-2.png" alt="" />
+            </div>
+          </div>
+        </div>
+        <div class="dialog-footer-guide" v-else>
+          <div class="dialog-footer-section">
+            <p>打开<span>设置</span> > <span>系统</span> > <span>系统信息</span>，<br />找到<span>设备规格</span></p>
+            <div class="image-container">
+              <img src="../assets/images/guide-about-win-1.png" alt="" />
+            </div>
+          </div>
+          <div class="dialog-footer-section">
+            <p>查看系统类型是基于<span>x64（Intel 芯片）</span>还是<span>arm64（Apple 芯片）</span>的处理器</p>
+            <div class="image-container">
+              <img src="../assets/images/guide-about-win-2.png" alt="" />
             </div>
           </div>
         </div>

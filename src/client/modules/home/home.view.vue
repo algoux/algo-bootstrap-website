@@ -15,7 +15,7 @@ import beams from '@client/components/beams.vue';
 import { Prop } from 'vue-property-decorator';
 import { Provide } from 'vue-property-decorator';
 import { ElDialog, ElButton } from 'element-plus';
-import MacUndetectedDialog from '@client/components/mac-undetected-dialog.vue';
+import ArchUndetectedDialog from '@client/components/arch-undetected-dialog.vue';
 import { UAParser } from 'ua-parser-js';
 import { GetArchitecture } from '@common/modules/platform/platform.dto';
 import { parseArch } from '@client/utils/parseArch';
@@ -33,7 +33,7 @@ import { parseArch } from '@client/utils/parseArch';
     beams,
     ElDialog,
     ElButton,
-    MacUndetectedDialog,
+    ArchUndetectedDialog,
   },
 })
 @RenderMethod(RenderMethodKind.SSR)
@@ -144,7 +144,7 @@ export default class Home extends Vue {
       <back-top v-if="!isMobile" />
     </ClientOnly>
     <HomeFooter />
-    <MacUndetectedDialog />
+    <ArchUndetectedDialog />
   </div>
 </template>
 
